@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDebounce } from 'react-use';
 
 type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
@@ -49,7 +50,7 @@ const getBreakpointInfo = (width: number): BreakpointInfo => {
   };
 };
 
-const useElementSize = <T extends HTMLElement>() => {
+const useElementSize = <T extends HTMLElement>(delay: number = 200) => {
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [breakpoint, setBreakpoint] = useState<BreakpointInfo>({
     current: 'xs',
@@ -61,51 +62,87 @@ const useElementSize = <T extends HTMLElement>() => {
     '2xl': false,
   });
 
+  const [debouncedSize, setDebouncedSize] = useState({ width: 0, height: 0 });
+
   const elementRef = useRef<T>(null);
   const observerRef = useRef<ResizeObserver | null>(null);
 
-  const updateSize = useCallback(() => {
-    if (elementRef.current) {
-      const { offsetWidth, offsetHeight } = elementRef.current;
-      const scrollBarWidth =
-        window.innerWidth - document.documentElement.clientWidth;
+  useDebounce(
+    () => {
+      setDebouncedSize(size);
+    },
+    delay,
+    [size],
+  );
 
-      setSize({
-        width: offsetWidth,
-        height: offsetHeight,
-      });
-      setBreakpoint(getBreakpointInfo(offsetWidth + scrollBarWidth));
+  const updateSize = useCallback(() => {
+    if (!elementRef.current) {
+      return;
     }
+
+    const { offsetWidth, offsetHeight } = elementRef.current;
+
+    setSize(prev => {
+      if (prev.width !== offsetWidth || prev.height !== offsetHeight) {
+        return { width: offsetWidth, height: offsetHeight };
+      }
+      return prev;
+    });
+
+    setBreakpoint(prev => {
+      const next = getBreakpointInfo(offsetWidth);
+      if (prev.current !== next.current) {
+        return next;
+      }
+      return prev;
+    });
   }, []);
 
   const disconnect = useCallback(() => {
     if (observerRef.current) {
-      if (elementRef.current) {
-        observerRef.current.unobserve(elementRef.current);
-      }
       observerRef.current.disconnect();
+      observerRef.current = null;
     }
   }, []);
 
   const connect = useCallback(() => {
-    disconnect();
-
-    observerRef.current = new ResizeObserver(updateSize);
-    if (elementRef.current) {
-      observerRef.current.observe(elementRef.current);
+    if (!elementRef.current) {
+      return;
     }
-    updateSize();
-  }, [disconnect, updateSize]);
+
+    if (observerRef.current) {
+      observerRef.current.unobserve(elementRef.current);
+    } else {
+      observerRef.current = new ResizeObserver(() => {
+        requestAnimationFrame(() => {
+          updateSize();
+        });
+      });
+    }
+
+    observerRef.current.observe(elementRef.current);
+  }, [updateSize]);
 
   useEffect(() => {
     connect();
 
-    return () => {
-      disconnect();
+    const onResize = () => {
+      updateSize();
     };
-  }, [connect, disconnect]);
 
-  return { size, breakpoint, elementRef, connect, disconnect };
+    window.addEventListener('resize', onResize);
+
+    return () => {
+      window.removeEventListener('resize', onResize);
+      disconnect();
+
+      if (elementRef.current) {
+        elementRef.current = null;
+      }
+    };
+  }, [connect, disconnect, updateSize]);
+
+  return { size: debouncedSize, breakpoint, elementRef };
 };
 
 export default useElementSize;
