@@ -1,3 +1,4 @@
+export { default as useBodyScrollLock } from './useBodyScrollLock';
 export { default as useElementRect } from './useElementRect';
 export { default as useElementSize } from './useElementSize';
 export { default as useImageLoader } from './useImageLoader';
@@ -5,3 +6,6 @@ export { default as useLocalStorage } from './useLocalStorage';
 export { default as useRecursiveTimeout } from './useRecursiveTimeout';
 export { default as useScrollPosition } from './useScrollPosition';
 export { default as useScrollToElements } from './useScrollToElements';
+export { default as useWindowScroll } from './useWindowScroll';
+export { default as useScrollBounceBack } from './useScrollBounceBack';
+export { default as useViewport } from './useViewport';
