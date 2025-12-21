@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDebounce } from 'react-use';
 
 type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -75,74 +75,71 @@ const useElementSize = <T extends HTMLElement>(delay: number = 200) => {
     [size],
   );
 
-  const updateSize = useCallback(() => {
-    if (!elementRef.current) {
-      return;
-    }
+  useEffect(() => {
+    const updateSize = () => {
+      const target = elementRef.current ?? document.body;
 
-    const { offsetWidth, offsetHeight } = elementRef.current;
-
-    setSize(prev => {
-      if (prev.width !== offsetWidth || prev.height !== offsetHeight) {
-        return { width: offsetWidth, height: offsetHeight };
+      if (!target) {
+        return;
       }
-      return prev;
-    });
 
-    setBreakpoint(prev => {
-      const next = getBreakpointInfo(offsetWidth);
-      if (prev.current !== next.current) {
-        return next;
+      const { offsetWidth, offsetHeight } = target;
+
+      setSize(prev => {
+        if (prev.width !== offsetWidth || prev.height !== offsetHeight) {
+          return { width: offsetWidth, height: offsetHeight };
+        }
+        return prev;
+      });
+
+      setBreakpoint(prev => {
+        const next = getBreakpointInfo(offsetWidth);
+        if (prev.current !== next.current) {
+          return next;
+        }
+        return prev;
+      });
+    };
+
+    const connect = () => {
+      const target = elementRef.current ?? document.body;
+
+      if (!target) {
+        return;
       }
-      return prev;
-    });
-  }, []);
 
-  const disconnect = useCallback(() => {
-    if (observerRef.current) {
-      observerRef.current.disconnect();
-      observerRef.current = null;
-    }
-  }, []);
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
 
-  const connect = useCallback(() => {
-    if (!elementRef.current) {
-      return;
-    }
-
-    if (observerRef.current) {
-      observerRef.current.unobserve(elementRef.current);
-    } else {
       observerRef.current = new ResizeObserver(() => {
         requestAnimationFrame(() => {
           updateSize();
         });
       });
-    }
 
-    observerRef.current.observe(elementRef.current);
-  }, [updateSize]);
-
-  useEffect(() => {
-    connect();
-
-    const onResize = () => {
-      updateSize();
+      observerRef.current.observe(target);
     };
 
-    window.addEventListener('resize', onResize);
-
-    return () => {
-      window.removeEventListener('resize', onResize);
-      disconnect();
-
-      if (elementRef.current) {
-        elementRef.current = null;
+    const disconnect = () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+        observerRef.current = null;
       }
     };
-  }, [connect, disconnect, updateSize]);
 
-  return { size: debouncedSize, breakpoint, elementRef };
+    connect();
+
+    return () => {
+      disconnect();
+    };
+  }, []);
+
+  return {
+    size: debouncedSize,
+    breakpoint,
+    ref: elementRef,
+  };
 };
 
 export default useElementSize;
