@@ -108,6 +108,8 @@ const useElementSize = <T extends HTMLElement>(delay: number = 200) => {
         return;
       }
 
+      updateSize();
+
       if (observerRef.current) {
         observerRef.current.disconnect();
       }
