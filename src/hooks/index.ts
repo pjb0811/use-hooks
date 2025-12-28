@@ -7,5 +7,4 @@ export { default as useRecursiveTimeout } from './useRecursiveTimeout';
 export { default as useScrollPosition } from './useScrollPosition';
 export { default as useScrollToElements } from './useScrollToElements';
 export { default as useWindowScroll } from './useWindowScroll';
-export { default as useScrollBounceBack } from './useScrollBounceBack';
 export { default as useViewport } from './useViewport';
