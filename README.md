@@ -1,5 +1,10 @@
 # use-hooks
 
+[![npm version](https://img.shields.io/npm/v/@jbpark/use-hooks.svg)](https://www.npmjs.com/package/@jbpark/use-hooks)
+[![npm downloads](https://img.shields.io/npm/dm/@jbpark/use-hooks.svg)](https://www.npmjs.com/package/@jbpark/use-hooks)
+[![GitHub issues](https://img.shields.io/github/issues/pjb0811/use-hooks)](https://github.com/pjb0811/use-hooks/issues)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 일반적인 UI 및 상호작용 패턴을 위한 재사용 가능한 React 19 훅 모음입니다. TypeScript와 Vite로 빌드되었으며, 서버 사이드 렌더링과 클라이언트 사이드 애플리케이션 모두에 최적화되어 있습니다.
 
 ## 기능
@@ -14,7 +19,7 @@
 ## 설치
 
 ```bash
-npm install @jax/use-hooks
+npm install @jbpark/use-hooks
 ```
 
 ## 사용 방법
@@ -24,7 +29,7 @@ import {
   useElementSize,
   useLocalStorage,
   useWindowScroll,
-} from '@jax/use-hooks';
+} from '@jbpark/use-hooks';
 
 function MyComponent() {
   // localStorage를 사용한 영속적 상태
@@ -141,6 +146,16 @@ git push --follow-tags
 - 최신 브라우저 (Chrome, Firefox, Safari, Edge)
 - iOS 12+ (특수한 `visualViewport` 처리 포함)
 - SSR 준비 완료 (적절한 보호 포함)
+
+## 기여하기
+
+버그 리포트, 기능 제안, 또는 코드 기여를 환영합니다!
+
+- 🐛 **버그 리포트**: [Issues](https://github.com/pjb0811/use-hooks/issues)에서 버그를 리포트해주세요
+- 💡 **기능 제안**: 새로운 기능 아이디어가 있으시면 [Issues](https://github.com/pjb0811/use-hooks/issues)에 제안해주세요
+- 🔧 **코드 기여**: Pull Request를 보내주시면 검토 후 반영하겠습니다
+
+이슈를 생성하기 전에 기존 이슈를 확인해주시면 중복을 방지할 수 있습니다.
 
 ## 라이선스
 
