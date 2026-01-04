@@ -4,7 +4,7 @@
 
 ## 기능
 
-- 📦 **11+ 프로덕션 레디 훅** - 스크롤, 뷰포트, 스토리지 등 다양한 유틸리티
+- 📦 **10개 프로덕션 레디 훅** - 스크롤, 뷰포트, 스토리지 등 다양한 유틸리티
 - 🎯 **TypeScript 지원** - 완전한 타입 지원으로 더 나은 개발 경험
 - ⚡ **트리 셰이킹 지원** - 필요한 것만 임포트하세요
 - 🔒 **SSR 안전** - window/document 전역 변수에 대한 보호
@@ -49,19 +49,18 @@ function MyComponent() {
 
 ## 사용 가능한 훅
 
-| 훅                    | 설명                                                 |
-| --------------------- | ---------------------------------------------------- |
-| `useLocalStorage`     | 에러 핸들링이 포함된 JSON 기반 영속 상태             |
-| `useWindowScroll`     | 윈도우 스크롤 위치 및 백분율 추적 (iOS 대응)         |
-| `useScrollPosition`   | ResizeObserver를 사용한 특정 요소의 스크롤 상태 추적 |
-| `useElementRect`      | 스크롤/리사이즈 시 요소의 바운딩 렉트 모니터링       |
-| `useElementSize`      | Tailwind 유사 브레이크포인트를 포함한 요소 크기 추적 |
-| `useBodyScrollLock`   | 스타일 보존을 포함한 바디 스크롤 잠금/해제           |
-| `useScrollBounceBack` | 임계값 초과 스크롤 방지 및 부드러운 스냅백           |
-| `useScrollToElements` | 인덱스별로 특정 요소로 스크롤 (오프셋 조절 가능)     |
-| `useImageLoader`      | 이미지 사전로드 및 로딩/에러 상태 노출               |
-| `useRecursiveTimeout` | 비동기/동기 콜백을 재귀적으로 스케줄링               |
-| `useViewport`         | 옵션 인앱 모드를 포함한 뷰포트 크기 추적             |
+| 훅                    | 설명                                                            |
+| --------------------- | --------------------------------------------------------------- |
+| `useLocalStorage`     | 에러 핸들링이 포함된 JSON 기반 영속 상태 (SSR 안전)             |
+| `useWindowScroll`     | 윈도우 스크롤 위치 및 백분율 추적 (iOS visualViewport 대응)     |
+| `useScrollPosition`   | ResizeObserver를 사용한 특정 요소의 스크롤 상태 추적            |
+| `useElementRect`      | 스크롤/리사이즈 시 요소의 바운딩 렉트 모니터링 (요소 참조 지원) |
+| `useElementSize`      | Tailwind 유사 브레이크포인트를 포함한 요소 크기 추적 (debounce) |
+| `useBodyScrollLock`   | 스타일 보존을 포함한 바디 스크롤 잠금/해제 (iOS 특별 처리)      |
+| `useScrollToElements` | 인덱스별로 특정 요소로 스크롤 (오프셋 조절 가능)                |
+| `useImageLoader`      | 이미지 사전로드 및 로딩/에러 상태 노출                          |
+| `useRecursiveTimeout` | 비동기/동기 콜백을 재귀적으로 스케줄링                          |
+| `useViewport`         | visualViewport 지원, 인앱 모드 옵션, debounce 포함              |
 
 ## 개발
 
@@ -86,16 +85,22 @@ npx prettier --write .
 
 ```
 src/
-├── hooks/                 # 개별 훅 구현
+├── hooks/                      # 개별 훅 구현
+│   ├── useBodyScrollLock/
+│   ├── useElementRect/
+│   ├── useElementSize/
+│   ├── useImageLoader/
 │   ├── useLocalStorage/
-│   ├── useWindowScroll/
+│   ├── useRecursiveTimeout/
 │   ├── useScrollPosition/
-│   └── ...
-├── hooks/index.ts         # 배럴 익스포트
-└── index.ts               # 패키지 진입점
+│   ├── useScrollToElements/
+│   ├── useViewport/
+│   ├── useWindowScroll/
+│   └── index.ts                # 배럴 익스포트
+└── index.ts                    # 패키지 진입점
 
-dist/                       # 빌드된 라이브러리 (ES + CJS + types)
-.changeset/                 # 버저닝을 위한 Changesets
+dist/                            # 빌드된 라이브러리 (ES + CJS + types)
+.changeset/                      # 버저닝을 위한 Changesets
 ```
 
 ## 빌드 및 배포
@@ -126,8 +131,10 @@ git push --follow-tags
 
 - **Window 보호**: `window`/`document`에 접근하는 훅은 SSR 안전성을 위해 `typeof window` 체크 (예: `useLocalStorage`)
 - **이벤트 리스너**: 모든 스크롤/리사이즈 리스너는 가능한 한 passive 플래그 사용
-- **ResizeObserver**: `useElementSize`와 `useScrollPosition`에서 사용
+- **ResizeObserver**: `useElementSize`와 `useScrollPosition`에서 사용하여 성능 최적화
 - **requestAnimationFrame**: 스크롤/리사이즈 콜백에서 레이아웃 스래싱 방지
+- **iOS 대응**: `useBodyScrollLock`, `useWindowScroll`, `useViewport`에서 iOS의 visualViewport 특성 처리
+- **Debounce**: `useElementSize`와 `useViewport`에서 리사이즈 이벤트 디바운싱 지원
 
 ## 브라우저 지원
 
