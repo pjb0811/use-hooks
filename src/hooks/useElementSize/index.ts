@@ -13,6 +13,11 @@ interface BreakpointInfo {
   '2xl': boolean;
 }
 
+interface Options {
+  delay?: number;
+  container?: HTMLElement | null;
+}
+
 const BREAKPOINTS = {
   xs: 0, // < 640px
   sm: 640, // >= 640px
@@ -50,7 +55,8 @@ const getBreakpointInfo = (width: number): BreakpointInfo => {
   };
 };
 
-const useElementSize = <T extends HTMLElement>(delay: number = 200) => {
+const useElementSize = <T extends HTMLElement>(options?: Options) => {
+  const { delay = 100, container } = options || {};
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [breakpoint, setBreakpoint] = useState<BreakpointInfo>({
     current: 'xs',
@@ -77,7 +83,7 @@ const useElementSize = <T extends HTMLElement>(delay: number = 200) => {
 
   useEffect(() => {
     const updateSize = () => {
-      const target = elementRef.current ?? document.body;
+      const target = container ?? elementRef.current ?? document.body;
 
       if (!target) {
         return;
@@ -102,7 +108,7 @@ const useElementSize = <T extends HTMLElement>(delay: number = 200) => {
     };
 
     const connect = () => {
-      const target = elementRef.current ?? document.body;
+      const target = container ?? elementRef.current ?? document.body;
 
       if (!target) {
         return;
@@ -135,7 +141,7 @@ const useElementSize = <T extends HTMLElement>(delay: number = 200) => {
     return () => {
       disconnect();
     };
-  }, []);
+  }, [container]);
 
   return {
     size: debouncedSize,
