@@ -1,6 +1,6 @@
 {
   "name": "@jbpark/use-hooks",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "일반적인 UI 및 상호작용 패턴을 위한 재사용 가능한 React 19 훅 모음",
   "keywords": [
     "react",
@@ -42,7 +42,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "prepublishOnly": "npm run build",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "peerDependencies": {
     "react": "^19.1.1",
