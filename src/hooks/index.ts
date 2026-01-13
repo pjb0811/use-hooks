@@ -1,4 +1,5 @@
 export { default as useBodyScrollLock } from './useBodyScrollLock';
+export { default as useDebounce } from './useDebounce';
 export { default as useElementRect } from './useElementRect';
 export { default as useElementSize } from './useElementSize';
 export { default as useImageLoader } from './useImageLoader';

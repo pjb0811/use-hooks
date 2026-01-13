@@ -78,7 +78,6 @@ const useScrollPosition = () => {
 
     resizeObserver.observe(element);
 
-    // 정리 함수
     return () => {
       element.removeEventListener('scroll', onScroll);
       resizeObserver.unobserve(element);

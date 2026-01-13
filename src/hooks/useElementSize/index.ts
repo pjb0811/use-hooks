@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { useDebounce } from 'react-use';
+
+import useDebounce from '../useDebounce';
 
 type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
