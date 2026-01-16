@@ -1,11 +1,11 @@
-export { default as useBodyScrollLock } from './useBodyScrollLock';
 export { default as useDebounce } from './useDebounce';
-export { default as useElementRect } from './useElementRect';
-export { default as useElementSize } from './useElementSize';
-export { default as useImageLoader } from './useImageLoader';
+export { default as useBodyScrollLock } from './useBodyScrollLock';
+export { default as useElementPosition } from './useElementPosition';
+export { default as useElementScroll } from './useElementScroll';
+export { default as useResponsiveSize } from './useResponsiveSize';
+export { default as useImage } from './useImage';
 export { default as useLocalStorage } from './useLocalStorage';
 export { default as useRecursiveTimeout } from './useRecursiveTimeout';
-export { default as useScrollPosition } from './useScrollPosition';
 export { default as useScrollToElements } from './useScrollToElements';
 export { default as useWindowScroll } from './useWindowScroll';
 export { default as useViewport } from './useViewport';

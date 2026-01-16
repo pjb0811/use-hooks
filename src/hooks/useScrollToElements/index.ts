@@ -1,10 +1,9 @@
 import { useCallback, useRef } from 'react';
 
-interface Props extends ScrollIntoViewOptions {
+interface Options extends ScrollIntoViewOptions {
   offset?: number;
 }
-
-export default function useScrollToElements(options?: Props) {
+const useScrollToElements = (options?: Options) => {
   const elementRefs = useRef<HTMLElement[]>([]);
 
   const scrollToElement = useCallback(
@@ -38,4 +37,6 @@ export default function useScrollToElements(options?: Props) {
   }, []);
 
   return { elementRefs, setElementRef, scrollToElement };
-}
+};
+
+export default useScrollToElements;

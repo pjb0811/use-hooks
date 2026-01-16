@@ -2,7 +2,7 @@ import { type RefObject, useEffect, useState } from 'react';
 
 type ElementReference<T> = string | RefObject<T>;
 
-const useElementRect = <T>(elementRef: ElementReference<T>) => {
+const useElementPosition = <T>(elementRef: ElementReference<T>) => {
   const [rect, setRect] = useState<DOMRect | null>(null);
 
   useEffect(() => {
@@ -40,4 +40,4 @@ const useElementRect = <T>(elementRef: ElementReference<T>) => {
   return rect;
 };
 
-export default useElementRect;
+export default useElementPosition;

@@ -12,12 +12,12 @@ type ViewportInfo =
       scale: number;
     };
 
-interface UseViewportOptions {
+interface Options {
   isInApp?: boolean;
   debounce?: number;
 }
 
-const useViewport = (options: UseViewportOptions = {}) => {
+const useViewport = (options: Options = {}) => {
   const { isInApp = false, debounce = 100 } = options;
 
   const [viewport, setViewport] = useState<ViewportInfo>({

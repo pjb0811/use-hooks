@@ -78,7 +78,7 @@ const useElementSize = <T extends HTMLElement>(options?: Options) => {
     () => {
       setDebouncedSize(size);
     },
-    delay,
+    { delay },
     [size],
   );
 

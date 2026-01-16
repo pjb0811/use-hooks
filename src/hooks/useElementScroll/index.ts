@@ -10,7 +10,7 @@ interface ScrollPosition {
   scrollHeight: number;
 }
 
-const useScrollPosition = () => {
+const useElementScroll = () => {
   const [element, setElement] = useState<HTMLElement | null>(null);
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>({
     scrollY: 0,
@@ -87,4 +87,4 @@ const useScrollPosition = () => {
   return { ...scrollPosition, element, setRef };
 };
 
-export default useScrollPosition;
+export default useElementScroll;

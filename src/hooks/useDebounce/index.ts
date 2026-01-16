@@ -1,10 +1,14 @@
 import { useEffect, useRef } from 'react';
 
+interface Options {
+  delay: number;
+  autoInvoke?: boolean;
+}
+
 const useDebounce = <T extends (...args: unknown[]) => unknown>(
   callback: T,
-  delay: number,
+  { delay, autoInvoke = true }: Options,
   deps: React.DependencyList = [],
-  autoInvoke: boolean = true,
 ): T => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const callbackRef = useRef(callback);
