@@ -1,5 +1,11 @@
 # @jbpark/use-hooks
 
+## 1.1.2
+
+### Patch Changes
+
+- cc7df7d: docs: update bilingual README and add language selector
+
 ## 1.1.1
 
 ### Patch Changes
