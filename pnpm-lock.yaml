@@ -16,7 +16,7 @@ importers:
         version: 9.39.2
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^5.2.2
-        version: 5.2.2(prettier@2.8.8)
+        version: 5.2.2(prettier@3.8.0)
       '@types/node':
         specifier: ^24.5.2
         version: 24.10.9
@@ -47,15 +47,18 @@ importers:
       lint-staged:
         specifier: ^16.1.6
         version: 16.2.7
+      prettier:
+        specifier: ^3.8.0
+        version: 3.8.0
       prettier-plugin-classnames:
         specifier: ^0.8.3
-        version: 0.8.6(prettier@2.8.8)
+        version: 0.8.6(prettier@3.8.0)
       prettier-plugin-merge:
         specifier: ^0.8.0
-        version: 0.8.0(prettier@2.8.8)
+        version: 0.8.0(prettier@3.8.0)
       prettier-plugin-tailwindcss:
         specifier: ^0.6.14
-        version: 0.6.14(@trivago/prettier-plugin-sort-imports@5.2.2(prettier@2.8.8))(prettier@2.8.8)
+        version: 0.6.14(@trivago/prettier-plugin-sort-imports@5.2.2(prettier@3.8.0))(prettier@3.8.0)
       react:
         specifier: ^19.1.1
         version: 19.2.3
@@ -1608,6 +1611,11 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
+  prettier@3.8.0:
+    resolution: {integrity: sha512-yEPsovQfpxYfgWNhCfECjG5AQaO+K3dp6XERmOepyPDVqcJm+bjyCVO3pmU+nAPe0N5dDvekfGezt/EIiRe1TA==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -2525,7 +2533,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@trivago/prettier-plugin-sort-imports@5.2.2(prettier@2.8.8)':
+  '@trivago/prettier-plugin-sort-imports@5.2.2(prettier@3.8.0)':
     dependencies:
       '@babel/generator': 7.28.6
       '@babel/parser': 7.28.6
@@ -2533,7 +2541,7 @@ snapshots:
       '@babel/types': 7.28.6
       javascript-natural-sort: 0.7.1
       lodash: 4.17.21
-      prettier: 2.8.8
+      prettier: 3.8.0
     transitivePeerDependencies:
       - supports-color
 
@@ -3402,23 +3410,25 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier-plugin-classnames@0.8.6(prettier@2.8.8):
+  prettier-plugin-classnames@0.8.6(prettier@3.8.0):
     dependencies:
-      prettier: 2.8.8
+      prettier: 3.8.0
       zod: 3.22.4
 
-  prettier-plugin-merge@0.8.0(prettier@2.8.8):
+  prettier-plugin-merge@0.8.0(prettier@3.8.0):
     dependencies:
       diff: 5.1.0
-      prettier: 2.8.8
+      prettier: 3.8.0
 
-  prettier-plugin-tailwindcss@0.6.14(@trivago/prettier-plugin-sort-imports@5.2.2(prettier@2.8.8))(prettier@2.8.8):
+  prettier-plugin-tailwindcss@0.6.14(@trivago/prettier-plugin-sort-imports@5.2.2(prettier@3.8.0))(prettier@3.8.0):
     dependencies:
-      prettier: 2.8.8
+      prettier: 3.8.0
     optionalDependencies:
-      '@trivago/prettier-plugin-sort-imports': 5.2.2(prettier@2.8.8)
+      '@trivago/prettier-plugin-sort-imports': 5.2.2(prettier@3.8.0)
 
   prettier@2.8.8: {}
+
+  prettier@3.8.0: {}
 
   punycode@2.3.1: {}
 
