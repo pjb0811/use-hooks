@@ -1,5 +1,11 @@
 # @jbpark/use-hooks
 
+## 1.1.3
+
+### Patch Changes
+
+- 54ae674: fix: align function name with folder name (useResponsiveSize)
+
 ## 1.1.2
 
 ### Patch Changes
