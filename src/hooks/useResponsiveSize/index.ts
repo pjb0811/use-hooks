@@ -56,7 +56,7 @@ const getBreakpointInfo = (width: number): BreakpointInfo => {
   };
 };
 
-const useElementSize = <T extends HTMLElement>(options?: Options) => {
+const useResponsiveSize = <T extends HTMLElement>(options?: Options) => {
   const { delay = 100, container } = options || {};
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [breakpoint, setBreakpoint] = useState<BreakpointInfo>({
@@ -151,4 +151,4 @@ const useElementSize = <T extends HTMLElement>(options?: Options) => {
   };
 };
 
-export default useElementSize;
+export default useResponsiveSize;
