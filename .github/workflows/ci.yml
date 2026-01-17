@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint-and-build:
-    name: CI / lint-and-build (Node v${{ matrix.node-version }})
+    name: lint-and-build (Node v${{ matrix.node-version }})
     runs-on: ubuntu-latest
 
     strategy:
