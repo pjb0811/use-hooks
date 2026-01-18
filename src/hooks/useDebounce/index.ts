@@ -1,18 +1,19 @@
 import { useEffect, useRef } from 'react';
 
 interface Options {
-  delay: number;
+  delay?: number;
   autoInvoke?: boolean;
 }
 
 const useDebounce = <T extends (...args: unknown[]) => unknown>(
   callback: T,
-  { delay, autoInvoke = true }: Options,
+  { delay = 100, autoInvoke = true }: Options,
   deps: React.DependencyList = [],
 ): T => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const callbackRef = useRef(callback);
   const depsRef = useRef(deps);
+  const prevDeps = useRef<React.DependencyList | undefined>(undefined);
 
   useEffect(() => {
     callbackRef.current = callback;
@@ -36,11 +37,9 @@ const useDebounce = <T extends (...args: unknown[]) => unknown>(
     }) as T;
   }
 
-  const prevDeps = useRef(deps);
-
   useEffect(() => {
     const depsChanged =
-      !prevDeps.current ||
+      prevDeps.current === undefined ||
       prevDeps.current.length !== deps.length ||
       prevDeps.current.some((dep, i) => dep !== deps[i]);
 
