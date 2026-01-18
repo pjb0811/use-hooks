@@ -47,8 +47,13 @@ const useDebounce = <T extends (...args: unknown[]) => unknown>(
       clearTimeout(timeoutRef.current);
     }
 
-    if (autoInvoke && depsChanged && stableDebouncedCallback.current) {
-      stableDebouncedCallback.current();
+    if (autoInvoke && depsChanged) {
+      const isFirstRender = prevDeps.current === undefined;
+      if (isFirstRender) {
+        callbackRef.current();
+      } else if (stableDebouncedCallback.current) {
+        stableDebouncedCallback.current();
+      }
     }
 
     prevDeps.current = deps;
