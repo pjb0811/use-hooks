@@ -1,5 +1,11 @@
 # @jbpark/use-hooks
 
+## 2.0.0
+
+### Major Changes
+
+- ab9cbd8: ♻️ refactor(useDebounce): simplify autoInvoke logic
+
 ## 1.1.3
 
 ### Patch Changes
