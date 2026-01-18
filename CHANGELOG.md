@@ -1,5 +1,11 @@
 # @jbpark/use-hooks
 
+## 2.0.1
+
+### Patch Changes
+
+- 839dfb3: ✨ feat(README): update hooks count and add useDebounce description
+
 ## 2.0.0
 
 ### Major Changes
