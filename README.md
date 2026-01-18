@@ -11,7 +11,7 @@ A collection of reusable React 19 hooks for common UI and interaction patterns. 
 
 ## Features
 
-- 📦 **10 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, and more
+- 📦 **11 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, and more
 - 🎯 **Full TypeScript Support** - Complete type definitions for better development experience
 - ⚡ **Tree-Shakeable** - Import only what you need
 - 🔒 **SSR-Safe** - Built-in protection for window/document globals
@@ -74,6 +74,7 @@ function MyComponent() {
 | `useImage`            | Preload images and expose loading/error states                              |
 | `useRecursiveTimeout` | Recursively schedule async/sync callbacks                                   |
 | `useViewport`         | visualViewport support with in-app mode option and debounce                 |
+| `useDebounce`         | Delay function execution to prevent excessive updates (autoInvoke support)  |
 
 ## Development
 
@@ -100,6 +101,7 @@ pnpm exec prettier --write .
 src/
 ├── hooks/                      # Individual hook implementations
 │   ├── useBodyScrollLock/
+│   ├── useDebounce/
 │   ├── useElementPosition/
 │   ├── useElementScroll/
 │   ├── useImage/
