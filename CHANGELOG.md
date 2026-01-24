@@ -1,5 +1,11 @@
 # @jbpark/use-hooks
 
+## 2.0.2
+
+### Patch Changes
+
+- bb7d291: ♻️ refactor(useResponsiveSize): improve element reference handling
+
 ## 2.0.1
 
 ### Patch Changes
