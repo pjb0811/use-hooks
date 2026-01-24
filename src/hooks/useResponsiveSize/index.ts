@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import useDebounce from '../useDebounce';
 
@@ -71,8 +71,12 @@ const useResponsiveSize = <T extends HTMLElement>(options?: Options) => {
 
   const [debouncedSize, setDebouncedSize] = useState({ width: 0, height: 0 });
 
-  const elementRef = useRef<T>(null);
+  const [element, setElement] = useState<T | null>(null);
   const observerRef = useRef<ResizeObserver | null>(null);
+
+  const ref = useCallback((node: T | null) => {
+    setElement(node);
+  }, []);
 
   useDebounce(
     () => {
@@ -84,7 +88,7 @@ const useResponsiveSize = <T extends HTMLElement>(options?: Options) => {
 
   useEffect(() => {
     const updateSize = () => {
-      const target = container ?? elementRef.current ?? document.body;
+      const target = container ?? element ?? document.body;
 
       if (!target) {
         return;
@@ -109,7 +113,7 @@ const useResponsiveSize = <T extends HTMLElement>(options?: Options) => {
     };
 
     const connect = () => {
-      const target = container ?? elementRef.current ?? document.body;
+      const target = container ?? element ?? document.body;
 
       if (!target) {
         return;
@@ -142,12 +146,12 @@ const useResponsiveSize = <T extends HTMLElement>(options?: Options) => {
     return () => {
       disconnect();
     };
-  }, [container]);
+  }, [container, element]);
 
   return {
     size: debouncedSize,
     breakpoint,
-    ref: elementRef,
+    ref,
   };
 };
 
