@@ -11,7 +11,7 @@ A collection of reusable React 19 hooks for common UI and interaction patterns. 
 
 ## Features
 
-- 📦 **11 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, and more
+- 📦 **12 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, and more
 - 🎯 **Full TypeScript Support** - Complete type definitions for better development experience
 - ⚡ **Tree-Shakeable** - Import only what you need
 - 🔒 **SSR-Safe** - Built-in protection for window/document globals
@@ -34,8 +34,9 @@ pnpm add @jbpark/use-hooks
 
 ```tsx
 import {
-  useElementSize,
   useLocalStorage,
+  useResponsiveSize,
+  useThrottle,
   useWindowScroll,
 } from '@jbpark/use-hooks';
 
@@ -47,13 +48,17 @@ function MyComponent() {
   const { y, percent } = useWindowScroll();
 
   // Monitor element size with breakpoints
-  const { size, breakpoint, ref } = useElementSize();
+  const { size, breakpoint, ref } = useResponsiveSize();
+
+  // Throttled width update
+  const throttledWidth = useThrottle(size.width, 200);
 
   return (
     <div ref={ref}>
       <p>Count: {count}</p>
       <p>Scroll: {percent.y}%</p>
       <p>Breakpoint: {breakpoint.current}</p>
+      <p>Throttled width: {throttledWidth}</p>
       <button onClick={() => setCount(count + 1)}>Increment</button>
     </div>
   );
@@ -66,15 +71,16 @@ function MyComponent() {
 | --------------------- | --------------------------------------------------------------------------- |
 | `useLocalStorage`     | JSON-based persistent state with error handling (SSR-safe)                  |
 | `useWindowScroll`     | Track window scroll position and percentage (iOS visualViewport compatible) |
-| `useScrollPosition`   | Monitor scroll state of specific elements using ResizeObserver              |
+| `useElementScroll`    | Monitor scroll state of specific elements using ResizeObserver              |
 | `useElementPosition`  | Monitor element bounding rect on scroll/resize (element ref support)        |
-| `useElementSize`      | Track element size with Tailwind-like breakpoints (debounced)               |
+| `useResponsiveSize`   | Track element size with Tailwind-like breakpoints (debounced)               |
 | `useBodyScrollLock`   | Lock/unlock body scroll with style preservation (iOS-specific handling)     |
 | `useScrollToElements` | Scroll to specific elements by index (adjustable offset)                    |
 | `useImage`            | Preload images and expose loading/error states                              |
 | `useRecursiveTimeout` | Recursively schedule async/sync callbacks                                   |
 | `useViewport`         | visualViewport support with in-app mode option and debounce                 |
 | `useDebounce`         | Delay function execution to prevent excessive updates (autoInvoke support)  |
+| `useThrottle`         | Throttle value updates to a fixed interval                                  |
 
 ## Development
 
@@ -109,12 +115,13 @@ src/
 │   ├── useRecursiveTimeout/
 │   ├── useResponsiveSize/
 │   ├── useScrollToElements/
+│   ├── useThrottle/
 │   ├── useViewport/
 │   ├── useWindowScroll/
 │   └── index.ts                # Barrel export
 └── index.ts                    # Package entry point
 
-dist/                            # Built library (ES + CJS + types)
+dist/                            # Built library (ESM + types)
 .changeset/                      # Changesets for versioning
 ```
 
@@ -138,18 +145,17 @@ git push --follow-tags
 
 The library is built as:
 
-- **ES Module**: `dist/index.js`
-- **CommonJS**: `dist/index.cjs`
+- **ES Module**: `dist/index.mjs`
 - **Type Definitions**: `dist/index.d.ts`
 
 ## Key Patterns
 
 - **Window Protection**: Hooks accessing `window`/`document` check `typeof window` for SSR safety (e.g., `useLocalStorage`)
 - **Event Listeners**: All scroll/resize listeners use passive flag when possible
-- **ResizeObserver**: Used in `useElementSize` and `useElementPosition` for performance
+- **ResizeObserver**: Used in `useResponsiveSize` and `useElementPosition` for performance
 - **requestAnimationFrame**: Prevents layout thrashing in scroll/resize callbacks
 - **iOS Compatibility**: Special handling of iOS visualViewport in `useBodyScrollLock`, `useWindowScroll`, and `useViewport`
-- **Debounce**: Optional debouncing for resize events in `useElementSize` and `useViewport`
+- **Debounce**: Optional debouncing for resize events in `useResponsiveSize` and `useViewport`
 
 ## Browser Support
 

@@ -7,5 +7,6 @@ export { default as useImage } from './useImage';
 export { default as useLocalStorage } from './useLocalStorage';
 export { default as useRecursiveTimeout } from './useRecursiveTimeout';
 export { default as useScrollToElements } from './useScrollToElements';
+export { default as useThrottle } from './useThrottle';
 export { default as useWindowScroll } from './useWindowScroll';
 export { default as useViewport } from './useViewport';
