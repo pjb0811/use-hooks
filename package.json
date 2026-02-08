@@ -1,6 +1,6 @@
 {
   "name": "@jbpark/use-hooks",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "A collection of reusable React 19 hooks for common UI and interaction patterns",
   "keywords": [
     "react",
