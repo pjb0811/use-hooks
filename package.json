@@ -23,15 +23,13 @@
   "private": false,
   "packageManager": "pnpm@10.28.0",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
       "source": "./src/index.ts",
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
     }
   },
   "files": [
@@ -39,7 +37,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && tsdown",
     "lint": "eslint .",
     "preview": "vite preview",
     "prepublishOnly": "pnpm build",
@@ -70,6 +68,7 @@
     "prettier-plugin-tailwindcss": "^0.6.14",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "tsdown": "^0.20.3",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2",
