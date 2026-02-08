@@ -1,5 +1,11 @@
 # @jbpark/use-hooks
 
+## 2.1.0
+
+### Minor Changes
+
+- 5aaa9dc: Add useThrottle, switch package output to ESM-only, and refresh documentation to match current hooks and build outputs.
+
 ## 2.0.2
 
 ### Patch Changes
