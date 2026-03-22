@@ -1,39 +1,43 @@
 ## Summary
 
-<!-- Briefly describe the purpose and key changes in 1-3 lines. -->
+<!-- Briefly describe the purpose and outcome in 1-3 lines -->
 
 ## Changes
 
--
--
--
+<!-- List the key changes -->
 
-## Type of Change
-
-- [ ] feat: new feature
-- [ ] fix: bug fix
-- [ ] docs: documentation update
-- [ ] refactor: code refactoring (no behavior change)
-- [ ] test: test update
-- [ ] chore: build/config/maintenance
+-
 
 ## Related Issues
 
 <!-- Example: closes #123, relates #456 -->
 
-## Required Checklist
+## Type of Change
 
-- [ ] Build passes locally (`pnpm build`)
-- [ ] Lint passes (`pnpm lint`)
-- [ ] Added a changeset file when release-impacting (`.changeset/*.md`)
+<!-- Check all that apply -->
+
+- [ ] ✨ feat — new feature
+- [ ] 🐛 fix — bug fix
+- [ ] ♻️ refactor — code refactoring
+- [ ] 📝 docs — documentation update
+- [ ] 💚 ci — CI/CD workflow update
+- [ ] 🔧 chore — build/config/maintenance changes
 
 ## Breaking Changes
 
 - [ ] None
-- [ ] Yes (describe impact and migration below)
+- [ ] Yes (describe impact and migration steps below)
 
 <!-- Breaking change details -->
 
-## Screenshots (Optional)
+## Notes (Optional)
 
-<!-- Attach screenshots for UI changes if needed -->
+<!-- Extra reviewer context, trade-offs, or follow-ups -->
+
+## Checklist
+
+- [ ] Commit messages follow the [convention](.github/COMMIT_CONVENTION.md)
+- [ ] Added a `.changeset/*.md` file when release-impacting
+- [ ] No lint/type errors (`pnpm lint`, `tsc -b`)
+- [ ] Build completes successfully (`pnpm build`)
+- [ ] Updated hook exports/docs if needed (`src/hooks/index.ts`, README)
