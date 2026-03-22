@@ -1,5 +1,11 @@
 # @jbpark/use-hooks
 
+## 2.2.0
+
+### Minor Changes
+
+- 4338ff6: Add useTimeline hook and export it from hooks index.
+
 ## 2.1.0
 
 ### Minor Changes
