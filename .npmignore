@@ -19,7 +19,6 @@ eslint.config.js
 
 # 개발 도구
 .husky/
-.changeset/
 .git/
 .gitignore
 
