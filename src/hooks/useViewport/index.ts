@@ -65,7 +65,7 @@ const useViewport = (options: Options = {}) => {
   }, [isInApp, getAppViewHeight]);
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const debouncedUpdate = () => {
       clearTimeout(timeoutId);
@@ -97,7 +97,7 @@ const useViewport = (options: Options = {}) => {
       window.visualViewport.addEventListener('scroll', immediateUpdate);
     }
 
-    let intervalId: NodeJS.Timeout;
+    let intervalId: ReturnType<typeof setInterval>;
     if (isInApp) {
       let lastHeight = readViewport().height;
       intervalId = setInterval(() => {

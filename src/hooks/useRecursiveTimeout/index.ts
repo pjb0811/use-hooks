@@ -11,7 +11,7 @@ const useRecursiveTimeout = <T>(
   }, [callback]);
 
   useEffect(() => {
-    let id: NodeJS.Timeout;
+    let id: ReturnType<typeof setTimeout>;
 
     function tick() {
       const ret = savedCallback.current();

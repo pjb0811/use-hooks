@@ -122,26 +122,16 @@ src/
 └── index.ts                    # 패키지 진입점
 
 dist/                            # 빌드된 라이브러리 (ESM + types)
-.changeset/                      # 버저닝을 위한 Changesets
 ```
 
 ## 빌드 및 배포
 
-이 프로젝트는 버전 관리를 위해 Changesets를 사용합니다:
+이 프로젝트는 `develop` → `main` 브랜치 흐름과 AI 기반 자동 릴리스 노트를 사용합니다:
 
-```bash
-# 변경사항 기록
-pnpm changeset add
-
-# 버전 업데이트 및 CHANGELOG 생성
-pnpm changeset version
-
-# npm에 배포
-pnpm changeset publish
-
-# 태그 푸시
-git push --follow-tags
-```
+- **기능 브랜치**는 `develop`으로 머지됩니다.
+- `develop`에 push될 때마다 워크플로가 diff를 분석해 `CHANGELOG.md`의 `## [Unreleased]` 섹션에 항목을 누적합니다 (버전은 아직 올리지 않음).
+- `develop`이 `main`으로 머지되면 `Unreleased` 섹션에 버전+날짜가 확정되고 `package.json` 버전이 그에 맞춰 올라간 릴리스 PR이 생성됩니다.
+- 이 릴리스 PR을 머지하면 빌드, npm 배포, 태그 생성까지 자동으로 진행됩니다.
 
 라이브러리는 다음과 같이 빌드됩니다:
 
