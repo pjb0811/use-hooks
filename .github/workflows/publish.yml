@@ -6,12 +6,13 @@ on:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
@@ -28,18 +29,60 @@ jobs:
         with:
           node-version: 24.x
           cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      # package.json's current version is untagged only right after a
+      # release PR (created below) has just been merged — that's the
+      # signal to actually build/publish/tag. Otherwise this push is an
+      # ordinary main update and we may have new Unreleased changes to
+      # promote into a fresh release PR instead.
+      - name: Check if current version is already tagged
+        id: tag_check
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            echo "already_tagged=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "already_tagged=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Promote Unreleased changelog to a version
+        id: promote
+        if: steps.tag_check.outputs.already_tagged == 'true'
+        run: node .github/scripts/promote-changelog.mjs
+
+      - name: Open release PR
+        if: steps.promote.outputs.released == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: '🔖 chore: release v${{ steps.promote.outputs.version }}'
+          title: '🔖 chore: release v${{ steps.promote.outputs.version }}'
+          body: |
+            Bumps `package.json` to `v${{ steps.promote.outputs.version }}` and finalizes the `CHANGELOG.md` entry.
+
+            Merging this PR triggers build + npm publish + git tag.
+          branch: 'release/v${{ steps.promote.outputs.version }}'
+          base: main
 
       - name: Install dependencies
+        if: steps.tag_check.outputs.already_tagged == 'false'
         run: pnpm install
 
       - name: Build
+        if: steps.tag_check.outputs.already_tagged == 'false'
         run: pnpm run build
 
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          publish: pnpm exec changeset publish
+      - name: Publish to npm
+        if: steps.tag_check.outputs.already_tagged == 'false'
+        run: pnpm publish --no-git-checks
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Tag release
+        if: steps.tag_check.outputs.already_tagged == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "v${{ steps.tag_check.outputs.version }}"
+          git push origin "v${{ steps.tag_check.outputs.version }}"
