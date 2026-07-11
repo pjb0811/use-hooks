@@ -1,6 +1,11 @@
 # @jbpark/use-hooks
 
 ## [Unreleased]
+<!-- next-bump: patch -->
+
+### Changed
+
+- refactor cleanup of timeout clearing logic in useRecursiveTimeout hook
 
 ## 2.2.0
 

@@ -31,7 +31,9 @@ const useRecursiveTimeout = <T>(
 
     if (delay) {
       id = setTimeout(tick, delay);
-      return () => id && clearTimeout(id);
+      return () => {
+        clearTimeout(id);
+      };
     }
   }, [delay]);
 };
