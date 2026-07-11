@@ -10,7 +10,7 @@ const useDebounce = <T extends (...args: unknown[]) => unknown>(
   { delay = 100, autoInvoke = true }: Options,
   deps: React.DependencyList = [],
 ): T => {
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const callbackRef = useRef(callback);
   const depsRef = useRef(deps);
   const prevDeps = useRef<React.DependencyList | undefined>(undefined);
