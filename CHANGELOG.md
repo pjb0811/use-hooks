@@ -1,7 +1,8 @@
 # @jbpark/use-hooks
 
 ## [Unreleased]
-<!-- next-bump: patch -->
+
+## [2.2.1] - 2026-07-11
 
 ### Changed
 
