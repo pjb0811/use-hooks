@@ -12,15 +12,10 @@ const useDebounce = <T extends (...args: unknown[]) => unknown>(
 ): T => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const callbackRef = useRef(callback);
-  const depsRef = useRef(deps);
   const prevDeps = useRef<React.DependencyList | undefined>(undefined);
 
   useEffect(() => {
     callbackRef.current = callback;
-  });
-
-  useEffect(() => {
-    depsRef.current = deps;
   });
 
   const stableDebouncedCallback = useRef<T | null>(null);
