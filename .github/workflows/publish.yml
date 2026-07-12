@@ -9,6 +9,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 
 jobs:
   publish:
@@ -25,8 +26,9 @@ jobs:
         with:
           version: 9
 
+      # v6+ is required for npm's OIDC "Trusted Publishing" used below.
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24.x
           cache: 'pnpm'
@@ -74,11 +76,12 @@ jobs:
         if: steps.tag_check.outputs.already_tagged == 'false'
         run: pnpm run build
 
+      # Uses npm's OIDC "Trusted Publishing" — no NPM_TOKEN needed. pnpm
+      # publish doesn't support this yet, so this step shells out to npm
+      # directly; the package itself is still built via pnpm above.
       - name: Publish to npm
         if: steps.tag_check.outputs.already_tagged == 'false'
-        run: pnpm publish --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
 
       - name: Tag release
         if: steps.tag_check.outputs.already_tagged == 'false'
