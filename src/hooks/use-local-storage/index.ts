@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const useLocalStorage = <T>(key: string, initialValue: T) => {
-  const initialRef = useRef(initialValue);
+  const initialValueRef = useRef(initialValue);
+
+  useEffect(() => {
+    initialValueRef.current = initialValue;
+  });
+
   const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === 'undefined') {
       return initialValue;
@@ -24,11 +29,42 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
       if (item) {
         setStoredValue(JSON.parse(item) as T);
       } else {
-        window.localStorage.setItem(key, JSON.stringify(initialRef.current));
+        window.localStorage.setItem(
+          key,
+          JSON.stringify(initialValueRef.current),
+        );
       }
     } catch (e) {
       console.error(`Error reading localStorage key "${key}":`, e);
     }
+  }, [key]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const onStorage = (event: StorageEvent) => {
+      if (event.key !== key) {
+        return;
+      }
+
+      try {
+        setStoredValue(
+          event.newValue
+            ? (JSON.parse(event.newValue) as T)
+            : initialValueRef.current,
+        );
+      } catch (e) {
+        console.error(
+          `Error parsing localStorage key "${key}" from storage event:`,
+          e,
+        );
+      }
+    };
+
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
   }, [key]);
 
   const setValue = useCallback(
