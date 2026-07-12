@@ -15,7 +15,7 @@ use-hooks 패키지에 새로운 커스텀 React 훅을 추가합니다.
 
 ## Procedure
 
-1. `use-hooks/src/hooks/{훅이름}/index.ts` 파일 생성
+1. `use-hooks/src/hooks/{케밥-케이스-이름}/index.ts` 파일 생성 (예: 훅 이름 `useClickOutside` → 디렉토리 `use-click-outside`)
 2. 훅 이름에 맞는 기능을 구현 (default export)
 3. `use-hooks/src/hooks/index.ts`에 named export 추가
 4. 기존 훅들의 패턴과 일관성 유지 (독립 디렉토리, default export)
@@ -24,7 +24,8 @@ use-hooks 패키지에 새로운 커스텀 React 훅을 추가합니다.
 
 - **React 19** 기반
 - **side-effects 없음**
-- 훅 이름은 반드시 `use`로 시작
+- 훅 이름(export 이름)은 반드시 `use`로 시작하는 camelCase
+- 디렉토리명은 케밥 케이스
 - 기존 훅 파일을 참고하여 코드 스타일 맞추기
 
 ## References

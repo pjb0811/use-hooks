@@ -13,7 +13,7 @@ import fs from 'node:fs';
 
 const MODEL = process.env.GITHUB_MODELS_MODEL || 'openai/gpt-4o-mini';
 const API_URL = 'https://models.github.ai/inference/chat/completions';
-const MAX_DIFF_CHARS = 20000;
+const MAX_DIFF_CHARS = 30000;
 const CHANGELOG_PATH = 'CHANGELOG.md';
 const PKG_PATH = 'package.json';
 
@@ -51,7 +51,7 @@ function git(args) {
 function diff() {
   let d;
   try {
-    d = git(['diff', beforeSha, afterSha, '--', '.', ':(exclude)CHANGELOG.md', ':(exclude)pnpm-lock.yaml', ':(exclude)dist']);
+    d = git(['diff', '--find-renames=30%', beforeSha, afterSha, '--', '.', ':(exclude)CHANGELOG.md', ':(exclude)pnpm-lock.yaml', ':(exclude)dist']);
   } catch {
     return '';
   }

@@ -1,15 +1,40 @@
 import { useEffect } from 'react';
 
-const useBodyScrollLock = (enabled: boolean = true) => {
-  useEffect(() => {
-    if (!enabled) {
-      return;
-    }
-    const scrollY = window.scrollY;
+interface LockedStyles {
+  documentElement: {
+    overflow: string;
+    height: string;
+    position: string;
+    width: string;
+  };
+  body: {
+    overflow: string;
+    height: string;
+    position: string;
+    top: string;
+    left: string;
+    right: string;
+    width: string;
+    paddingRight: string;
+    webkitOverflowScrolling: string;
+  };
+}
 
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+let lockCount = 0;
+let originalStyles: LockedStyles | null = null;
+let originalScrollY = 0;
 
-    const originalStyles = {
+const isIOS = () => /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+const lockScroll = () => {
+  if (lockCount === 0) {
+    originalScrollY = window.scrollY;
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    const currentPaddingRight =
+      parseFloat(getComputedStyle(document.body).paddingRight) || 0;
+
+    originalStyles = {
       documentElement: {
         overflow: document.documentElement.style.overflow,
         height: document.documentElement.style.height,
@@ -24,6 +49,7 @@ const useBodyScrollLock = (enabled: boolean = true) => {
         left: document.body.style.left,
         right: document.body.style.right,
         width: document.body.style.width,
+        paddingRight: document.body.style.paddingRight,
         webkitOverflowScrolling: document.body.style.getPropertyValue(
           '-webkit-overflow-scrolling',
         ),
@@ -38,14 +64,68 @@ const useBodyScrollLock = (enabled: boolean = true) => {
     document.body.style.overflow = 'hidden';
     document.body.style.height = '100%';
     document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollY}px`;
+    document.body.style.top = `-${originalScrollY}px`;
     document.body.style.left = '0';
     document.body.style.right = '0';
     document.body.style.width = '100%';
 
-    if (isIOS) {
-      document.body.style.setProperty('-webkit-overflow-scrolling', 'touch');
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${currentPaddingRight + scrollbarWidth}px`;
+    }
 
+    if (isIOS()) {
+      document.body.style.setProperty('-webkit-overflow-scrolling', 'touch');
+    }
+  }
+
+  lockCount += 1;
+};
+
+const unlockScroll = () => {
+  lockCount = Math.max(0, lockCount - 1);
+
+  if (lockCount > 0 || !originalStyles) {
+    return;
+  }
+
+  document.documentElement.style.overflow =
+    originalStyles.documentElement.overflow;
+  document.documentElement.style.height = originalStyles.documentElement.height;
+  document.documentElement.style.position =
+    originalStyles.documentElement.position;
+  document.documentElement.style.width = originalStyles.documentElement.width;
+
+  document.body.style.overflow = originalStyles.body.overflow;
+  document.body.style.height = originalStyles.body.height;
+  document.body.style.position = originalStyles.body.position;
+  document.body.style.top = originalStyles.body.top;
+  document.body.style.left = originalStyles.body.left;
+  document.body.style.right = originalStyles.body.right;
+  document.body.style.width = originalStyles.body.width;
+  document.body.style.paddingRight = originalStyles.body.paddingRight;
+
+  if (originalStyles.body.webkitOverflowScrolling) {
+    document.body.style.setProperty(
+      '-webkit-overflow-scrolling',
+      originalStyles.body.webkitOverflowScrolling,
+    );
+  } else {
+    document.body.style.removeProperty('-webkit-overflow-scrolling');
+  }
+
+  window.scrollTo(0, originalScrollY);
+  originalStyles = null;
+};
+
+const useBodyScrollLock = (enabled: boolean = true) => {
+  useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
+    lockScroll();
+
+    if (isIOS()) {
       const preventAll = (e: Event) => {
         if (
           e.target === document.body ||
@@ -91,56 +171,12 @@ const useBodyScrollLock = (enabled: boolean = true) => {
             capture: true,
           });
         });
-
-        document.documentElement.style.overflow =
-          originalStyles.documentElement.overflow;
-        document.documentElement.style.height =
-          originalStyles.documentElement.height;
-        document.documentElement.style.position =
-          originalStyles.documentElement.position;
-        document.documentElement.style.width =
-          originalStyles.documentElement.width;
-
-        document.body.style.overflow = originalStyles.body.overflow;
-        document.body.style.height = originalStyles.body.height;
-        document.body.style.position = originalStyles.body.position;
-        document.body.style.top = originalStyles.body.top;
-        document.body.style.left = originalStyles.body.left;
-        document.body.style.right = originalStyles.body.right;
-        document.body.style.width = originalStyles.body.width;
-
-        if (originalStyles.body.webkitOverflowScrolling) {
-          document.body.style.setProperty(
-            '-webkit-overflow-scrolling',
-            originalStyles.body.webkitOverflowScrolling,
-          );
-        } else {
-          document.body.style.removeProperty('-webkit-overflow-scrolling');
-        }
-
-        window.scrollTo(0, scrollY);
+        unlockScroll();
       };
     }
 
     return () => {
-      document.documentElement.style.overflow =
-        originalStyles.documentElement.overflow;
-      document.documentElement.style.height =
-        originalStyles.documentElement.height;
-      document.documentElement.style.position =
-        originalStyles.documentElement.position;
-      document.documentElement.style.width =
-        originalStyles.documentElement.width;
-
-      document.body.style.overflow = originalStyles.body.overflow;
-      document.body.style.height = originalStyles.body.height;
-      document.body.style.position = originalStyles.body.position;
-      document.body.style.top = originalStyles.body.top;
-      document.body.style.left = originalStyles.body.left;
-      document.body.style.right = originalStyles.body.right;
-      document.body.style.width = originalStyles.body.width;
-
-      window.scrollTo(0, scrollY);
+      unlockScroll();
     };
   }, [enabled]);
 };

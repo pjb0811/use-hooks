@@ -1,68 +1,99 @@
-# @jbpark/use-hooks
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+<!-- next-bump: minor -->
 
-## [2.2.1] - 2026-07-11
+### Added
+
+- add cross-tab synchronization to useLocalStorage via the storage event
 
 ### Changed
 
-- refactor cleanup of timeout clearing logic in useRecursiveTimeout hook
+- rename hook directories to kebab-case (e.g. useScrollToElements -> use-scroll-to-elements); hook export names remain camelCase
 
-## 2.2.0
+### Fixed
 
-### Minor Changes
+- fix a race condition in useImage where a stale image load or pending retry timer could overwrite state after src changed or the component unmounted
+- fix useScrollToElements to release refs to unmounted elements instead of holding stale DOM nodes
+- fix useBodyScrollLock to ref-count nested locks (e.g. stacked modals) so styles restore correctly regardless of unmount order, and compensate for scrollbar width to avoid layout shift
+- fix useTimeline to cancel a pending requestAnimationFrame on cleanup, preventing a stale callback from mutating the DOM after an effect was cleaned up
+- fix useLocalStorage to use the current initialValue instead of a stale one captured at first mount when seeding a newly-changed key
 
-- 4338ff6: Add useTimeline hook and export it from hooks index.
+## [2.2.0] - 2026-03-22
 
-## 2.1.0
+### Added
 
-### Minor Changes
+- Add useTimeline hook and export it from hooks index.
 
-- 5aaa9dc: Add useThrottle, switch package output to ESM-only, and refresh documentation to match current hooks and build outputs.
+## [2.1.0] - 2026-02-08
 
-## 2.0.2
+### Added
 
-### Patch Changes
+- Add useThrottle hook.
 
-- bb7d291: ♻️ refactor(useResponsiveSize): improve element reference handling
+### Changed
 
-## 2.0.1
+- Switch package output to ESM-only.
+- Refresh documentation to match current hooks and build outputs.
 
-### Patch Changes
+## [2.0.2] - 2026-01-24
 
-- 839dfb3: ✨ feat(README): update hooks count and add useDebounce description
+### Changed
 
-## 2.0.0
+- Improve element reference handling in useResponsiveSize.
 
-### Major Changes
+## [2.0.1] - 2026-01-18
 
-- ab9cbd8: ♻️ refactor(useDebounce): simplify autoInvoke logic
+### Changed
 
-## 1.1.3
+- Update hooks count and add useDebounce description in README.
 
-### Patch Changes
+## [2.0.0] - 2026-01-18
 
-- 54ae674: fix: align function name with folder name (useResponsiveSize)
+### Changed
 
-## 1.1.2
+- Simplify autoInvoke logic in useDebounce.
 
-### Patch Changes
+## [1.1.3] - 2026-01-17
 
-- cc7df7d: docs: update bilingual README and add language selector
+### Fixed
 
-## 1.1.1
+- Align function name with folder name (useResponsiveSize).
 
-### Patch Changes
+## [1.1.2] - 2026-01-17
 
-- 61f8182: chore: improve development infrastructure with pnpm and CI/CD automation
-  - Migrate from npm to pnpm with lock file generation
-  - Add GitHub Actions workflows (CI, publish, release, docs deploy)
-  - Establish commit message conventions (Korean/English)
-  - Update prettier and development dependencies
-  - Improve package.json with English description
+### Changed
 
-## 1.1.0
+- Update bilingual README and add language selector.
 
-### Minor Changes
+## [1.1.1] - 2026-01-17
 
-- useElementSize 훅에 delay 및 container 옵션 추가
+### Changed
+
+- Migrate from npm to pnpm with lock file generation.
+- Add GitHub Actions workflows (CI, publish, release, docs deploy).
+- Establish commit message conventions (Korean/English).
+- Update prettier and development dependencies.
+- Improve package.json with English description.
+
+## [1.1.0] - 2026-01-08
+
+### Added
+
+- Add delay and container options to useElementSize hook.
+
+[Unreleased]: https://github.com/pjb0811/use-hooks/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/pjb0811/use-hooks/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/pjb0811/use-hooks/compare/v2.0.2...v2.1.0
+[2.0.2]: https://github.com/pjb0811/use-hooks/compare/v2.0.1...v2.0.2
+[2.0.1]: https://github.com/pjb0811/use-hooks/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/pjb0811/use-hooks/compare/v1.1.3...v2.0.0
+[1.1.3]: https://github.com/pjb0811/use-hooks/compare/v1.1.2...v1.1.3
+[1.1.2]: https://github.com/pjb0811/use-hooks/compare/v1.1.1...v1.1.2
+[1.1.1]: https://github.com/pjb0811/use-hooks/compare/v1.1.0...v1.1.1
+[1.1.0]: https://github.com/pjb0811/use-hooks/releases/tag/v1.1.0

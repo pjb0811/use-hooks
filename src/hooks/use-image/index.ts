@@ -12,13 +12,17 @@ const useImage = (src: string, options: Options = {}) => {
   const [error, setError] = useState<string | Event | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [attemptCount, setAttemptCount] = useState(0);
+  const [reloadToken, setReloadToken] = useState(0);
 
-  const loadImage = useCallback(() => {
+  useEffect(() => {
     if (!src) {
       setLoading(false);
       setLoaded(false);
       return;
     }
+
+    let cancelled = false;
+    let retryTimeoutId: ReturnType<typeof setTimeout> | undefined;
 
     setLoading(true);
     setError(null);
@@ -27,33 +31,45 @@ const useImage = (src: string, options: Options = {}) => {
     img.src = src;
 
     img.onload = () => {
+      if (cancelled) {
+        return;
+      }
       setLoading(false);
       setLoaded(true);
       setError(null);
-      setAttemptCount(0);
     };
 
     img.onerror = err => {
+      if (cancelled) {
+        return;
+      }
       setLoading(false);
       setLoaded(false);
       setError(err);
 
       if (attemptCount < retryCount) {
-        setTimeout(() => {
-          setAttemptCount(prev => prev + 1);
+        retryTimeoutId = setTimeout(() => {
+          if (!cancelled) {
+            setAttemptCount(prev => prev + 1);
+          }
         }, retryDelay);
       }
     };
-  }, [src, attemptCount, retryCount, retryDelay]);
 
-  useEffect(() => {
-    loadImage();
-  }, [loadImage]);
+    return () => {
+      cancelled = true;
+      img.onload = null;
+      img.onerror = null;
+      if (retryTimeoutId) {
+        clearTimeout(retryTimeoutId);
+      }
+    };
+  }, [src, attemptCount, retryCount, retryDelay, reloadToken]);
 
   const retry = useCallback(() => {
     setAttemptCount(0);
-    loadImage();
-  }, [loadImage]);
+    setReloadToken(token => token + 1);
+  }, []);
 
   return {
     loading,
