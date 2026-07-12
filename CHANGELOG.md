@@ -1,4 +1,9 @@
-# @jbpark/use-hooks
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 <!-- next-bump: patch -->
@@ -7,61 +12,76 @@
 
 - refactor cleanup of timeout clearing logic in useRecursiveTimeout hook
 
-## 2.2.0
+## [2.2.0] - 2026-03-22
 
-### Minor Changes
+### Added
 
-- 4338ff6: Add useTimeline hook and export it from hooks index.
+- Add useTimeline hook and export it from hooks index.
 
-## 2.1.0
+## [2.1.0] - 2026-02-08
 
-### Minor Changes
+### Added
 
-- 5aaa9dc: Add useThrottle, switch package output to ESM-only, and refresh documentation to match current hooks and build outputs.
+- Add useThrottle hook.
 
-## 2.0.2
+### Changed
 
-### Patch Changes
+- Switch package output to ESM-only.
+- Refresh documentation to match current hooks and build outputs.
 
-- bb7d291: ♻️ refactor(useResponsiveSize): improve element reference handling
+## [2.0.2] - 2026-01-24
 
-## 2.0.1
+### Changed
 
-### Patch Changes
+- Improve element reference handling in useResponsiveSize.
 
-- 839dfb3: ✨ feat(README): update hooks count and add useDebounce description
+## [2.0.1] - 2026-01-18
 
-## 2.0.0
+### Changed
 
-### Major Changes
+- Update hooks count and add useDebounce description in README.
 
-- ab9cbd8: ♻️ refactor(useDebounce): simplify autoInvoke logic
+## [2.0.0] - 2026-01-18
 
-## 1.1.3
+### Changed
 
-### Patch Changes
+- Simplify autoInvoke logic in useDebounce.
 
-- 54ae674: fix: align function name with folder name (useResponsiveSize)
+## [1.1.3] - 2026-01-17
 
-## 1.1.2
+### Fixed
 
-### Patch Changes
+- Align function name with folder name (useResponsiveSize).
 
-- cc7df7d: docs: update bilingual README and add language selector
+## [1.1.2] - 2026-01-17
 
-## 1.1.1
+### Changed
 
-### Patch Changes
+- Update bilingual README and add language selector.
 
-- 61f8182: chore: improve development infrastructure with pnpm and CI/CD automation
-  - Migrate from npm to pnpm with lock file generation
-  - Add GitHub Actions workflows (CI, publish, release, docs deploy)
-  - Establish commit message conventions (Korean/English)
-  - Update prettier and development dependencies
-  - Improve package.json with English description
+## [1.1.1] - 2026-01-17
 
-## 1.1.0
+### Changed
 
-### Minor Changes
+- Migrate from npm to pnpm with lock file generation.
+- Add GitHub Actions workflows (CI, publish, release, docs deploy).
+- Establish commit message conventions (Korean/English).
+- Update prettier and development dependencies.
+- Improve package.json with English description.
 
-- useElementSize 훅에 delay 및 container 옵션 추가
+## [1.1.0] - 2026-01-08
+
+### Added
+
+- Add delay and container options to useElementSize hook.
+
+[Unreleased]: https://github.com/pjb0811/use-hooks/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/pjb0811/use-hooks/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/pjb0811/use-hooks/compare/v2.0.2...v2.1.0
+[2.0.2]: https://github.com/pjb0811/use-hooks/compare/v2.0.1...v2.0.2
+[2.0.1]: https://github.com/pjb0811/use-hooks/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/pjb0811/use-hooks/compare/v1.1.3...v2.0.0
+[1.1.3]: https://github.com/pjb0811/use-hooks/compare/v1.1.2...v1.1.3
+[1.1.2]: https://github.com/pjb0811/use-hooks/compare/v1.1.1...v1.1.2
+[1.1.1]: https://github.com/pjb0811/use-hooks/compare/v1.1.0...v1.1.1
+[1.1.0]: https://github.com/pjb0811/use-hooks/releases/tag/v1.1.0

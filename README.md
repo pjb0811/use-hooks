@@ -106,18 +106,18 @@ pnpm exec prettier --write .
 ```
 src/
 ├── hooks/                      # Individual hook implementations
-│   ├── useBodyScrollLock/
-│   ├── useDebounce/
-│   ├── useElementPosition/
-│   ├── useElementScroll/
-│   ├── useImage/
-│   ├── useLocalStorage/
-│   ├── useRecursiveTimeout/
-│   ├── useResponsiveSize/
-│   ├── useScrollToElements/
-│   ├── useThrottle/
-│   ├── useViewport/
-│   ├── useWindowScroll/
+│   ├── use-body-scroll-lock/
+│   ├── use-debounce/
+│   ├── use-element-position/
+│   ├── use-element-scroll/
+│   ├── use-image/
+│   ├── use-local-storage/
+│   ├── use-recursive-timeout/
+│   ├── use-responsive-size/
+│   ├── use-scroll-to-elements/
+│   ├── use-throttle/
+│   ├── use-viewport/
+│   ├── use-window-scroll/
 │   └── index.ts                # Barrel export
 └── index.ts                    # Package entry point
 

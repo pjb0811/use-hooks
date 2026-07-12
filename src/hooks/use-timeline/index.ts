@@ -280,7 +280,7 @@ const useTimeline = ({ steps = [], loading, immediate, loop }: Options) => {
     const container = ref.current;
     const timers: ReturnType<typeof setTimeout>[] = [];
 
-    requestAnimationFrame(() => {
+    const rafId = requestAnimationFrame(() => {
       timeline[slotIndex]?.forEach(step => {
         const stepTimers = applyStep(container, step);
 
@@ -291,6 +291,7 @@ const useTimeline = ({ steps = [], loading, immediate, loop }: Options) => {
     });
 
     return () => {
+      cancelAnimationFrame(rafId);
       timers.forEach(clearTimeout);
     };
   }, [immediate, slotIndex, timeline]);
