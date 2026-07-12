@@ -10,14 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- add useScrollToElements hook
-- add kebab-case naming convention for hook directories
+- add cross-tab synchronization to useLocalStorage via the storage event
 
 ### Changed
 
-- refactor cleanup of timeout clearing logic in useRecursiveTimeout hook
-- change hook directory names to kebab-case
-- update documentation to reflect kebab-case naming convention
+- rename hook directories to kebab-case (e.g. useScrollToElements -> use-scroll-to-elements); hook export names remain camelCase
+
+### Fixed
+
+- fix a race condition in useImage where a stale image load or pending retry timer could overwrite state after src changed or the component unmounted
+- fix useScrollToElements to release refs to unmounted elements instead of holding stale DOM nodes
+- fix useBodyScrollLock to ref-count nested locks (e.g. stacked modals) so styles restore correctly regardless of unmount order, and compensate for scrollbar width to avoid layout shift
+- fix useTimeline to cancel a pending requestAnimationFrame on cleanup, preventing a stale callback from mutating the DOM after an effect was cleaned up
+- fix useLocalStorage to use the current initialValue instead of a stale one captured at first mount when seeding a newly-changed key
 
 ## [2.2.0] - 2026-03-22
 
