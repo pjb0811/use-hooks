@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@jbpark/ui-kit": "^2.7.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "^24.5.2",
     "@types/react": "^19.1.10",
@@ -69,6 +70,7 @@
     "prettier-plugin-tailwindcss": "^0.6.14",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-router-dom": "^7.18.1",
     "tsdown": "^0.20.3",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
