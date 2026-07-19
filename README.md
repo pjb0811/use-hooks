@@ -11,7 +11,7 @@ A collection of reusable React 19 hooks for common UI and interaction patterns. 
 
 ## Features
 
-- 📦 **12 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, and more
+- 📦 **13 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, and more
 - 🎯 **Full TypeScript Support** - Complete type definitions for better development experience
 - ⚡ **Tree-Shakeable** - Import only what you need
 - 🔒 **SSR-Safe** - Built-in protection for window/document globals
@@ -75,6 +75,7 @@ function MyComponent() {
 | `useElementPosition`  | Monitor element bounding rect on scroll/resize (element ref support)        |
 | `useResponsiveSize`   | Track element size with Tailwind-like breakpoints (debounced)               |
 | `useBodyScrollLock`   | Lock/unlock body scroll with style preservation (iOS-specific handling)     |
+| `useClickOutside`     | Run a callback when a click/touch happens outside a referenced element      |
 | `useScrollToElements` | Scroll to specific elements by index (adjustable offset)                    |
 | `useImage`            | Preload images and expose loading/error states                              |
 | `useRecursiveTimeout` | Recursively schedule async/sync callbacks                                   |
@@ -107,6 +108,7 @@ pnpm exec prettier --write .
 src/
 ├── hooks/                      # Individual hook implementations
 │   ├── use-body-scroll-lock/
+│   ├── use-click-outside/
 │   ├── use-debounce/
 │   ├── use-element-position/
 │   ├── use-element-scroll/

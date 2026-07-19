@@ -3,6 +3,7 @@ import { NavLink, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
 
 import BodyScrollLockDemo from './demo/BodyScrollLockDemo';
+import ClickOutsideDemo from './demo/ClickOutsideDemo';
 import DebounceDemo from './demo/DebounceDemo';
 import ElementPositionDemo from './demo/ElementPositionDemo';
 import ElementScrollDemo from './demo/ElementScrollDemo';
@@ -19,6 +20,7 @@ import WindowScrollDemo from './demo/WindowScrollDemo';
 const nav = [
   ['/use-debounce', 'useDebounce'],
   ['/use-body-scroll-lock', 'useBodyScrollLock'],
+  ['/use-click-outside', 'useClickOutside'],
   ['/use-element-position', 'useElementPosition'],
   ['/use-element-scroll', 'useElementScroll'],
   ['/use-responsive-size', 'useResponsiveSize'],
@@ -67,6 +69,7 @@ const App = () => {
         <Route index element={<Navigate to="/use-debounce" replace />} />
         <Route path="/use-debounce" element={<DebounceDemo />} />
         <Route path="/use-body-scroll-lock" element={<BodyScrollLockDemo />} />
+        <Route path="/use-click-outside" element={<ClickOutsideDemo />} />
         <Route path="/use-element-position" element={<ElementPositionDemo />} />
         <Route path="/use-element-scroll" element={<ElementScrollDemo />} />
         <Route path="/use-responsive-size" element={<ResponsiveSizeDemo />} />

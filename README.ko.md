@@ -11,7 +11,7 @@
 
 ## 기능
 
-- 📦 **12개 프로덕션 레디 훅** - 스크롤, 뷰포트, 스토리지 등 다양한 유틸리티
+- 📦 **13개 프로덕션 레디 훅** - 스크롤, 뷰포트, 스토리지 등 다양한 유틸리티
 - 🎯 **TypeScript 지원** - 완전한 타입 지원으로 더 나은 개발 경험
 - ⚡ **트리 셰이킹 지원** - 필요한 것만 임포트하세요
 - 🔒 **SSR 안전** - window/document 전역 변수에 대한 보호
@@ -75,6 +75,7 @@ function MyComponent() {
 | `useElementPosition`  | 스크롤/리사이즈 시 요소의 바운딩 렉트 모니터링 (요소 참조 지원) |
 | `useResponsiveSize`   | Tailwind 유사 브레이크포인트를 포함한 요소 크기 추적 (debounce) |
 | `useBodyScrollLock`   | 스타일 보존을 포함한 바디 스크롤 잠금/해제 (iOS 특별 처리)      |
+| `useClickOutside`     | 참조한 요소 바깥을 클릭/터치하면 콜백 실행                      |
 | `useScrollToElements` | 인덱스별로 특정 요소로 스크롤 (오프셋 조절 가능)                |
 | `useImage`            | 이미지 사전로드 및 로딩/에러 상태 노출                          |
 | `useRecursiveTimeout` | 비동기/동기 콜백을 재귀적으로 스케줄링                          |
@@ -107,6 +108,7 @@ pnpm exec prettier --write .
 src/
 ├── hooks/                      # 개별 훅 구현
 │   ├── use-body-scroll-lock/
+│   ├── use-click-outside/
 │   ├── use-debounce/
 │   ├── use-element-position/
 │   ├── use-element-scroll/
