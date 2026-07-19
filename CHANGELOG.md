@@ -13,11 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add cross-tab synchronization to useLocalStorage via the storage event
 - add useClickOutside hook
 - add ClickOutsideDemo component
+- add one file per hook pattern for better organization
+- add demo file naming convention for consistency
 
 ### Changed
 
 - rename hook directories to kebab-case (e.g. useScrollToElements -> use-scroll-to-elements); hook export names remain camelCase
 - update README to reflect 13 hooks
+- change demo imports to match new file naming convention
 
 ### Fixed
 
