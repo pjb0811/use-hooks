@@ -13,7 +13,12 @@ import fs from 'node:fs';
 
 const MODEL = process.env.GITHUB_MODELS_MODEL || 'openai/gpt-4o-mini';
 const API_URL = 'https://models.github.ai/inference/chat/completions';
-const MAX_DIFF_CHARS = 30000;
+// GitHub Models caps gpt-4o-mini requests at 8000 tokens total (system +
+// user prompt). Code/diff text tokenizes denser than prose (~2-3 chars per
+// token because of punctuation-heavy syntax), so keep this well under the
+// naive char-count-only budget that used to live here (30000 chars, which
+// triggered 413s on larger diffs).
+const MAX_DIFF_CHARS = 12000;
 const CHANGELOG_PATH = 'CHANGELOG.md';
 const PKG_PATH = 'package.json';
 
