@@ -106,20 +106,20 @@ pnpm exec prettier --write .
 
 ```
 src/
-├── hooks/                      # 개별 훅 구현
-│   ├── use-body-scroll-lock/
-│   ├── use-click-outside/
-│   ├── use-debounce/
-│   ├── use-element-position/
-│   ├── use-element-scroll/
-│   ├── use-image/
-│   ├── use-local-storage/
-│   ├── use-recursive-timeout/
-│   ├── use-responsive-size/
-│   ├── use-scroll-to-elements/
-│   ├── use-throttle/
-│   ├── use-viewport/
-│   ├── use-window-scroll/
+├── hooks/                      # 개별 훅 구현 (훅 1개 = 파일 1개)
+│   ├── use-body-scroll-lock.ts
+│   ├── use-click-outside.ts
+│   ├── use-debounce.ts
+│   ├── use-element-position.ts
+│   ├── use-element-scroll.ts
+│   ├── use-image.ts
+│   ├── use-local-storage.ts
+│   ├── use-recursive-timeout.ts
+│   ├── use-responsive-size.ts
+│   ├── use-scroll-to-elements.ts
+│   ├── use-throttle.ts
+│   ├── use-viewport.ts
+│   ├── use-window-scroll.ts
 │   └── index.ts                # 배럴 익스포트
 └── index.ts                    # 패키지 진입점
 
@@ -142,6 +142,8 @@ dist/                            # 빌드된 라이브러리 (ESM + types)
 
 ## 주요 패턴
 
+- **훅 1개 = 파일 1개**: 각 훅은 `src/hooks/use-x.ts` 형태의 단일 파일로 존재하며 (폴더/`index.ts` 없음), `src/hooks/index.ts`에서 재수출됩니다
+- **데모 파일 네이밍**: 각 훅의 데모 페이지 파일명은 훅 파일명에 `-demo`를 붙인 `src/demo/use-x-demo.tsx` 형태를 따릅니다 (컴포넌트명 자체는 기존처럼 PascalCase 유지, 예: `ClickOutsideDemo`)
 - **Window 보호**: `window`/`document`에 접근하는 훅은 SSR 안전성을 위해 `typeof window` 체크 (예: `useLocalStorage`)
 - **이벤트 리스너**: 모든 스크롤/리사이즈 리스너는 가능한 한 passive 플래그 사용
 - **ResizeObserver**: `useResponsiveSize`와 `useElementPosition`에서 사용하여 성능 최적화

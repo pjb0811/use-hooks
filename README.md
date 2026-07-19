@@ -106,20 +106,20 @@ pnpm exec prettier --write .
 
 ```
 src/
-├── hooks/                      # Individual hook implementations
-│   ├── use-body-scroll-lock/
-│   ├── use-click-outside/
-│   ├── use-debounce/
-│   ├── use-element-position/
-│   ├── use-element-scroll/
-│   ├── use-image/
-│   ├── use-local-storage/
-│   ├── use-recursive-timeout/
-│   ├── use-responsive-size/
-│   ├── use-scroll-to-elements/
-│   ├── use-throttle/
-│   ├── use-viewport/
-│   ├── use-window-scroll/
+├── hooks/                      # Individual hook implementations (one file per hook)
+│   ├── use-body-scroll-lock.ts
+│   ├── use-click-outside.ts
+│   ├── use-debounce.ts
+│   ├── use-element-position.ts
+│   ├── use-element-scroll.ts
+│   ├── use-image.ts
+│   ├── use-local-storage.ts
+│   ├── use-recursive-timeout.ts
+│   ├── use-responsive-size.ts
+│   ├── use-scroll-to-elements.ts
+│   ├── use-throttle.ts
+│   ├── use-viewport.ts
+│   ├── use-window-scroll.ts
 │   └── index.ts                # Barrel export
 └── index.ts                    # Package entry point
 
@@ -142,6 +142,8 @@ The library is built as:
 
 ## Key Patterns
 
+- **One File Per Hook**: Each hook lives in a single flat file at `src/hooks/use-x.ts` (no per-hook folder/`index.ts`) and is re-exported from `src/hooks/index.ts`
+- **Demo File Naming**: Each hook's demo page file is named `src/demo/use-x-demo.tsx`, matching the hook's own filename with a `-demo` suffix (the component name itself stays PascalCase, e.g. `ClickOutsideDemo`)
 - **Window Protection**: Hooks accessing `window`/`document` check `typeof window` for SSR safety (e.g., `useLocalStorage`)
 - **Event Listeners**: All scroll/resize listeners use passive flag when possible
 - **ResizeObserver**: Used in `useResponsiveSize` and `useElementPosition` for performance

@@ -2,20 +2,20 @@ import { NavLink, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import './App.css';
 
-import BodyScrollLockDemo from './demo/BodyScrollLockDemo';
-import ClickOutsideDemo from './demo/ClickOutsideDemo';
-import DebounceDemo from './demo/DebounceDemo';
-import ElementPositionDemo from './demo/ElementPositionDemo';
-import ElementScrollDemo from './demo/ElementScrollDemo';
-import ImageDemo from './demo/ImageDemo';
-import LocalStorageDemo from './demo/LocalStorageDemo';
-import RecursiveTimeoutDemo from './demo/RecursiveTimeoutDemo';
-import ResponsiveSizeDemo from './demo/ResponsiveSizeDemo';
-import ScrollToElementsDemo from './demo/ScrollToElementsDemo';
-import ThrottleDemo from './demo/ThrottleDemo';
-import TimelineDemo from './demo/TimelineDemo';
-import ViewportDemo from './demo/ViewportDemo';
-import WindowScrollDemo from './demo/WindowScrollDemo';
+import BodyScrollLockDemo from './demo/use-body-scroll-lock-demo';
+import ClickOutsideDemo from './demo/use-click-outside-demo';
+import DebounceDemo from './demo/use-debounce-demo';
+import ElementPositionDemo from './demo/use-element-position-demo';
+import ElementScrollDemo from './demo/use-element-scroll-demo';
+import ImageDemo from './demo/use-image-demo';
+import LocalStorageDemo from './demo/use-local-storage-demo';
+import RecursiveTimeoutDemo from './demo/use-recursive-timeout-demo';
+import ResponsiveSizeDemo from './demo/use-responsive-size-demo';
+import ScrollToElementsDemo from './demo/use-scroll-to-elements-demo';
+import ThrottleDemo from './demo/use-throttle-demo';
+import TimelineDemo from './demo/use-timeline-demo';
+import ViewportDemo from './demo/use-viewport-demo';
+import WindowScrollDemo from './demo/use-window-scroll-demo';
 
 const nav = [
   ['/use-debounce', 'useDebounce'],
