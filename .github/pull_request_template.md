@@ -37,7 +37,6 @@
 ## Checklist
 
 - [ ] Commit messages follow gitmoji + conventional-commit style
-- [ ] Targets `develop` (not `main`) unless this is a release PR
 - [ ] No lint/type errors (`pnpm lint`, `tsc -b`)
 - [ ] Build completes successfully (`pnpm build`)
 - [ ] Updated hook exports/docs if needed (`src/hooks/index.ts`, README)
