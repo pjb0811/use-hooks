@@ -11,7 +11,7 @@ A collection of reusable React 19 hooks for common UI and interaction patterns. 
 
 ## Features
 
-- 📦 **12 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, and more
+- 📦 **13 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, and more
 - 🎯 **Full TypeScript Support** - Complete type definitions for better development experience
 - ⚡ **Tree-Shakeable** - Import only what you need
 - 🔒 **SSR-Safe** - Built-in protection for window/document globals
@@ -75,6 +75,7 @@ function MyComponent() {
 | `useElementPosition`  | Monitor element bounding rect on scroll/resize (element ref support)        |
 | `useResponsiveSize`   | Track element size with Tailwind-like breakpoints (debounced)               |
 | `useBodyScrollLock`   | Lock/unlock body scroll with style preservation (iOS-specific handling)     |
+| `useClickOutside`     | Run a callback when a click/touch happens outside a referenced element      |
 | `useScrollToElements` | Scroll to specific elements by index (adjustable offset)                    |
 | `useImage`            | Preload images and expose loading/error states                              |
 | `useRecursiveTimeout` | Recursively schedule async/sync callbacks                                   |
@@ -105,19 +106,20 @@ pnpm exec prettier --write .
 
 ```
 src/
-├── hooks/                      # Individual hook implementations
-│   ├── use-body-scroll-lock/
-│   ├── use-debounce/
-│   ├── use-element-position/
-│   ├── use-element-scroll/
-│   ├── use-image/
-│   ├── use-local-storage/
-│   ├── use-recursive-timeout/
-│   ├── use-responsive-size/
-│   ├── use-scroll-to-elements/
-│   ├── use-throttle/
-│   ├── use-viewport/
-│   ├── use-window-scroll/
+├── hooks/                      # Individual hook implementations (one file per hook)
+│   ├── use-body-scroll-lock.ts
+│   ├── use-click-outside.ts
+│   ├── use-debounce.ts
+│   ├── use-element-position.ts
+│   ├── use-element-scroll.ts
+│   ├── use-image.ts
+│   ├── use-local-storage.ts
+│   ├── use-recursive-timeout.ts
+│   ├── use-responsive-size.ts
+│   ├── use-scroll-to-elements.ts
+│   ├── use-throttle.ts
+│   ├── use-viewport.ts
+│   ├── use-window-scroll.ts
 │   └── index.ts                # Barrel export
 └── index.ts                    # Package entry point
 
@@ -140,6 +142,8 @@ The library is built as:
 
 ## Key Patterns
 
+- **One File Per Hook**: Each hook lives in a single flat file at `src/hooks/use-x.ts` (no per-hook folder/`index.ts`) and is re-exported from `src/hooks/index.ts`
+- **Demo File Naming**: Each hook's demo page file is named `src/demo/use-x-demo.tsx`, matching the hook's own filename with a `-demo` suffix (the component name itself stays PascalCase, e.g. `ClickOutsideDemo`)
 - **Window Protection**: Hooks accessing `window`/`document` check `typeof window` for SSR safety (e.g., `useLocalStorage`)
 - **Event Listeners**: All scroll/resize listeners use passive flag when possible
 - **ResizeObserver**: Used in `useResponsiveSize` and `useElementPosition` for performance

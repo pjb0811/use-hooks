@@ -11,7 +11,7 @@
 
 ## 기능
 
-- 📦 **12개 프로덕션 레디 훅** - 스크롤, 뷰포트, 스토리지 등 다양한 유틸리티
+- 📦 **13개 프로덕션 레디 훅** - 스크롤, 뷰포트, 스토리지 등 다양한 유틸리티
 - 🎯 **TypeScript 지원** - 완전한 타입 지원으로 더 나은 개발 경험
 - ⚡ **트리 셰이킹 지원** - 필요한 것만 임포트하세요
 - 🔒 **SSR 안전** - window/document 전역 변수에 대한 보호
@@ -75,6 +75,7 @@ function MyComponent() {
 | `useElementPosition`  | 스크롤/리사이즈 시 요소의 바운딩 렉트 모니터링 (요소 참조 지원) |
 | `useResponsiveSize`   | Tailwind 유사 브레이크포인트를 포함한 요소 크기 추적 (debounce) |
 | `useBodyScrollLock`   | 스타일 보존을 포함한 바디 스크롤 잠금/해제 (iOS 특별 처리)      |
+| `useClickOutside`     | 참조한 요소 바깥을 클릭/터치하면 콜백 실행                      |
 | `useScrollToElements` | 인덱스별로 특정 요소로 스크롤 (오프셋 조절 가능)                |
 | `useImage`            | 이미지 사전로드 및 로딩/에러 상태 노출                          |
 | `useRecursiveTimeout` | 비동기/동기 콜백을 재귀적으로 스케줄링                          |
@@ -105,19 +106,20 @@ pnpm exec prettier --write .
 
 ```
 src/
-├── hooks/                      # 개별 훅 구현
-│   ├── use-body-scroll-lock/
-│   ├── use-debounce/
-│   ├── use-element-position/
-│   ├── use-element-scroll/
-│   ├── use-image/
-│   ├── use-local-storage/
-│   ├── use-recursive-timeout/
-│   ├── use-responsive-size/
-│   ├── use-scroll-to-elements/
-│   ├── use-throttle/
-│   ├── use-viewport/
-│   ├── use-window-scroll/
+├── hooks/                      # 개별 훅 구현 (훅 1개 = 파일 1개)
+│   ├── use-body-scroll-lock.ts
+│   ├── use-click-outside.ts
+│   ├── use-debounce.ts
+│   ├── use-element-position.ts
+│   ├── use-element-scroll.ts
+│   ├── use-image.ts
+│   ├── use-local-storage.ts
+│   ├── use-recursive-timeout.ts
+│   ├── use-responsive-size.ts
+│   ├── use-scroll-to-elements.ts
+│   ├── use-throttle.ts
+│   ├── use-viewport.ts
+│   ├── use-window-scroll.ts
 │   └── index.ts                # 배럴 익스포트
 └── index.ts                    # 패키지 진입점
 
@@ -140,6 +142,8 @@ dist/                            # 빌드된 라이브러리 (ESM + types)
 
 ## 주요 패턴
 
+- **훅 1개 = 파일 1개**: 각 훅은 `src/hooks/use-x.ts` 형태의 단일 파일로 존재하며 (폴더/`index.ts` 없음), `src/hooks/index.ts`에서 재수출됩니다
+- **데모 파일 네이밍**: 각 훅의 데모 페이지 파일명은 훅 파일명에 `-demo`를 붙인 `src/demo/use-x-demo.tsx` 형태를 따릅니다 (컴포넌트명 자체는 기존처럼 PascalCase 유지, 예: `ClickOutsideDemo`)
 - **Window 보호**: `window`/`document`에 접근하는 훅은 SSR 안전성을 위해 `typeof window` 체크 (예: `useLocalStorage`)
 - **이벤트 리스너**: 모든 스크롤/리사이즈 리스너는 가능한 한 passive 플래그 사용
 - **ResizeObserver**: `useResponsiveSize`와 `useElementPosition`에서 사용하여 성능 최적화

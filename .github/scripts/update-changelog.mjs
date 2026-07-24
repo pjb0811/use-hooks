@@ -13,7 +13,12 @@ import fs from 'node:fs';
 
 const MODEL = process.env.GITHUB_MODELS_MODEL || 'openai/gpt-4o-mini';
 const API_URL = 'https://models.github.ai/inference/chat/completions';
-const MAX_DIFF_CHARS = 30000;
+// GitHub Models caps gpt-4o-mini requests at 8000 tokens total (system +
+// user prompt). Code/diff text tokenizes denser than prose (~2-3 chars per
+// token because of punctuation-heavy syntax), so keep this well under the
+// naive char-count-only budget that used to live here (30000 chars, which
+// triggered 413s on larger diffs).
+const MAX_DIFF_CHARS = 12000;
 const CHANGELOG_PATH = 'CHANGELOG.md';
 const PKG_PATH = 'package.json';
 
@@ -71,11 +76,14 @@ function validateResult(result) {
   if (!result || typeof result !== 'object') throw new Error('Model response is not an object');
   if (!Object.hasOwn(SEVERITY, result.bump)) throw new Error(`Invalid bump type "${result.bump}"`);
   if (!result.changes || typeof result.changes !== 'object') throw new Error('Missing changes object');
-  for (const key of Object.keys(result.changes)) {
-    if (!CATEGORY_KEYS.includes(key)) throw new Error(`Unknown changelog category "${key}"`);
-    const items = result.changes[key];
+  for (const [key, items] of Object.entries(result.changes)) {
     if (!Array.isArray(items) || items.some(item => typeof item !== 'string' || !item.trim())) {
       throw new Error(`Invalid entries for category "${key}"`);
+    }
+    if (!CATEGORY_KEYS.includes(key)) {
+      console.warn(`Unknown changelog category "${key}", folding into "changed"`);
+      result.changes.changed = [...(result.changes.changed || []), ...items];
+      delete result.changes[key];
     }
   }
   const hasAny = CATEGORY_KEYS.some(key => Array.isArray(result.changes[key]) && result.changes[key].length > 0);
@@ -200,6 +208,10 @@ async function main() {
     'Only include entries that have a real, user-facing/API-relevant, or',
     'meaningfully-affects-contributors change; omit anything that is purely',
     'internal/test-only noise with no one who would care to read about it.',
+    'The `changes` object keys MUST be exactly one of: added, changed,',
+    'deprecated, removed, fixed, security — never invent another key (e.g.',
+    'for a dependency bump, use "changed", not "devDependencies" or',
+    '"dependencies").',
     'If there is truly nothing worth noting, respond with',
     '{"bump":"patch","changes":{}}.',
   ].join(' ');
