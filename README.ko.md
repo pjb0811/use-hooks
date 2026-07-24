@@ -128,12 +128,11 @@ dist/                            # 빌드된 라이브러리 (ESM + types)
 
 ## 빌드 및 배포
 
-이 프로젝트는 `develop` → `main` 브랜치 흐름과 AI 기반 자동 릴리스 노트를 사용합니다:
+배포는 [changesets](https://github.com/changesets/changesets)로 완전히 자동화되어 있습니다:
 
-- **기능 브랜치**는 `develop`으로 머지됩니다.
-- `develop`에 push될 때마다 워크플로가 diff를 분석해 `CHANGELOG.md`의 `## [Unreleased]` 섹션에 항목을 누적합니다 (버전은 아직 올리지 않음).
-- `develop`이 `main`으로 머지되면 `Unreleased` 섹션에 버전+날짜가 확정되고 `package.json` 버전이 그에 맞춰 올라간 릴리스 PR이 생성됩니다.
-- 이 릴리스 PR을 머지하면 빌드, npm 배포, 태그 생성까지 자동으로 진행됩니다.
+- `main`으로 향하는 PR마다 AI가 변경 내용을 요약한 changeset 파일을 초안으로 작성합니다.
+- `main`에 changeset들이 쌓이면 "Version Packages" PR이 `package.json`의 버전을 승격시키고 `CHANGELOG.md`를 정리합니다.
+- 이 PR을 머지하면 빌드, npm 배포, 태그 생성까지 자동으로 진행됩니다.
 
 라이브러리는 다음과 같이 빌드됩니다:
 

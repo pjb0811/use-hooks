@@ -128,12 +128,11 @@ dist/                            # Built library (ESM + types)
 
 ## Build & Deployment
 
-This project uses a `develop` → `main` branch flow with automated, AI-assisted release notes:
+Releases are fully automated via [changesets](https://github.com/changesets/changesets):
 
-- **Feature branches** merge into `develop`.
-- On every push to `develop`, a workflow analyzes the diff and appends bullet points to the `## [Unreleased]` section of `CHANGELOG.md` (no version bump yet).
-- When `develop` is merged into `main`, that `Unreleased` section is stamped with a version + date and `package.json` is bumped to match, opened as a release PR.
-- Merging the release PR builds, publishes to npm, and tags the release.
+- Each PR against `main` gets an AI-drafted changeset file describing its change.
+- Once changesets accumulate on `main`, a "Version Packages" PR bumps `package.json`'s version and consolidates `CHANGELOG.md`.
+- Merging that PR builds, publishes to npm, and tags the release.
 
 The library is built as:
 
