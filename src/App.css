@@ -61,7 +61,27 @@
 .demo-main {
   flex: 1;
   max-width: 720px;
+  margin: 0 auto;
   padding: 40px;
+}
+
+@media (max-width: 768px) {
+  .demo-app {
+    flex-direction: column;
+  }
+
+  .demo-nav {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #3a3a3a;
+  }
+
+  .demo-main {
+    margin: 0;
+    padding: 24px 16px;
+  }
 }
 
 .demo-section {
