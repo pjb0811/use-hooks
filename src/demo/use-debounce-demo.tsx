@@ -32,20 +32,20 @@ const DebounceDemo = () => {
     <Section
       id="use-debounce"
       title="useDebounce"
-      description="값이 바뀐 뒤 delay(ms) 동안 추가 변경이 없을 때만 콜백을 실행합니다. 검색어 입력, 자동저장 등에 사용해요."
+      description="Fires a callback only after the value stops changing for delay(ms). Useful for search inputs, autosave, etc."
       code={code}
     >
       <Input
         value={text}
         onChange={e => setText(e.target.value)}
-        placeholder="입력해보세요 (400ms 후 반영)"
+        placeholder="Type here (applied after 400ms)"
       />
       <div className="demo-output">
         <div>
-          debounced 값: <b>{debounced || '(없음)'}</b>
+          Debounced value: <b>{debounced || '(none)'}</b>
         </div>
         <div>
-          콜백 실행 횟수: <b>{count}</b>
+          Callback runs: <b>{count}</b>
         </div>
       </div>
     </Section>

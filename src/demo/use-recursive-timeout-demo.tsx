@@ -27,18 +27,18 @@ const RecursiveTimeoutDemo = () => {
     <Section
       id="use-recursive-timeout"
       title="useRecursiveTimeout"
-      description="setInterval 대신 재귀적 setTimeout으로 콜백을 반복 실행합니다. delay가 null이면 멈춥니다."
+      description="Repeats a callback using recursive setTimeout instead of setInterval. Pass null as delay to stop."
       code={code}
     >
       <div className="demo-output">
-        경과 틱: <b>{tick}</b>초
+        Elapsed ticks: <b>{tick}</b>s
       </div>
       <div className="demo-actions">
         <Switch
           checked={running}
           onChange={setRunning}
-          checkedChildren="실행중"
-          unCheckedChildren="정지"
+          checkedChildren="Running"
+          unCheckedChildren="Paused"
         />
       </div>
     </Section>

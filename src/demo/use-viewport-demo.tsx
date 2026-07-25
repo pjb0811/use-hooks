@@ -10,7 +10,7 @@ const ViewportDemo = () => {
     <Section
       id="use-viewport"
       title="useViewport"
-      description="visualViewport 기준으로 실제 보여지는 뷰포트 크기/오프셋/배율을 추적합니다. 모바일 키보드/핀치줌 대응에 유용해요."
+      description="Tracks the actual visible viewport size, offset, and scale via visualViewport. Useful for handling mobile keyboards and pinch-zoom."
       code={code}
     >
       <div className="demo-output">
@@ -21,7 +21,7 @@ const ViewportDemo = () => {
         <div>scale: {viewport.scale.toFixed(2)}</div>
       </div>
       <p className="demo-hint">
-        모바일에서 핀치줌하거나 키보드를 열어보면 값이 바뀝니다.
+        Pinch-zoom or open the keyboard on mobile to see the values change.
       </p>
     </Section>
   );

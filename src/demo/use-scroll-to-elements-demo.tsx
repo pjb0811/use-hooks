@@ -6,7 +6,7 @@ import Section from './Section';
 const code = `const { setElementRef, scrollToElement } = useScrollToElements({ offset: 16 });
 
 <div ref={(el) => setElementRef(el, index)}>...</div>
-<button onClick={() => scrollToElement(index)}>이동</button>`;
+<button onClick={() => scrollToElement(index)}>Go</button>`;
 
 const ScrollToElementsDemo = () => {
   const { setElementRef, scrollToElement } = useScrollToElements({
@@ -17,13 +17,13 @@ const ScrollToElementsDemo = () => {
     <Section
       id="use-scroll-to-elements"
       title="useScrollToElements"
-      description="인덱스로 관리되는 여러 엘리먼트로 부드럽게 스크롤 이동시킵니다."
+      description="Smoothly scrolls to elements managed by index."
       code={code}
     >
       <div className="demo-actions">
         {[0, 1, 2].map(i => (
           <Button key={i} onClick={() => scrollToElement(i)}>
-            섹션 {i + 1}로 이동
+            Go to section {i + 1}
           </Button>
         ))}
       </div>
@@ -34,7 +34,7 @@ const ScrollToElementsDemo = () => {
             ref={el => setElementRef(el, i)}
             className="demo-scroll-target"
           >
-            섹션 {i + 1} 내용
+            Section {i + 1} content
           </div>
         ))}
       </div>
