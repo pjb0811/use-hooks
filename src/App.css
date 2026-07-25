@@ -85,19 +85,18 @@
   color: var(--sidebar-primary-foreground);
 }
 
-.demo-nav-github {
+.demo-nav a.demo-nav-github {
   display: flex;
   align-items: center;
   gap: 6px;
   margin-top: 16px;
-  padding-top: 16px;
+  padding: 16px 0 0;
   border-top: 1px solid var(--sidebar-border);
   color: var(--muted-foreground);
   font-size: 0.85rem;
-  text-decoration: none;
 }
 
-.demo-nav-github:hover {
+.demo-nav a.demo-nav-github:hover {
   color: var(--sidebar-foreground);
 }
 
