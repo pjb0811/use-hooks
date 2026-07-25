@@ -1,4 +1,12 @@
-import { NavLink, Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import {
+  NavLink,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
 
 import { Config } from '@jbpark/ui-kit';
 
@@ -41,6 +49,14 @@ type Theme = 'light' | 'dark';
 
 const Layout = () => {
   const [theme, setTheme] = useLocalStorage<Theme>('use-hooks-theme', 'dark');
+  const location = useLocation();
+
+  useEffect(() => {
+    const current = nav.find(([path]) => path === location.pathname);
+    document.title = current
+      ? `${current[1]} · use-hooks`
+      : 'use-hooks – React Hooks Demo';
+  }, [location.pathname]);
 
   return (
     <Config theme={{ dark: theme === 'dark' }}>
