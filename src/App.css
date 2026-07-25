@@ -58,6 +58,21 @@
   color: #fff;
 }
 
+.demo-nav-github {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #3a3a3a;
+  color: #999;
+  font-size: 0.85rem;
+}
+
+.demo-nav-github:hover {
+  color: #fff;
+}
+
 .demo-main {
   flex: 1;
   max-width: 720px;
