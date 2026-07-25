@@ -41,6 +41,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && tsdown",
+    "build:demo": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "prepublishOnly": "pnpm build",
