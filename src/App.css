@@ -99,10 +99,15 @@
 }
 
 .demo-live {
+  margin-bottom: 16px;
+}
+
+/* Card wraps children in its own body div, so the gap has to target
+   that direct child rather than .demo-live itself. */
+.demo-live > div {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 16px;
 }
 
 .demo-code {
