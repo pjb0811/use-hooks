@@ -18,15 +18,15 @@ const ClickOutsideDemo = () => {
     <Section
       id="use-click-outside"
       title="useClickOutside"
-      description="지정한 엘리먼트 바깥을 클릭/터치하면 콜백을 실행합니다. 드롭다운, 팝오버, 모달 닫기에 유용해요."
+      description="Fires a callback when you click or tap outside the target element. Useful for closing dropdowns, popovers, and modals."
       code={code}
     >
       <Button type="primary" onClick={() => setOpen(true)}>
-        {open ? '박스가 열려 있어요' : '박스 열기'}
+        {open ? 'Box is open' : 'Open box'}
       </Button>
       {open && (
         <div ref={ref} className="demo-box">
-          이 박스 바깥을 클릭하거나 터치하면 닫혀요.
+          Click or tap outside this box to close it.
         </div>
       )}
       <div className="demo-output">open: {String(open)}</div>

@@ -12,7 +12,7 @@ const WindowScrollDemo = () => {
     <Section
       id="use-window-scroll"
       title="useWindowScroll"
-      description="윈도우 스크롤 위치(x/y)와 진행률(%)을 실시간으로 추적합니다. 이 페이지를 스크롤해보세요!"
+      description="Tracks the window scroll position (x/y) and progress (%) in real time. Try scrolling this page!"
       code={code}
     >
       <Progress value={percent.y} />
@@ -25,7 +25,8 @@ const WindowScrollDemo = () => {
         </div>
       </div>
       <p className="demo-hint">
-        아래로 스크롤할 내용을 조금 더 채워서 실제로 움직이는 값을 확인해보세요.
+        Extra content below so you can see the values actually move as you
+        scroll.
       </p>
       <div style={{ height: 800 }} />
     </Section>

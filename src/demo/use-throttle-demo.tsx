@@ -16,7 +16,7 @@ const ThrottleDemo = () => {
     <Section
       id="use-throttle"
       title="useThrottle"
-      description="값이 빠르게 바뀌어도 delay(ms) 간격으로만 최신값을 반영합니다. 스크롤/리사이즈 값 처리에 유용해요."
+      description="Applies the latest value only at delay(ms) intervals, even if it changes rapidly. Useful for scroll/resize handling."
       code={code}
     >
       <input
@@ -28,8 +28,8 @@ const ThrottleDemo = () => {
       />
       <Progress value={throttled} />
       <div className="demo-output">
-        <div>실시간 값: {value}</div>
-        <div>throttled 값 (500ms): {throttled}</div>
+        <div>Live value: {value}</div>
+        <div>Throttled value (500ms): {throttled}</div>
       </div>
     </Section>
   );

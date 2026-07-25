@@ -39,7 +39,7 @@ const Layout = () => {
     <div className="demo-app">
       <aside className="demo-nav">
         <h1>use-hooks</h1>
-        <p className="demo-nav-sub">사용법 데모</p>
+        <p className="demo-nav-sub">Usage examples</p>
         <ul>
           {nav.map(([path, label]) => (
             <li key={path}>

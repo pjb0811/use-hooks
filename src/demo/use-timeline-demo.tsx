@@ -35,14 +35,14 @@ const TimelineDemo = () => {
     <Section
       id="use-timeline"
       title="useTimeline"
-      description="CSS selector 기반으로 순차적인 스타일 트랜지션 타임라인을 실행합니다. 가벼운 시퀀스 애니메이션을 만들 때 사용해요."
+      description="Runs a sequential style-transition timeline based on CSS selectors. Useful for lightweight sequence animations."
       code={code}
     >
       <div ref={ref} className="demo-timeline-container">
         <div className="timeline-box" />
       </div>
       <div className="demo-output">
-        완료 여부: {completed ? 'Y' : 'N'} (loop 모드라 계속 반복돼요)
+        Completed: {completed ? 'Y' : 'N'} (loops continuously in loop mode)
       </div>
     </Section>
   );

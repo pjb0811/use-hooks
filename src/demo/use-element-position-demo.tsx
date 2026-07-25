@@ -14,11 +14,11 @@ const ElementPositionDemo = () => {
     <Section
       id="use-element-position"
       title="useElementPosition"
-      description="엘리먼트의 getBoundingClientRect 값을 스크롤/리사이즈에 반응해 실시간으로 추적합니다."
+      description="Tracks an element's getBoundingClientRect in real time as you scroll or resize."
       code={code}
     >
       <div ref={ref} className="demo-box">
-        추적 대상 박스
+        Tracked box
       </div>
       <div className="demo-output">
         <div>
@@ -30,7 +30,9 @@ const ElementPositionDemo = () => {
           {rect?.height.toFixed(0) ?? '-'}
         </div>
       </div>
-      <p className="demo-hint">페이지를 스크롤하거나 창 크기를 바꿔보세요.</p>
+      <p className="demo-hint">
+        Try scrolling the page or resizing the window.
+      </p>
     </Section>
   );
 };
