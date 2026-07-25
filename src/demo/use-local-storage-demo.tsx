@@ -16,7 +16,9 @@ const LocalStorageDemo = () => {
       code={code}
     >
       <div className="demo-output">
-        Stored value: <b>{count}</b>
+        <div>
+          Stored value: <b>{count}</b>
+        </div>
       </div>
       <div className="demo-actions">
         <Button type="primary" onClick={() => setCount(c => c + 1)}>

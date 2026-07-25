@@ -31,7 +31,9 @@ const RecursiveTimeoutDemo = () => {
       code={code}
     >
       <div className="demo-output">
-        Elapsed ticks: <b>{tick}</b>s
+        <div>
+          Elapsed ticks: <b>{tick}</b>s
+        </div>
       </div>
       <div className="demo-actions">
         <Switch
