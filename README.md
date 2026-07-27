@@ -11,7 +11,7 @@ A collection of reusable React 19 hooks for common UI and interaction patterns. 
 
 ## Features
 
-- 📦 **13 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, and more
+- 📦 **15 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, and more
 - 🎯 **Full TypeScript Support** - Complete type definitions for better development experience
 - ⚡ **Tree-Shakeable** - Import only what you need
 - 🔒 **SSR-Safe** - Built-in protection for window/document globals
@@ -67,21 +67,23 @@ function MyComponent() {
 
 ## Available Hooks
 
-| Hook                  | Description                                                                 |
-| --------------------- | --------------------------------------------------------------------------- |
-| `useLocalStorage`     | JSON-based persistent state with error handling (SSR-safe)                  |
-| `useWindowScroll`     | Track window scroll position and percentage (iOS visualViewport compatible) |
-| `useElementScroll`    | Monitor scroll state of specific elements using ResizeObserver              |
-| `useElementPosition`  | Monitor element bounding rect on scroll/resize (element ref support)        |
-| `useResponsiveSize`   | Track element size with Tailwind-like breakpoints (debounced)               |
-| `useBodyScrollLock`   | Lock/unlock body scroll with style preservation (iOS-specific handling)     |
-| `useClickOutside`     | Run a callback when a click/touch happens outside a referenced element      |
-| `useScrollToElements` | Scroll to specific elements by index (adjustable offset)                    |
-| `useImage`            | Preload images and expose loading/error states                              |
-| `useRecursiveTimeout` | Recursively schedule async/sync callbacks                                   |
-| `useViewport`         | visualViewport support with in-app mode option and debounce                 |
-| `useDebounce`         | Delay function execution to prevent excessive updates (autoInvoke support)  |
-| `useThrottle`         | Throttle value updates to a fixed interval                                  |
+| Hook                      | Description                                                                 |
+| ------------------------- | --------------------------------------------------------------------------- |
+| `useLocalStorage`         | JSON-based persistent state with error handling (SSR-safe)                  |
+| `useWindowScroll`         | Track window scroll position and percentage (iOS visualViewport compatible) |
+| `useElementScroll`        | Monitor scroll state of specific elements using ResizeObserver              |
+| `useElementPosition`      | Monitor element bounding rect on scroll/resize (element ref support)        |
+| `useResponsiveSize`       | Track element size with Tailwind-like breakpoints (debounced)               |
+| `useBodyScrollLock`       | Lock/unlock body scroll with style preservation (iOS-specific handling)     |
+| `useClickOutside`         | Run a callback when a click/touch happens outside a referenced element      |
+| `useScrollToElements`     | Scroll to specific elements by index (adjustable offset)                    |
+| `useImage`                | Preload images and expose loading/error states                              |
+| `useRecursiveTimeout`     | Recursively schedule async/sync callbacks                                   |
+| `useViewport`             | visualViewport support with in-app mode option and debounce                 |
+| `useDebounce`             | Delay function execution to prevent excessive updates (autoInvoke support)  |
+| `useThrottle`             | Throttle value updates to a fixed interval                                  |
+| `useHistoryState`         | Undo/redo state management with a configurable history limit                |
+| `useIntersectionObserver` | Track an element's viewport intersection via a callback ref                 |
 
 ## Development
 
@@ -112,7 +114,9 @@ src/
 │   ├── use-debounce.ts
 │   ├── use-element-position.ts
 │   ├── use-element-scroll.ts
+│   ├── use-history-state.ts
 │   ├── use-image.ts
+│   ├── use-intersection-observer.ts
 │   ├── use-local-storage.ts
 │   ├── use-recursive-timeout.ts
 │   ├── use-responsive-size.ts
