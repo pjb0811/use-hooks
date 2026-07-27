@@ -145,6 +145,7 @@
 
   .demo-mobile-header {
     display: flex;
+    width: 100%;
   }
 
   .demo-main {
