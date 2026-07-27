@@ -59,6 +59,10 @@ const Layout = () => {
       : 'use-hooks – React Hooks Demo';
   }, [location.pathname]);
 
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+
   return (
     <Config theme={{ dark: theme === 'dark' }}>
       <div className="demo-app">
