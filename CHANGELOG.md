@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.0
+
+### Minor Changes
+
+- 7fd35a9: Add a new hook useIntersectionObserver to track element visibility in the viewport using the IntersectionObserver API.
+
 ## 2.4.0
 
 ### Minor Changes
