@@ -23,6 +23,7 @@ import ClickOutsideDemo from './demo/use-click-outside-demo';
 import DebounceDemo from './demo/use-debounce-demo';
 import ElementPositionDemo from './demo/use-element-position-demo';
 import ElementScrollDemo from './demo/use-element-scroll-demo';
+import HistoryStateDemo from './demo/use-history-state-demo';
 import ImageDemo from './demo/use-image-demo';
 import LocalStorageDemo from './demo/use-local-storage-demo';
 import RecursiveTimeoutDemo from './demo/use-recursive-timeout-demo';
@@ -40,6 +41,7 @@ const nav = [
   ['/use-click-outside', 'useClickOutside'],
   ['/use-element-position', 'useElementPosition'],
   ['/use-element-scroll', 'useElementScroll'],
+  ['/use-history-state', 'useHistoryState'],
   ['/use-responsive-size', 'useResponsiveSize'],
   ['/use-image', 'useImage'],
   ['/use-local-storage', 'useLocalStorage'],
@@ -169,6 +171,7 @@ const App = () => {
         <Route path="/use-click-outside" element={<ClickOutsideDemo />} />
         <Route path="/use-element-position" element={<ElementPositionDemo />} />
         <Route path="/use-element-scroll" element={<ElementScrollDemo />} />
+        <Route path="/use-history-state" element={<HistoryStateDemo />} />
         <Route path="/use-responsive-size" element={<ResponsiveSizeDemo />} />
         <Route path="/use-image" element={<ImageDemo />} />
         <Route path="/use-local-storage" element={<LocalStorageDemo />} />
