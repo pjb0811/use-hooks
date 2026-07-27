@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   NavLink,
   Navigate,
@@ -8,8 +8,13 @@ import {
   useLocation,
 } from 'react-router-dom';
 
-import { Config } from '@jbpark/ui-kit';
-import { GitHubLogoIcon, MoonIcon, SunIcon } from '@radix-ui/react-icons';
+import { Config, Drawer } from '@jbpark/ui-kit';
+import {
+  GitHubLogoIcon,
+  HamburgerMenuIcon,
+  MoonIcon,
+  SunIcon,
+} from '@radix-ui/react-icons';
 
 import './App.css';
 
@@ -48,8 +53,43 @@ const nav = [
 
 type Theme = 'light' | 'dark';
 
+interface NavLinksProps {
+  onNavigate?: () => void;
+}
+
+const NavLinks = ({ onNavigate }: NavLinksProps) => (
+  <>
+    <p className="demo-nav-sub">Usage examples</p>
+    <ul>
+      {nav.map(([path, label]) => (
+        <li key={path}>
+          <NavLink
+            to={path}
+            onClick={onNavigate}
+            className={({ isActive }) =>
+              isActive ? 'demo-nav-active' : undefined
+            }
+          >
+            {label}
+          </NavLink>
+        </li>
+      ))}
+    </ul>
+    <a
+      className="demo-nav-github"
+      href="https://github.com/pjb0811/use-hooks"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <GitHubLogoIcon width={16} height={16} />
+      GitHub
+    </a>
+  </>
+);
+
 const Layout = () => {
   const [theme, setTheme] = useLocalStorage<Theme>('use-hooks-theme', 'dark');
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -59,50 +99,58 @@ const Layout = () => {
       : 'use-hooks – React Hooks Demo';
   }, [location.pathname]);
 
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+
+  const themeToggle = (
+    <button
+      type="button"
+      className="demo-theme-toggle"
+      aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+      onClick={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
+    >
+      {theme === 'dark' ? (
+        <MoonIcon width={16} height={16} />
+      ) : (
+        <SunIcon width={16} height={16} />
+      )}
+    </button>
+  );
+
   return (
     <Config theme={{ dark: theme === 'dark' }}>
       <div className="demo-app">
+        <header className="demo-mobile-header">
+          <button
+            type="button"
+            className="demo-mobile-menu-button"
+            aria-label="Open menu"
+            onClick={() => setMobileNavOpen(true)}
+          >
+            <HamburgerMenuIcon width={18} height={18} />
+          </button>
+          <h1>use-hooks</h1>
+          {themeToggle}
+        </header>
         <aside className="demo-nav">
           <div className="demo-nav-header">
             <h1>use-hooks</h1>
-            <button
-              type="button"
-              className="demo-theme-toggle"
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-              onClick={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
-            >
-              {theme === 'dark' ? (
-                <MoonIcon width={16} height={16} />
-              ) : (
-                <SunIcon width={16} height={16} />
-              )}
-            </button>
+            {themeToggle}
           </div>
-          <p className="demo-nav-sub">Usage examples</p>
-          <ul>
-            {nav.map(([path, label]) => (
-              <li key={path}>
-                <NavLink
-                  to={path}
-                  className={({ isActive }) =>
-                    isActive ? 'demo-nav-active' : undefined
-                  }
-                >
-                  {label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-          <a
-            className="demo-nav-github"
-            href="https://github.com/pjb0811/use-hooks"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <GitHubLogoIcon width={16} height={16} />
-            GitHub
-          </a>
+          <NavLinks />
         </aside>
+        <Drawer
+          open={mobileNavOpen}
+          direction="left"
+          size="75%"
+          title="Menu"
+          onClose={() => setMobileNavOpen(false)}
+        >
+          <nav className="demo-nav-drawer">
+            <NavLinks onNavigate={() => setMobileNavOpen(false)} />
+          </nav>
+        </Drawer>
         <main className="demo-main">
           <Outlet />
         </main>
