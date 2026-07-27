@@ -25,6 +25,7 @@ import ElementPositionDemo from './demo/use-element-position-demo';
 import ElementScrollDemo from './demo/use-element-scroll-demo';
 import HistoryStateDemo from './demo/use-history-state-demo';
 import ImageDemo from './demo/use-image-demo';
+import IntersectionObserverDemo from './demo/use-intersection-observer-demo';
 import LocalStorageDemo from './demo/use-local-storage-demo';
 import RecursiveTimeoutDemo from './demo/use-recursive-timeout-demo';
 import ResponsiveSizeDemo from './demo/use-responsive-size-demo';
@@ -42,6 +43,7 @@ const nav = [
   ['/use-element-position', 'useElementPosition'],
   ['/use-element-scroll', 'useElementScroll'],
   ['/use-history-state', 'useHistoryState'],
+  ['/use-intersection-observer', 'useIntersectionObserver'],
   ['/use-responsive-size', 'useResponsiveSize'],
   ['/use-image', 'useImage'],
   ['/use-local-storage', 'useLocalStorage'],
@@ -172,6 +174,10 @@ const App = () => {
         <Route path="/use-element-position" element={<ElementPositionDemo />} />
         <Route path="/use-element-scroll" element={<ElementScrollDemo />} />
         <Route path="/use-history-state" element={<HistoryStateDemo />} />
+        <Route
+          path="/use-intersection-observer"
+          element={<IntersectionObserverDemo />}
+        />
         <Route path="/use-responsive-size" element={<ResponsiveSizeDemo />} />
         <Route path="/use-image" element={<ImageDemo />} />
         <Route path="/use-local-storage" element={<LocalStorageDemo />} />

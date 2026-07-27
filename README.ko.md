@@ -11,7 +11,7 @@
 
 ## 기능
 
-- 📦 **13개 프로덕션 레디 훅** - 스크롤, 뷰포트, 스토리지 등 다양한 유틸리티
+- 📦 **15개 프로덕션 레디 훅** - 스크롤, 뷰포트, 스토리지 등 다양한 유틸리티
 - 🎯 **TypeScript 지원** - 완전한 타입 지원으로 더 나은 개발 경험
 - ⚡ **트리 셰이킹 지원** - 필요한 것만 임포트하세요
 - 🔒 **SSR 안전** - window/document 전역 변수에 대한 보호
@@ -67,21 +67,23 @@ function MyComponent() {
 
 ## 사용 가능한 훅
 
-| 훅                    | 설명                                                            |
-| --------------------- | --------------------------------------------------------------- |
-| `useLocalStorage`     | 에러 핸들링이 포함된 JSON 기반 영속 상태 (SSR 안전)             |
-| `useWindowScroll`     | 윈도우 스크롤 위치 및 백분율 추적 (iOS visualViewport 대응)     |
-| `useElementScroll`    | ResizeObserver를 사용한 특정 요소의 스크롤 상태 추적            |
-| `useElementPosition`  | 스크롤/리사이즈 시 요소의 바운딩 렉트 모니터링 (요소 참조 지원) |
-| `useResponsiveSize`   | Tailwind 유사 브레이크포인트를 포함한 요소 크기 추적 (debounce) |
-| `useBodyScrollLock`   | 스타일 보존을 포함한 바디 스크롤 잠금/해제 (iOS 특별 처리)      |
-| `useClickOutside`     | 참조한 요소 바깥을 클릭/터치하면 콜백 실행                      |
-| `useScrollToElements` | 인덱스별로 특정 요소로 스크롤 (오프셋 조절 가능)                |
-| `useImage`            | 이미지 사전로드 및 로딩/에러 상태 노출                          |
-| `useRecursiveTimeout` | 비동기/동기 콜백을 재귀적으로 스케줄링                          |
-| `useViewport`         | visualViewport 지원, 인앱 모드 옵션, debounce 포함              |
-| `useDebounce`         | 함수 실행을 지연해 과도한 업데이트를 방지 (autoInvoke 지원)     |
-| `useThrottle`         | 값 업데이트를 일정 간격으로 제한                                |
+| 훅                        | 설명                                                              |
+| ------------------------- | ----------------------------------------------------------------- |
+| `useLocalStorage`         | 에러 핸들링이 포함된 JSON 기반 영속 상태 (SSR 안전)               |
+| `useWindowScroll`         | 윈도우 스크롤 위치 및 백분율 추적 (iOS visualViewport 대응)       |
+| `useElementScroll`        | ResizeObserver를 사용한 특정 요소의 스크롤 상태 추적              |
+| `useElementPosition`      | 스크롤/리사이즈 시 요소의 바운딩 렉트 모니터링 (요소 참조 지원)   |
+| `useResponsiveSize`       | Tailwind 유사 브레이크포인트를 포함한 요소 크기 추적 (debounce)   |
+| `useBodyScrollLock`       | 스타일 보존을 포함한 바디 스크롤 잠금/해제 (iOS 특별 처리)        |
+| `useClickOutside`         | 참조한 요소 바깥을 클릭/터치하면 콜백 실행                        |
+| `useScrollToElements`     | 인덱스별로 특정 요소로 스크롤 (오프셋 조절 가능)                  |
+| `useImage`                | 이미지 사전로드 및 로딩/에러 상태 노출                            |
+| `useRecursiveTimeout`     | 비동기/동기 콜백을 재귀적으로 스케줄링                            |
+| `useViewport`             | visualViewport 지원, 인앱 모드 옵션, debounce 포함                |
+| `useDebounce`             | 함수 실행을 지연해 과도한 업데이트를 방지 (autoInvoke 지원)       |
+| `useThrottle`             | 값 업데이트를 일정 간격으로 제한                                  |
+| `useHistoryState`         | 히스토리 개수 제한을 설정할 수 있는 실행 취소/다시 실행 상태 관리 |
+| `useIntersectionObserver` | 콜백 ref로 요소의 뷰포트 교차 여부 추적                           |
 
 ## 개발
 
@@ -112,7 +114,9 @@ src/
 │   ├── use-debounce.ts
 │   ├── use-element-position.ts
 │   ├── use-element-scroll.ts
+│   ├── use-history-state.ts
 │   ├── use-image.ts
+│   ├── use-intersection-observer.ts
 │   ├── use-local-storage.ts
 │   ├── use-recursive-timeout.ts
 │   ├── use-responsive-size.ts
