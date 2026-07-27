@@ -26,13 +26,15 @@
   gap: 8px;
 }
 
-.demo-nav h1 {
+.demo-nav h1,
+.demo-mobile-header h1 {
   margin: 0 0 4px;
   color: var(--sidebar-foreground);
   font-size: 1.25rem;
 }
 
-.demo-theme-toggle {
+.demo-theme-toggle,
+.demo-mobile-menu-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,7 +48,8 @@
   cursor: pointer;
 }
 
-.demo-theme-toggle:hover {
+.demo-theme-toggle:hover,
+.demo-mobile-menu-button:hover {
   background: var(--sidebar-accent);
   color: var(--sidebar-accent-foreground);
 }
@@ -57,7 +60,8 @@
   font-size: 0.85rem;
 }
 
-.demo-nav ul {
+.demo-nav ul,
+.demo-nav-drawer ul {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -66,7 +70,8 @@
   list-style: none;
 }
 
-.demo-nav a {
+.demo-nav a,
+.demo-nav-drawer a {
   display: block;
   padding: 6px 10px;
   border-radius: 6px;
@@ -75,17 +80,20 @@
   text-decoration: none;
 }
 
-.demo-nav a:hover {
+.demo-nav a:hover,
+.demo-nav-drawer a:hover {
   background: var(--sidebar-accent);
   color: var(--sidebar-accent-foreground);
 }
 
-.demo-nav a.demo-nav-active {
+.demo-nav a.demo-nav-active,
+.demo-nav-drawer a.demo-nav-active {
   background: var(--sidebar-primary);
   color: var(--sidebar-primary-foreground);
 }
 
-.demo-nav a.demo-nav-github {
+.demo-nav a.demo-nav-github,
+.demo-nav-drawer a.demo-nav-github {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -96,8 +104,27 @@
   font-size: 0.85rem;
 }
 
-.demo-nav a.demo-nav-github:hover {
+.demo-nav a.demo-nav-github:hover,
+.demo-nav-drawer a.demo-nav-github:hover {
   color: var(--sidebar-foreground);
+}
+
+.demo-mobile-header {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--sidebar-border);
+  background: var(--sidebar);
+  color: var(--sidebar-foreground);
+}
+
+.demo-nav-drawer {
+  padding: 4px 0;
 }
 
 .demo-main {
@@ -113,11 +140,11 @@
   }
 
   .demo-nav {
-    position: static;
-    width: 100%;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--sidebar-border);
+    display: none;
+  }
+
+  .demo-mobile-header {
+    display: flex;
   }
 
   .demo-main {
