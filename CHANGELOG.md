@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.4.0
+
+### Minor Changes
+
+- 0913c44: Add a GitHub navigation link to the demo layout.
+- 6d09947: Add a theme toggle feature to the demo application, allowing users to switch between light and dark themes.
+- 17e3879: Add a useEffect hook to update the document title based on the current route in the application.
+- 27603b2: Replace SVG icons with Radix UI icons for theme toggle and GitHub link.
+- 1e37318: Add support for dark mode by toggling the 'dark' class on the document element based on the theme.
+- 4c1e6e6: Add a new hook useHistoryState for managing state with undo/redo support.
+
+### Patch Changes
+
+- 313b12a: Update demo components to improve layout and styling for better responsiveness.
+- a72c804: Update styles for demo components to improve layout and spacing.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
