@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.6.0
+
+### Minor Changes
+
+- 9d1cba1: Add a new hook useFileToDataUrl to read a File as a data URL using FileReader.
+
 ## 2.5.0
 
 ### Minor Changes
