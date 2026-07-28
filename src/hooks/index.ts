@@ -3,6 +3,7 @@ export { default as useBodyScrollLock } from './use-body-scroll-lock';
 export { default as useClickOutside } from './use-click-outside';
 export { default as useElementPosition } from './use-element-position';
 export { default as useElementScroll } from './use-element-scroll';
+export { default as useFileToDataUrl } from './use-file-to-data-url';
 export { default as useHistoryState } from './use-history-state';
 export { default as useIntersectionObserver } from './use-intersection-observer';
 export { default as useResponsiveSize } from './use-responsive-size';
