@@ -23,6 +23,7 @@ import ClickOutsideDemo from './demo/use-click-outside-demo';
 import DebounceDemo from './demo/use-debounce-demo';
 import ElementPositionDemo from './demo/use-element-position-demo';
 import ElementScrollDemo from './demo/use-element-scroll-demo';
+import FileToDataUrlDemo from './demo/use-file-to-data-url-demo';
 import HistoryStateDemo from './demo/use-history-state-demo';
 import ImageDemo from './demo/use-image-demo';
 import IntersectionObserverDemo from './demo/use-intersection-observer-demo';
@@ -42,6 +43,7 @@ const nav = [
   ['/use-click-outside', 'useClickOutside'],
   ['/use-element-position', 'useElementPosition'],
   ['/use-element-scroll', 'useElementScroll'],
+  ['/use-file-to-data-url', 'useFileToDataUrl'],
   ['/use-history-state', 'useHistoryState'],
   ['/use-intersection-observer', 'useIntersectionObserver'],
   ['/use-responsive-size', 'useResponsiveSize'],
@@ -173,6 +175,7 @@ const App = () => {
         <Route path="/use-click-outside" element={<ClickOutsideDemo />} />
         <Route path="/use-element-position" element={<ElementPositionDemo />} />
         <Route path="/use-element-scroll" element={<ElementScrollDemo />} />
+        <Route path="/use-file-to-data-url" element={<FileToDataUrlDemo />} />
         <Route path="/use-history-state" element={<HistoryStateDemo />} />
         <Route
           path="/use-intersection-observer"
