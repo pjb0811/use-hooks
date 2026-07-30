@@ -9,6 +9,7 @@ export { default as useIntersectionObserver } from './use-intersection-observer'
 export { default as useResponsiveSize } from './use-responsive-size';
 export { default as useImage } from './use-image';
 export { default as useLocalStorage } from './use-local-storage';
+export { default as useMultiSelect } from './use-multi-select';
 export { default as useRecursiveTimeout } from './use-recursive-timeout';
 export { default as useScrollToElements } from './use-scroll-to-elements';
 export { default as useThrottle } from './use-throttle';

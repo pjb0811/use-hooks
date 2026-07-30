@@ -84,6 +84,7 @@ function MyComponent() {
 | `useThrottle`             | Throttle value updates to a fixed interval                                  |
 | `useHistoryState`         | Undo/redo state management with a configurable history limit                |
 | `useIntersectionObserver` | Track an element's viewport intersection via a callback ref                 |
+| `useMultiSelect`          | Checkbox-style multi-select for a list, with shift-click range selection    |
 
 ## Development
 
@@ -118,6 +119,7 @@ src/
 │   ├── use-image.ts
 │   ├── use-intersection-observer.ts
 │   ├── use-local-storage.ts
+│   ├── use-multi-select.ts
 │   ├── use-recursive-timeout.ts
 │   ├── use-responsive-size.ts
 │   ├── use-scroll-to-elements.ts
