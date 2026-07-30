@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.7.0
+
+### Minor Changes
+
+- 926b366: Add a new hook useMultiSelect for checkbox-style multi-selection with shift-click range selection.
+- 926b366: Add `useMultiSelect`: checkbox-style multi-select for a list, with shift-click range selection. Selection is clamped against the current item count (via `useMemo`, not an effect) so it stays valid as the backing list shrinks or grows.
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
