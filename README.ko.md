@@ -84,6 +84,7 @@ function MyComponent() {
 | `useThrottle`             | 값 업데이트를 일정 간격으로 제한                                  |
 | `useHistoryState`         | 히스토리 개수 제한을 설정할 수 있는 실행 취소/다시 실행 상태 관리 |
 | `useIntersectionObserver` | 콜백 ref로 요소의 뷰포트 교차 여부 추적                           |
+| `useMultiSelect`          | shift-클릭 범위 선택을 지원하는 체크박스 스타일 다중 선택         |
 
 ## 개발
 
@@ -118,6 +119,7 @@ src/
 │   ├── use-image.ts
 │   ├── use-intersection-observer.ts
 │   ├── use-local-storage.ts
+│   ├── use-multi-select.ts
 │   ├── use-recursive-timeout.ts
 │   ├── use-responsive-size.ts
 │   ├── use-scroll-to-elements.ts

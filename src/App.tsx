@@ -28,6 +28,7 @@ import HistoryStateDemo from './demo/use-history-state-demo';
 import ImageDemo from './demo/use-image-demo';
 import IntersectionObserverDemo from './demo/use-intersection-observer-demo';
 import LocalStorageDemo from './demo/use-local-storage-demo';
+import MultiSelectDemo from './demo/use-multi-select-demo';
 import RecursiveTimeoutDemo from './demo/use-recursive-timeout-demo';
 import ResponsiveSizeDemo from './demo/use-responsive-size-demo';
 import ScrollToElementsDemo from './demo/use-scroll-to-elements-demo';
@@ -49,6 +50,7 @@ const nav = [
   ['/use-responsive-size', 'useResponsiveSize'],
   ['/use-image', 'useImage'],
   ['/use-local-storage', 'useLocalStorage'],
+  ['/use-multi-select', 'useMultiSelect'],
   ['/use-recursive-timeout', 'useRecursiveTimeout'],
   ['/use-scroll-to-elements', 'useScrollToElements'],
   ['/use-throttle', 'useThrottle'],
@@ -184,6 +186,7 @@ const App = () => {
         <Route path="/use-responsive-size" element={<ResponsiveSizeDemo />} />
         <Route path="/use-image" element={<ImageDemo />} />
         <Route path="/use-local-storage" element={<LocalStorageDemo />} />
+        <Route path="/use-multi-select" element={<MultiSelectDemo />} />
         <Route
           path="/use-recursive-timeout"
           element={<RecursiveTimeoutDemo />}
