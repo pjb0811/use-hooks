@@ -67,24 +67,25 @@ function MyComponent() {
 
 ## Available Hooks
 
-| Hook                      | Description                                                                 |
-| ------------------------- | --------------------------------------------------------------------------- |
-| `useLocalStorage`         | JSON-based persistent state with error handling (SSR-safe)                  |
-| `useWindowScroll`         | Track window scroll position and percentage (iOS visualViewport compatible) |
-| `useElementScroll`        | Monitor scroll state of specific elements using ResizeObserver              |
-| `useElementPosition`      | Monitor element bounding rect on scroll/resize (element ref support)        |
-| `useResponsiveSize`       | Track element size with Tailwind-like breakpoints (debounced)               |
-| `useBodyScrollLock`       | Lock/unlock body scroll with style preservation (iOS-specific handling)     |
-| `useClickOutside`         | Run a callback when a click/touch happens outside a referenced element      |
-| `useScrollToElements`     | Scroll to specific elements by index (adjustable offset)                    |
-| `useImage`                | Preload images and expose loading/error states                              |
-| `useRecursiveTimeout`     | Recursively schedule async/sync callbacks                                   |
-| `useViewport`             | visualViewport support with in-app mode option and debounce                 |
-| `useDebounce`             | Delay function execution to prevent excessive updates (autoInvoke support)  |
-| `useThrottle`             | Throttle value updates to a fixed interval                                  |
-| `useHistoryState`         | Undo/redo state management with a configurable history limit                |
-| `useIntersectionObserver` | Track an element's viewport intersection via a callback ref                 |
-| `useMultiSelect`          | Checkbox-style multi-select for a list, with shift-click range selection    |
+| Hook                      | Description                                                                              |
+| ------------------------- | ---------------------------------------------------------------------------------------- |
+| `useLocalStorage`         | JSON-based persistent state with error handling (SSR-safe)                               |
+| `useWindowScroll`         | Track window scroll position and percentage (iOS visualViewport compatible)              |
+| `useElementScroll`        | Monitor scroll state of specific elements using ResizeObserver                           |
+| `useElementPosition`      | Monitor element bounding rect on scroll/resize (element ref support)                     |
+| `useResponsiveSize`       | Track element size with Tailwind-like breakpoints (debounced)                            |
+| `useBodyScrollLock`       | Lock/unlock body scroll with style preservation (iOS-specific handling)                  |
+| `useClickOutside`         | Run a callback when a click/touch happens outside a referenced element                   |
+| `useScrollToElements`     | Scroll to specific elements by index (adjustable offset)                                 |
+| `useImage`                | Preload images and expose loading/error states                                           |
+| `useRecursiveTimeout`     | Recursively schedule async/sync callbacks                                                |
+| `useViewport`             | visualViewport support with in-app mode option and debounce                              |
+| `useDebounce`             | Delay function execution to prevent excessive updates (autoInvoke support)               |
+| `useThrottle`             | Throttle value updates to a fixed interval                                               |
+| `useHistoryState`         | Undo/redo state management with a configurable history limit                             |
+| `useIntersectionObserver` | Track an element's viewport intersection via a callback ref                              |
+| `useMultiSelect`          | Checkbox-style multi-select for a list, with shift-click range selection                 |
+| `useControllableState`    | Back a value/defaultValue/onChange prop pair with one controlled/uncontrolled state hook |
 
 ## Development
 
