@@ -20,6 +20,7 @@ import './App.css';
 
 import BodyScrollLockDemo from './demo/use-body-scroll-lock-demo';
 import ClickOutsideDemo from './demo/use-click-outside-demo';
+import ControllableStateDemo from './demo/use-controllable-state-demo';
 import DebounceDemo from './demo/use-debounce-demo';
 import ElementPositionDemo from './demo/use-element-position-demo';
 import ElementScrollDemo from './demo/use-element-scroll-demo';
@@ -42,6 +43,7 @@ const nav = [
   ['/use-debounce', 'useDebounce'],
   ['/use-body-scroll-lock', 'useBodyScrollLock'],
   ['/use-click-outside', 'useClickOutside'],
+  ['/use-controllable-state', 'useControllableState'],
   ['/use-element-position', 'useElementPosition'],
   ['/use-element-scroll', 'useElementScroll'],
   ['/use-file-to-data-url', 'useFileToDataUrl'],
@@ -175,6 +177,10 @@ const App = () => {
         <Route path="/use-debounce" element={<DebounceDemo />} />
         <Route path="/use-body-scroll-lock" element={<BodyScrollLockDemo />} />
         <Route path="/use-click-outside" element={<ClickOutsideDemo />} />
+        <Route
+          path="/use-controllable-state"
+          element={<ControllableStateDemo />}
+        />
         <Route path="/use-element-position" element={<ElementPositionDemo />} />
         <Route path="/use-element-scroll" element={<ElementScrollDemo />} />
         <Route path="/use-file-to-data-url" element={<FileToDataUrlDemo />} />
