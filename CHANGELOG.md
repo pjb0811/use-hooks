@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.8.0
+
+### Minor Changes
+
+- bc0779b: Add the useControllableState hook to support both controlled and uncontrolled component state patterns seamlessly.
+- 895e8ae: Add a `targetRef` option to `useWindowScroll` to allow tracking of scroll position within an iframe or other nested window.
+
 ## 2.7.0
 
 ### Minor Changes
