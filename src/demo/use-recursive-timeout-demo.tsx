@@ -18,7 +18,6 @@ const RecursiveTimeoutDemo = () => {
   useRecursiveTimeout(
     () => {
       setTick(t => t + 1);
-      return () => {};
     },
     running ? 1000 : null,
   );
