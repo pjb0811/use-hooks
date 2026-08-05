@@ -1,6 +1,10 @@
-import { useEffect, useState } from 'react';
+import { type RefObject, useEffect, useState } from 'react';
 
-const useWindowScroll = () => {
+// Pass a ref to an element rendered inside the window you actually want to
+// track (e.g. a node portaled into an iframe). Without one, this defaults
+// to the host `window`, which is wrong whenever the caller doesn't live in
+// the top-level document. Resolved once per mount from `targetRef.current`.
+const useWindowScroll = (targetRef?: RefObject<Element | null>) => {
   const [state, setState] = useState({
     x: 0,
     y: 0,
@@ -11,26 +15,29 @@ const useWindowScroll = () => {
   });
 
   useEffect(() => {
-    const calculate = () => {
-      const x = window.scrollX || 0;
-      const y = window.scrollY || 0;
+    const target = targetRef?.current?.ownerDocument.defaultView ?? window;
+    const doc = target.document;
 
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      const visualViewport = window.visualViewport;
+    const calculate = () => {
+      const x = target.scrollX || 0;
+      const y = target.scrollY || 0;
+
+      const isIOS = /iPad|iPhone|iPod/.test(target.navigator.userAgent);
+      const visualViewport = target.visualViewport;
 
       const viewportWidth =
-        isIOS && visualViewport ? visualViewport.width : window.innerWidth;
+        isIOS && visualViewport ? visualViewport.width : target.innerWidth;
 
       const viewportHeight =
-        isIOS && visualViewport ? visualViewport.height : window.innerHeight;
+        isIOS && visualViewport ? visualViewport.height : target.innerHeight;
 
       const maxScrollX = Math.max(
         0,
-        document.documentElement.scrollWidth - viewportWidth,
+        doc.documentElement.scrollWidth - viewportWidth,
       );
       const maxScrollY = Math.max(
         0,
-        document.documentElement.scrollHeight - viewportHeight,
+        doc.documentElement.scrollHeight - viewportHeight,
       );
 
       const percentX =
@@ -62,27 +69,27 @@ const useWindowScroll = () => {
       setTimeout(calculate, 50);
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onResize);
-    window.addEventListener('orientationchange', onResize);
+    target.addEventListener('scroll', onScroll, { passive: true });
+    target.addEventListener('resize', onResize);
+    target.addEventListener('orientationchange', onResize);
 
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', onVisualViewportChange);
+    if (target.visualViewport) {
+      target.visualViewport.addEventListener('resize', onVisualViewportChange);
     }
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onResize);
-      window.removeEventListener('orientationchange', onResize);
+      target.removeEventListener('scroll', onScroll);
+      target.removeEventListener('resize', onResize);
+      target.removeEventListener('orientationchange', onResize);
 
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener(
+      if (target.visualViewport) {
+        target.visualViewport.removeEventListener(
           'resize',
           onVisualViewportChange,
         );
       }
     };
-  }, []);
+  }, [targetRef]);
 
   return state;
 };
