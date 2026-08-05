@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.9.0
+
+### Minor Changes
+
+- 43c4420: Add a new `leading` option to `useDebounce` to control whether the first invocation fires immediately or after the specified delay.
+- 1e2d465: useViewport now returns a fresh, plain-object snapshot of the viewport on every read, rather than the mutable window.visualViewport instance, to ensure accurate re-renders on changes.
+- 24d1299: useLocalStorage now supports same-tab sync for shared cache and subscriber lists, enabling seamless updates across related components in the same tab.
+- 77aba46: Add a new `stopOnError` option to `useRecursiveTimeout` to control whether a rejected callback stops the polling loop or schedules the next tick.
+
 ## 2.8.0
 
 ### Minor Changes
