@@ -1,16 +1,23 @@
 import { useCallback, useEffect, useState } from 'react';
 
-type ViewportInfo =
-  | VisualViewport
-  | {
-      width: number;
-      height: number;
-      offsetLeft: number;
-      offsetTop: number;
-      pageLeft: number;
-      pageTop: number;
-      scale: number;
-    };
+interface ViewportInfo {
+  width: number;
+  height: number;
+  offsetLeft: number;
+  offsetTop: number;
+  pageLeft: number;
+  pageTop: number;
+  scale: number;
+}
+
+const viewportEqual = (a: ViewportInfo, b: ViewportInfo) =>
+  a.width === b.width &&
+  a.height === b.height &&
+  a.offsetLeft === b.offsetLeft &&
+  a.offsetTop === b.offsetTop &&
+  a.pageLeft === b.pageLeft &&
+  a.pageTop === b.pageTop &&
+  a.scale === b.scale;
 
 interface Options {
   isInApp?: boolean;
@@ -43,11 +50,12 @@ const useViewport = (options: Options = {}) => {
     return Math.max(windowHeight, documentHeight, bodyHeight);
   }, []);
 
+  // Always builds a fresh plain-object snapshot rather than returning
+  // `window.visualViewport` itself — that instance is a single mutable
+  // object the browser updates in place, so returning it directly meant
+  // every read produced the exact same reference and `setViewport` never
+  // saw a change (no re-render, ever).
   const readViewport = useCallback((): ViewportInfo => {
-    if (window.visualViewport && !isInApp) {
-      return window.visualViewport;
-    }
-
     const width = window.visualViewport?.width || window.innerWidth;
     const height = isInApp
       ? getAppViewHeight()
@@ -67,14 +75,22 @@ const useViewport = (options: Options = {}) => {
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>;
 
+    // Snapshots are freshly-allocated objects on every read, so gate the
+    // state update on an actual value change instead of always replacing
+    // the reference — otherwise every resize/scroll tick would re-render
+    // consumers even when nothing visibly moved.
+    const commitViewport = (next: ViewportInfo) => {
+      setViewport(prev => (viewportEqual(prev, next) ? prev : next));
+    };
+
     const debouncedUpdate = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
-        setViewport(readViewport());
+        commitViewport(readViewport());
       }, debounce);
     };
 
-    const immediateUpdate = () => setViewport(readViewport());
+    const immediateUpdate = () => commitViewport(readViewport());
 
     immediateUpdate();
 
