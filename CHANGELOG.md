@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.11.0
+
+### Minor Changes
+
+- 934163e: Added support for curved-easing steps and improved performance by memoizing derived values and clearing applied styles on unmount.
+- 2611ebf: Added support for tracking scroll position and viewport size of a specific element, allowing for more accurate and flexible use of the `useWindowScroll` hook.
+- f3d2c8d: The `useElementPosition` hook now supports string selectors and handles cases where the target element may not exist yet when the hook first runs, or where the DOM node behind a ref gets swapped out.
+- e2f7d69: Added support for range selection in the useMultiSelect hook, allowing users to select multiple items by holding down the shift key and clicking on a range of indices.
+- f9e6857: The `useElementScroll` hook now accepts an optional `threshold` option to customize the 'at bottom' detection, and it also observes child elements and their size changes to accurately track scroll positions.
+- 1e91121: A new `useControllableState` hook with improved behavior and warnings for switching between controlled and uncontrolled modes has been added.
+- 10163cd: Add support for measuring the viewport instead of an element/document.body, useful when no container/ref is attached and the breakpoint should reflect the viewport rather than document.body's box.
+
 ## 2.10.0
 
 ### Minor Changes
