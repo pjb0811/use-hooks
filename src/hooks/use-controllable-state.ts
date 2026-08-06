@@ -38,12 +38,15 @@ function useControllableState<T>({
   const wasControlledRef = useRef(isControlled);
 
   useEffect(() => {
-    // Guard `process` itself, not just its value — this hook ships as
-    // plain ESM and can end up in environments with no bundler define for
-    // `process.env.NODE_ENV` (or no `process` global at all), where
-    // reading it directly would throw instead of just missing a warning.
-    const isProduction =
-      typeof process !== 'undefined' && process.env?.NODE_ENV === 'production';
+    // Read `process.env.NODE_ENV` through `globalThis` rather than the
+    // bare `process` global — this hook ships as plain ESM and can end up
+    // somewhere with no bundler define for it (or no `process` at all, and
+    // no @types/node in scope to even name it), where referencing it
+    // directly would fail instead of just missing a warning.
+    const nodeEnv = (
+      globalThis as { process?: { env?: { NODE_ENV?: string } } }
+    ).process?.env?.NODE_ENV;
+    const isProduction = nodeEnv === 'production';
 
     if (!isProduction && wasControlledRef.current !== isControlled) {
       console.warn(
