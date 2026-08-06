@@ -6,6 +6,16 @@ interface HistoryState<T> {
   future: T[];
 }
 
+// `arr.slice(-limit)` breaks for `limit <= 0`: `slice(-0)` is `slice(0)`,
+// which keeps the whole array instead of truncating to nothing. Treating
+// any non-positive limit as "keep none" makes `limit: 0` (and negative
+// limits, previously undefined behavior) actually mean no history.
+const takeLast = <T>(arr: T[], limit: number): T[] =>
+  limit <= 0 ? [] : arr.slice(-limit);
+
+const takeFirst = <T>(arr: T[], limit: number): T[] =>
+  limit <= 0 ? [] : arr.slice(0, limit);
+
 type Action<T> =
   | { type: 'SET'; value: T | ((prev: T) => T) }
   | { type: 'UNDO' }
@@ -27,7 +37,7 @@ const createReducer =
         }
 
         return {
-          past: [...state.past, state.present].slice(-limit),
+          past: takeLast([...state.past, state.present], limit),
           present: resolved,
           future: [],
         };
@@ -43,7 +53,10 @@ const createReducer =
         return {
           past: state.past.slice(0, -1),
           present: previous,
-          future: [state.present, ...state.future],
+          // Cap `future` at `limit` too — otherwise a long run of undos
+          // (more than `limit` of them) grows `future` unbounded, even
+          // though `past` is kept within `limit` by REDO/SET.
+          future: takeFirst([state.present, ...state.future], limit),
         };
       }
 
@@ -55,7 +68,7 @@ const createReducer =
         const [next, ...rest] = state.future;
 
         return {
-          past: [...state.past, state.present].slice(-limit),
+          past: takeLast([...state.past, state.present], limit),
           present: next as T,
           future: rest,
         };
