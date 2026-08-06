@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import useDebounce from './use-debounce';
 
@@ -17,6 +23,11 @@ interface BreakpointInfo {
 interface Options {
   delay?: number;
   container?: HTMLElement | null;
+  // Measure the viewport (window.innerWidth/innerHeight) instead of an
+  // element/document.body. Useful when no `container`/ref is attached and
+  // the breakpoint should reflect the viewport rather than document.body's
+  // box, which can diverge from it if body has margin/transform.
+  viewport?: boolean;
 }
 
 const BREAKPOINTS = {
@@ -56,100 +67,126 @@ const getBreakpointInfo = (width: number): BreakpointInfo => {
   };
 };
 
-const useResponsiveSize = <T extends HTMLElement>(options?: Options) => {
-  const { delay = 100, container } = options || {};
-  const [size, setSize] = useState({ width: 0, height: 0 });
-  const [breakpoint, setBreakpoint] = useState<BreakpointInfo>({
-    current: 'xs',
-    xs: true,
-    sm: false,
-    md: false,
-    lg: false,
-    xl: false,
-    '2xl': false,
-  });
+const breakpointEqual = (a: BreakpointInfo, b: BreakpointInfo) =>
+  a.current === b.current &&
+  a.xs === b.xs &&
+  a.sm === b.sm &&
+  a.md === b.md &&
+  a.lg === b.lg &&
+  a.xl === b.xl &&
+  a['2xl'] === b['2xl'];
 
-  const [debouncedSize, setDebouncedSize] = useState({ width: 0, height: 0 });
+const measureTarget = (target: HTMLElement) => ({
+  width: target.offsetWidth,
+  height: target.offsetHeight,
+});
+
+const measureViewport = () => ({
+  width: window.innerWidth,
+  height: window.innerHeight,
+});
+
+const useResponsiveSize = <T extends HTMLElement>(options?: Options) => {
+  const { delay = 100, container, viewport = false } = options || {};
 
   const [element, setElement] = useState<T | null>(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  const [breakpoint, setBreakpoint] = useState<BreakpointInfo>(() =>
+    getBreakpointInfo(0),
+  );
+
   const observerRef = useRef<ResizeObserver | null>(null);
+  const latestRef = useRef({ width: 0, height: 0 });
+  const committedRef = useRef({ width: 0, height: 0 });
 
   const ref = useCallback((node: T | null) => {
     setElement(node);
   }, []);
 
-  useDebounce(
-    () => {
-      setDebouncedSize(size);
-    },
-    { delay },
-    [size],
-  );
+  // `size` and `breakpoint` are always committed together here, so
+  // consumers never observe one reflecting a newer measurement than the
+  // other.
+  const commit = useCallback(() => {
+    const next = latestRef.current;
+
+    if (
+      committedRef.current.width === next.width &&
+      committedRef.current.height === next.height
+    ) {
+      return;
+    }
+
+    committedRef.current = next;
+    setSize(next);
+
+    const nextBreakpoint = getBreakpointInfo(next.width);
+    setBreakpoint(prev =>
+      breakpointEqual(prev, nextBreakpoint) ? prev : nextBreakpoint,
+    );
+  }, []);
+
+  // Manual invocation only (`autoInvoke: false`) — reuses useDebounce's
+  // debounced-callback machinery instead of duplicating it here.
+  const debouncedCommit = useDebounce(commit, { delay, autoInvoke: false });
+
+  // Measure synchronously before paint so the very first render reflects
+  // the real size/breakpoint instead of the `{0,0}`/`xs` placeholder —
+  // only later updates (from the observer/listener below) go through the
+  // debounced path.
+  useLayoutEffect(() => {
+    const measured = viewport
+      ? measureViewport()
+      : (() => {
+          const target = container ?? element ?? document.body;
+          return target ? measureTarget(target) : null;
+        })();
+
+    if (!measured) {
+      return;
+    }
+
+    latestRef.current = measured;
+    commit();
+  }, [container, element, viewport, commit]);
 
   useEffect(() => {
-    const updateSize = () => {
-      const target = container ?? element ?? document.body;
+    if (viewport) {
+      const onResize = () => {
+        latestRef.current = measureViewport();
+        debouncedCommit();
+      };
 
-      if (!target) {
-        return;
-      }
+      window.addEventListener('resize', onResize);
+      return () => window.removeEventListener('resize', onResize);
+    }
 
-      const { offsetWidth, offsetHeight } = target;
+    const target = container ?? element ?? document.body;
 
-      setSize(prev => {
-        if (prev.width !== offsetWidth || prev.height !== offsetHeight) {
-          return { width: offsetWidth, height: offsetHeight };
-        }
-        return prev;
+    if (!target) {
+      return;
+    }
+
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
+
+    observerRef.current = new ResizeObserver(() => {
+      requestAnimationFrame(() => {
+        latestRef.current = measureTarget(target);
+        debouncedCommit();
       });
+    });
 
-      setBreakpoint(prev => {
-        const next = getBreakpointInfo(offsetWidth);
-        if (prev.current !== next.current) {
-          return next;
-        }
-        return prev;
-      });
-    };
-
-    const connect = () => {
-      const target = container ?? element ?? document.body;
-
-      if (!target) {
-        return;
-      }
-
-      updateSize();
-
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-
-      observerRef.current = new ResizeObserver(() => {
-        requestAnimationFrame(() => {
-          updateSize();
-        });
-      });
-
-      observerRef.current.observe(target);
-    };
-
-    const disconnect = () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-        observerRef.current = null;
-      }
-    };
-
-    connect();
+    observerRef.current.observe(target);
 
     return () => {
-      disconnect();
+      observerRef.current?.disconnect();
+      observerRef.current = null;
     };
-  }, [container, element]);
+  }, [container, element, viewport, debouncedCommit]);
 
   return {
-    size: debouncedSize,
+    size,
     breakpoint,
     ref,
   };
