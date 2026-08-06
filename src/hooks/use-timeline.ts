@@ -2,6 +2,10 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 const registeredProperties = new Set<string>();
 
+// `CSS.registerProperty` is permanent for the page's lifetime — there is
+// no unregisterProperty API, so once a curved-easing step registers
+// `--tx`/`--ty`/`--s`, they stay registered globally even after every
+// `useTimeline` instance using them has unmounted.
 const registerCSSProperty = (
   name: string,
   syntax = '<length>',
@@ -63,7 +67,9 @@ const buildTimeline = (steps: TimelineStep[]): TimelineStep[][] => {
   const groups: TimelineStep[][] = [];
 
   for (const step of steps) {
-    if (step.transition.delay === 0 && groups.length > 0) {
+    // An unspecified delay means "no delay", same as an explicit 0 — both
+    // merge into the previous group instead of only the explicit case.
+    if ((step.transition.delay ?? 0) === 0 && groups.length > 0) {
       groups[groups.length - 1]?.push(step);
     } else {
       groups.push([step]);
@@ -205,16 +211,72 @@ const applyStep = (
   return timers;
 };
 
+// Clears every inline style property `applyStep` can set, on every element
+// matching any of `steps`' selectors, so nothing this hook applied lingers
+// on elements that outlive it (e.g. kept mounted by a parent).
+const resetAppliedStyles = (container: HTMLElement, steps: TimelineStep[]) => {
+  const selectors = new Set(steps.map(step => step.selector));
+
+  selectors.forEach(selector => {
+    const elements = container.matches(selector)
+      ? [container]
+      : Array.from(container.querySelectorAll<HTMLElement>(selector));
+
+    elements.forEach(el => {
+      el.style.transition = '';
+      el.style.backgroundColor = '';
+      el.style.opacity = '';
+      el.style.top = '';
+      el.style.left = '';
+      el.style.width = '';
+      el.style.height = '';
+      el.style.zIndex = '';
+      el.style.filter = '';
+      el.style.rotate = '';
+      el.style.transform = '';
+      el.style.removeProperty('--tx');
+      el.style.removeProperty('--ty');
+      el.style.removeProperty('--s');
+    });
+  });
+};
+
 const useTimeline = ({ steps = [], loading, immediate, loop }: Options) => {
   const [slotIndex, setSlotIndex] = useState(-1);
   const [completed, setCompleted] = useState(() => !!immediate);
 
   const ref = useRef<HTMLDivElement>(null);
-  const timeline = useMemo(() => buildTimeline(steps), [steps]);
+  const stepsRef = useRef(steps);
+
+  useEffect(() => {
+    stepsRef.current = steps;
+  });
+
+  // `steps` is naturally passed as an inline array literal at most call
+  // sites, so a new reference every render would otherwise rebuild
+  // `timeline` — clearing every running timer — on every unrelated
+  // re-render. Key derived values off a serialized snapshot instead,
+  // which only changes when the content actually does.
+  const stepsKey = useMemo(() => JSON.stringify(steps), [steps]);
+  const timeline = useMemo(
+    () => buildTimeline(steps),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [stepsKey],
+  );
   const hasCurveSteps = useMemo(
     () => steps.some(s => s.transition.easeX || s.transition.easeY),
-    [steps],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [stepsKey],
   );
+
+  // Restart playback from the top whenever the steps' content (not just
+  // their reference) or `loading` changes — otherwise slotIndex/completed
+  // stay wherever they were left on the previous timeline.
+  useEffect(() => {
+    setSlotIndex(-1);
+    setCompleted(!!immediate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepsKey, loading]);
 
   useLayoutEffect(() => {
     if (hasCurveSteps) {
@@ -231,7 +293,18 @@ const useTimeline = ({ steps = [], loading, immediate, loop }: Options) => {
 
     const container = ref.current;
     steps.forEach(step => applyStep(container, step, true));
-  }, [immediate, steps]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [immediate, stepsKey]);
+
+  useEffect(() => {
+    const container = ref.current;
+
+    return () => {
+      if (container) {
+        resetAppliedStyles(container, stepsRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (immediate || loading || !timeline.length) {
