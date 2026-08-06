@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.10.0
+
+### Minor Changes
+
+- 6ca529a: Add support for scrolling to elements with an offset from the top of the viewport.
+- 0133b47: Add `takeLast` and `takeFirst` functions to handle edge cases for history state truncation, allowing for more robust handling of undo/redo limits.
+- db4a95b: Add a new `useBodyScrollLock` hook with improved iOS support, using a Set of per-instance tokens instead of a raw counter to prevent drift in the lock count.
+
 ## 2.9.0
 
 ### Minor Changes
