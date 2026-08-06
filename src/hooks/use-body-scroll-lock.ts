@@ -20,14 +20,19 @@ interface LockedStyles {
   };
 }
 
-let lockCount = 0;
+// A Set of per-instance tokens instead of a raw counter — deleting the same
+// token twice (or locking with a token that's already in the set) can't
+// drift the count the way increment/decrement pairs could.
+const activeLocks = new Set<symbol>();
 let originalStyles: LockedStyles | null = null;
 let originalScrollY = 0;
 
-const isIOS = () => /iPad|iPhone|iPod/.test(navigator.userAgent);
+const isIOS = () =>
+  typeof navigator !== 'undefined' &&
+  /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-const lockScroll = () => {
-  if (lockCount === 0) {
+const lockScroll = (token: symbol) => {
+  if (activeLocks.size === 0) {
     originalScrollY = window.scrollY;
     const scrollbarWidth =
       window.innerWidth - document.documentElement.clientWidth;
@@ -78,13 +83,13 @@ const lockScroll = () => {
     }
   }
 
-  lockCount += 1;
+  activeLocks.add(token);
 };
 
-const unlockScroll = () => {
-  lockCount = Math.max(0, lockCount - 1);
+const unlockScroll = (token: symbol) => {
+  activeLocks.delete(token);
 
-  if (lockCount > 0 || !originalStyles) {
+  if (activeLocks.size > 0 || !originalStyles) {
     return;
   }
 
@@ -119,64 +124,43 @@ const unlockScroll = () => {
 
 const useBodyScrollLock = (enabled: boolean = true) => {
   useEffect(() => {
-    if (!enabled) {
+    if (typeof window === 'undefined' || !enabled) {
       return;
     }
 
-    lockScroll();
+    const token = Symbol('body-scroll-lock');
+    lockScroll(token);
+
+    // The position:fixed styles above are the real lock — this is only a
+    // narrow safety net for iOS Safari, which can still rubber-band the
+    // page on a touchmove that starts directly on the body/html background.
+    // Only that one event is handled (no capture, no stopPropagation), so
+    // a scrollable element inside the locked content (e.g. a modal body)
+    // keeps scrolling normally — its touchmove target isn't body/html.
+    let removeTouchListener: (() => void) | undefined;
 
     if (isIOS()) {
-      const preventAll = (e: Event) => {
+      const preventTouchMove = (event: TouchEvent) => {
         if (
-          e.target === document.body ||
-          e.target === document.documentElement ||
-          e.target === window
+          event.target === document.body ||
+          event.target === document.documentElement
         ) {
-          e.preventDefault();
-          e.stopPropagation();
-          e.stopImmediatePropagation();
+          event.preventDefault();
         }
       };
 
-      const preventScroll = () => {
-        window.scrollTo(0, 0);
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-      };
-
-      const events = ['scroll', 'touchmove', 'touchstart', 'touchend'];
-      events.forEach(event => {
-        window.addEventListener(event, preventAll, {
-          passive: false,
-          capture: true,
-        });
-        document.addEventListener(event, preventAll, {
-          passive: false,
-          capture: true,
-        });
-        document.body.addEventListener(event, preventAll, {
-          passive: false,
-          capture: true,
-        });
+      document.addEventListener('touchmove', preventTouchMove, {
+        passive: false,
       });
 
-      const scrollInterval = setInterval(preventScroll, 16);
-
-      return () => {
-        clearInterval(scrollInterval);
-        events.forEach(event => {
-          window.removeEventListener(event, preventAll, { capture: true });
-          document.removeEventListener(event, preventAll, { capture: true });
-          document.body.removeEventListener(event, preventAll, {
-            capture: true,
-          });
-        });
-        unlockScroll();
+      removeTouchListener = () => {
+        document.removeEventListener('touchmove', preventTouchMove);
       };
     }
 
     return () => {
-      unlockScroll();
+      removeTouchListener?.();
+      unlockScroll(token);
     };
   }, [enabled]);
 };
