@@ -33,12 +33,25 @@ jobs:
           node-version: 24.x
 
       # Only draft once per PR — if a changeset already exists (hand-written
-      # or from an earlier run of this workflow on this PR), leave it alone
-      # rather than overwriting a human's edits on every subsequent push.
+      # under any filename, or from an earlier run of this workflow on this
+      # PR), leave it alone rather than overwriting a human's edits on
+      # every subsequent push. Checks for *any* changeset file, not just
+      # one literally named pr-<PR#>.md — a hand-written one under a
+      # different name used to go unrecognized, so this kept re-drafting
+      # (and overwriting) it on every push.
       - name: Check for existing changeset
         id: existing
         run: |
-          if compgen -G ".changeset/pr-${{ github.event.pull_request.number }}.md" > /dev/null; then
+          shopt -s nullglob
+          files=(.changeset/*.md)
+          shopt -u nullglob
+          count=0
+          for f in "${files[@]}"; do
+            if [[ "$(basename "$f")" != "README.md" ]]; then
+              count=$((count + 1))
+            fi
+          done
+          if [ "$count" -gt 0 ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
