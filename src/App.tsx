@@ -31,7 +31,9 @@ import IntersectionObserverDemo from './demo/use-intersection-observer-demo';
 import LocalStorageDemo from './demo/use-local-storage-demo';
 import MergedRefDemo from './demo/use-merged-ref-demo';
 import MultiSelectDemo from './demo/use-multi-select-demo';
+import MutationObserverDemo from './demo/use-mutation-observer-demo';
 import RecursiveTimeoutDemo from './demo/use-recursive-timeout-demo';
+import ResizeObserverDemo from './demo/use-resize-observer-demo';
 import ResponsiveSizeDemo from './demo/use-responsive-size-demo';
 import ScrollToElementsDemo from './demo/use-scroll-to-elements-demo';
 import ThrottleDemo from './demo/use-throttle-demo';
@@ -54,7 +56,9 @@ const nav = [
   ['/use-local-storage', 'useLocalStorage'],
   ['/use-merged-ref', 'useMergedRef'],
   ['/use-multi-select', 'useMultiSelect'],
+  ['/use-mutation-observer', 'useMutationObserver'],
   ['/use-recursive-timeout', 'useRecursiveTimeout'],
+  ['/use-resize-observer', 'useResizeObserver'],
   ['/use-scroll-to-elements', 'useScrollToElements'],
   ['/use-throttle', 'useThrottle'],
   ['/use-viewport', 'useViewport'],
@@ -195,9 +199,14 @@ const App = () => {
         <Route path="/use-merged-ref" element={<MergedRefDemo />} />
         <Route path="/use-multi-select" element={<MultiSelectDemo />} />
         <Route
+          path="/use-mutation-observer"
+          element={<MutationObserverDemo />}
+        />
+        <Route
           path="/use-recursive-timeout"
           element={<RecursiveTimeoutDemo />}
         />
+        <Route path="/use-resize-observer" element={<ResizeObserverDemo />} />
         <Route
           path="/use-scroll-to-elements"
           element={<ScrollToElementsDemo />}
