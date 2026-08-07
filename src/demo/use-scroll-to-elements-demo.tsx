@@ -3,13 +3,15 @@ import { Button } from '@jbpark/ui-kit';
 import { useScrollToElements } from '../hooks';
 import Section from './Section';
 
-const code = `const { setElementRef, scrollToElement } = useScrollToElements({ offset: 16 });
+const code = `const { register, scrollTo } = useScrollToElements({ offset: 16 });
 
-<div ref={(el) => setElementRef(el, index)}>...</div>
-<button onClick={() => scrollToElement(index)}>Go</button>`;
+<div ref={register('section-1')}>...</div>
+<button onClick={() => scrollTo('section-1')}>Go</button>`;
+
+const sections = ['section-1', 'section-2', 'section-3'];
 
 const ScrollToElementsDemo = () => {
-  const { setElementRef, scrollToElement } = useScrollToElements({
+  const { register, scrollTo } = useScrollToElements({
     offset: 16,
   });
 
@@ -17,23 +19,19 @@ const ScrollToElementsDemo = () => {
     <Section
       id="use-scroll-to-elements"
       title="useScrollToElements"
-      description="Smoothly scrolls to elements managed by index."
+      description="Smoothly scrolls to elements registered by key."
       code={code}
     >
       <div className="demo-actions">
-        {[0, 1, 2].map(i => (
-          <Button key={i} onClick={() => scrollToElement(i)}>
+        {sections.map((key, i) => (
+          <Button key={key} onClick={() => scrollTo(key)}>
             Go to section {i + 1}
           </Button>
         ))}
       </div>
       <div className="demo-scroll-box">
-        {[0, 1, 2].map(i => (
-          <div
-            key={i}
-            ref={el => setElementRef(el, i)}
-            className="demo-scroll-target"
-          >
+        {sections.map((key, i) => (
+          <div key={key} ref={register(key)} className="demo-scroll-target">
             Section {i + 1} content
           </div>
         ))}
