@@ -34,7 +34,6 @@ import RecursiveTimeoutDemo from './demo/use-recursive-timeout-demo';
 import ResponsiveSizeDemo from './demo/use-responsive-size-demo';
 import ScrollToElementsDemo from './demo/use-scroll-to-elements-demo';
 import ThrottleDemo from './demo/use-throttle-demo';
-import TimelineDemo from './demo/use-timeline-demo';
 import ViewportDemo from './demo/use-viewport-demo';
 import WindowScrollDemo from './demo/use-window-scroll-demo';
 import { useLocalStorage } from './hooks';
@@ -56,7 +55,6 @@ const nav = [
   ['/use-recursive-timeout', 'useRecursiveTimeout'],
   ['/use-scroll-to-elements', 'useScrollToElements'],
   ['/use-throttle', 'useThrottle'],
-  ['/use-timeline', 'useTimeline'],
   ['/use-viewport', 'useViewport'],
   ['/use-window-scroll', 'useWindowScroll'],
 ] as const;
@@ -202,7 +200,6 @@ const App = () => {
           element={<ScrollToElementsDemo />}
         />
         <Route path="/use-throttle" element={<ThrottleDemo />} />
-        <Route path="/use-timeline" element={<TimelineDemo />} />
         <Route path="/use-viewport" element={<ViewportDemo />} />
         <Route path="/use-window-scroll" element={<WindowScrollDemo />} />
       </Route>

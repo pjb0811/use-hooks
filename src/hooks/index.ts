@@ -14,6 +14,5 @@ export { default as useMultiSelect } from './use-multi-select';
 export { default as useRecursiveTimeout } from './use-recursive-timeout';
 export { default as useScrollToElements } from './use-scroll-to-elements';
 export { default as useThrottle } from './use-throttle';
-export { default as useTimeline } from './use-timeline';
 export { default as useWindowScroll } from './use-window-scroll';
 export { default as useViewport } from './use-viewport';

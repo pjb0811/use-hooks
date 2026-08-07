@@ -286,21 +286,3 @@
 .demo-scroll-target:last-child {
   margin-bottom: 0;
 }
-
-.demo-timeline-container {
-  position: relative;
-  height: 120px;
-  overflow: hidden;
-  border-radius: 8px;
-  background: var(--muted);
-}
-
-.timeline-box {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  background: var(--primary);
-}
