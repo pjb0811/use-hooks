@@ -30,6 +30,7 @@ import FileToDataUrlDemo from './demo/use-file-to-data-url-demo';
 import HistoryStateDemo from './demo/use-history-state-demo';
 import ImageDemo from './demo/use-image-demo';
 import IntersectionObserverDemo from './demo/use-intersection-observer-demo';
+import IntervalDemo from './demo/use-interval-demo';
 import KeyPressDemo from './demo/use-key-press-demo';
 import LocalStorageDemo from './demo/use-local-storage-demo';
 import MergedRefDemo from './demo/use-merged-ref-demo';
@@ -41,6 +42,7 @@ import ResponsiveSizeDemo from './demo/use-responsive-size-demo';
 import ScrollToElementsDemo from './demo/use-scroll-to-elements-demo';
 import ThrottleDemo from './demo/use-throttle-demo';
 import ThrottledCallbackDemo from './demo/use-throttled-callback-demo';
+import TimeoutDemo from './demo/use-timeout-demo';
 import ViewportDemo from './demo/use-viewport-demo';
 import WindowScrollDemo from './demo/use-window-scroll-demo';
 import { useLocalStorage } from './hooks';
@@ -57,6 +59,7 @@ const nav = [
   ['/use-file-to-data-url', 'useFileToDataUrl'],
   ['/use-history-state', 'useHistoryState'],
   ['/use-intersection-observer', 'useIntersectionObserver'],
+  ['/use-interval', 'useInterval'],
   ['/use-responsive-size', 'useResponsiveSize'],
   ['/use-image', 'useImage'],
   ['/use-key-press', 'useKeyPress'],
@@ -69,6 +72,7 @@ const nav = [
   ['/use-scroll-to-elements', 'useScrollToElements'],
   ['/use-throttle', 'useThrottle'],
   ['/use-throttled-callback', 'useThrottledCallback'],
+  ['/use-timeout', 'useTimeout'],
   ['/use-viewport', 'useViewport'],
   ['/use-window-scroll', 'useWindowScroll'],
 ] as const;
@@ -203,6 +207,7 @@ const App = () => {
           path="/use-intersection-observer"
           element={<IntersectionObserverDemo />}
         />
+        <Route path="/use-interval" element={<IntervalDemo />} />
         <Route path="/use-responsive-size" element={<ResponsiveSizeDemo />} />
         <Route path="/use-image" element={<ImageDemo />} />
         <Route path="/use-key-press" element={<KeyPressDemo />} />
@@ -227,6 +232,7 @@ const App = () => {
           path="/use-throttled-callback"
           element={<ThrottledCallbackDemo />}
         />
+        <Route path="/use-timeout" element={<TimeoutDemo />} />
         <Route path="/use-viewport" element={<ViewportDemo />} />
         <Route path="/use-window-scroll" element={<WindowScrollDemo />} />
       </Route>
