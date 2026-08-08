@@ -1,4 +1,5 @@
 export { default as useDebounce } from './use-debounce';
+export { default as useDebouncedValue } from './use-debounced-value';
 export { default as useBodyScrollLock } from './use-body-scroll-lock';
 export { default as useClickOutside } from './use-click-outside';
 export { default as useControllableState } from './use-controllable-state';
@@ -17,5 +18,6 @@ export { default as useRecursiveTimeout } from './use-recursive-timeout';
 export { default as useResizeObserver } from './use-resize-observer';
 export { default as useScrollToElements } from './use-scroll-to-elements';
 export { default as useThrottle } from './use-throttle';
+export { default as useThrottledCallback } from './use-throttled-callback';
 export { default as useWindowScroll } from './use-window-scroll';
 export { default as useViewport } from './use-viewport';

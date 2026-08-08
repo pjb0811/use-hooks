@@ -22,6 +22,7 @@ import BodyScrollLockDemo from './demo/use-body-scroll-lock-demo';
 import ClickOutsideDemo from './demo/use-click-outside-demo';
 import ControllableStateDemo from './demo/use-controllable-state-demo';
 import DebounceDemo from './demo/use-debounce-demo';
+import DebouncedValueDemo from './demo/use-debounced-value-demo';
 import ElementPositionDemo from './demo/use-element-position-demo';
 import ElementScrollDemo from './demo/use-element-scroll-demo';
 import FileToDataUrlDemo from './demo/use-file-to-data-url-demo';
@@ -37,12 +38,14 @@ import ResizeObserverDemo from './demo/use-resize-observer-demo';
 import ResponsiveSizeDemo from './demo/use-responsive-size-demo';
 import ScrollToElementsDemo from './demo/use-scroll-to-elements-demo';
 import ThrottleDemo from './demo/use-throttle-demo';
+import ThrottledCallbackDemo from './demo/use-throttled-callback-demo';
 import ViewportDemo from './demo/use-viewport-demo';
 import WindowScrollDemo from './demo/use-window-scroll-demo';
 import { useLocalStorage } from './hooks';
 
 const nav = [
   ['/use-debounce', 'useDebounce'],
+  ['/use-debounced-value', 'useDebouncedValue'],
   ['/use-body-scroll-lock', 'useBodyScrollLock'],
   ['/use-click-outside', 'useClickOutside'],
   ['/use-controllable-state', 'useControllableState'],
@@ -61,6 +64,7 @@ const nav = [
   ['/use-resize-observer', 'useResizeObserver'],
   ['/use-scroll-to-elements', 'useScrollToElements'],
   ['/use-throttle', 'useThrottle'],
+  ['/use-throttled-callback', 'useThrottledCallback'],
   ['/use-viewport', 'useViewport'],
   ['/use-window-scroll', 'useWindowScroll'],
 ] as const;
@@ -179,6 +183,7 @@ const App = () => {
       <Route element={<Layout />}>
         <Route index element={<Navigate to="/use-debounce" replace />} />
         <Route path="/use-debounce" element={<DebounceDemo />} />
+        <Route path="/use-debounced-value" element={<DebouncedValueDemo />} />
         <Route path="/use-body-scroll-lock" element={<BodyScrollLockDemo />} />
         <Route path="/use-click-outside" element={<ClickOutsideDemo />} />
         <Route
@@ -212,6 +217,10 @@ const App = () => {
           element={<ScrollToElementsDemo />}
         />
         <Route path="/use-throttle" element={<ThrottleDemo />} />
+        <Route
+          path="/use-throttled-callback"
+          element={<ThrottledCallbackDemo />}
+        />
         <Route path="/use-viewport" element={<ViewportDemo />} />
         <Route path="/use-window-scroll" element={<WindowScrollDemo />} />
       </Route>

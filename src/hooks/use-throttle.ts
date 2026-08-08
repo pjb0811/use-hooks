@@ -1,48 +1,27 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const useThrottle = <T>(value: T, delay = 100): T => {
+import useThrottledCallback from './use-throttled-callback';
+
+interface Options {
+  leading?: boolean;
+  trailing?: boolean;
+}
+
+const useThrottle = <T>(value: T, delay = 100, options: Options = {}): T => {
   const [throttledValue, setThrottledValue] = useState(value);
-  const lastExecutedRef = useRef(0);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const latestValueRef = useRef(value);
+
+  const throttledSetValue = useThrottledCallback(
+    setThrottledValue,
+    delay,
+    options,
+  );
 
   useEffect(() => {
-    latestValueRef.current = value;
-  }, [value]);
-
-  useEffect(() => {
-    const now = Date.now();
-    const elapsed = now - lastExecutedRef.current;
-
-    if (elapsed >= delay) {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-
-      lastExecutedRef.current = now;
-      setThrottledValue(latestValueRef.current);
-      return;
-    }
-
-    const remaining = delay - elapsed;
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = setTimeout(() => {
-      lastExecutedRef.current = Date.now();
-      setThrottledValue(latestValueRef.current);
-    }, remaining);
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-    };
-  }, [value, delay]);
+    throttledSetValue(value);
+    // `throttledSetValue`'s identity is stable for the lifetime of the
+    // component (see useThrottledCallback), so listing it here doesn't
+    // cause any extra re-runs beyond `value` actually changing.
+  }, [value, throttledSetValue]);
 
   return throttledValue;
 };
