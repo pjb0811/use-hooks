@@ -24,6 +24,7 @@ import ControllableStateDemo from './demo/use-controllable-state-demo';
 import DebounceDemo from './demo/use-debounce-demo';
 import ElementPositionDemo from './demo/use-element-position-demo';
 import ElementScrollDemo from './demo/use-element-scroll-demo';
+import FileDropDemo from './demo/use-file-drop-demo';
 import FileToDataUrlDemo from './demo/use-file-to-data-url-demo';
 import HistoryStateDemo from './demo/use-history-state-demo';
 import ImageDemo from './demo/use-image-demo';
@@ -48,6 +49,7 @@ const nav = [
   ['/use-controllable-state', 'useControllableState'],
   ['/use-element-position', 'useElementPosition'],
   ['/use-element-scroll', 'useElementScroll'],
+  ['/use-file-drop', 'useFileDrop'],
   ['/use-file-to-data-url', 'useFileToDataUrl'],
   ['/use-history-state', 'useHistoryState'],
   ['/use-intersection-observer', 'useIntersectionObserver'],
@@ -187,6 +189,7 @@ const App = () => {
         />
         <Route path="/use-element-position" element={<ElementPositionDemo />} />
         <Route path="/use-element-scroll" element={<ElementScrollDemo />} />
+        <Route path="/use-file-drop" element={<FileDropDemo />} />
         <Route path="/use-file-to-data-url" element={<FileToDataUrlDemo />} />
         <Route path="/use-history-state" element={<HistoryStateDemo />} />
         <Route

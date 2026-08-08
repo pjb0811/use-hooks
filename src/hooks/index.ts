@@ -4,6 +4,7 @@ export { default as useClickOutside } from './use-click-outside';
 export { default as useControllableState } from './use-controllable-state';
 export { default as useElementPosition } from './use-element-position';
 export { default as useElementScroll } from './use-element-scroll';
+export { default as useFileDrop } from './use-file-drop';
 export { default as useFileToDataUrl } from './use-file-to-data-url';
 export { default as useHistoryState } from './use-history-state';
 export { default as useIntersectionObserver } from './use-intersection-observer';
