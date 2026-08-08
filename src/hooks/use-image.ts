@@ -9,7 +9,7 @@ const useImage = (src: string, options: Options = {}) => {
   const { retryCount = 0, retryDelay = 1000 } = options;
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | Event | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [attemptCount, setAttemptCount] = useState(0);
   const [reloadToken, setReloadToken] = useState(0);
@@ -39,13 +39,18 @@ const useImage = (src: string, options: Options = {}) => {
       setError(null);
     };
 
-    img.onerror = err => {
+    img.onerror = event => {
       if (cancelled) {
         return;
       }
       setLoading(false);
       setLoaded(false);
-      setError(err);
+      // `img.onerror`'s handler type is `OnErrorEventHandler`, so `event`
+      // is typed `Event | string` even though the browser only ever
+      // passes an `Event` here — that `Event` carries no useful failure
+      // reason itself, so it's kept as `cause` rather than surfaced
+      // directly as `error`.
+      setError(new Error(`Failed to load image: ${src}`, { cause: event }));
 
       if (attemptCount < retryCount) {
         retryTimeoutId = setTimeout(() => {
@@ -76,6 +81,7 @@ const useImage = (src: string, options: Options = {}) => {
     error,
     loaded,
     retry,
+    attemptCount,
   };
 };
 
