@@ -28,6 +28,7 @@ import FileToDataUrlDemo from './demo/use-file-to-data-url-demo';
 import HistoryStateDemo from './demo/use-history-state-demo';
 import ImageDemo from './demo/use-image-demo';
 import IntersectionObserverDemo from './demo/use-intersection-observer-demo';
+import KeyPressDemo from './demo/use-key-press-demo';
 import LocalStorageDemo from './demo/use-local-storage-demo';
 import MergedRefDemo from './demo/use-merged-ref-demo';
 import MultiSelectDemo from './demo/use-multi-select-demo';
@@ -53,6 +54,7 @@ const nav = [
   ['/use-intersection-observer', 'useIntersectionObserver'],
   ['/use-responsive-size', 'useResponsiveSize'],
   ['/use-image', 'useImage'],
+  ['/use-key-press', 'useKeyPress'],
   ['/use-local-storage', 'useLocalStorage'],
   ['/use-merged-ref', 'useMergedRef'],
   ['/use-multi-select', 'useMultiSelect'],
@@ -195,6 +197,7 @@ const App = () => {
         />
         <Route path="/use-responsive-size" element={<ResponsiveSizeDemo />} />
         <Route path="/use-image" element={<ImageDemo />} />
+        <Route path="/use-key-press" element={<KeyPressDemo />} />
         <Route path="/use-local-storage" element={<LocalStorageDemo />} />
         <Route path="/use-merged-ref" element={<MergedRefDemo />} />
         <Route path="/use-multi-select" element={<MultiSelectDemo />} />
