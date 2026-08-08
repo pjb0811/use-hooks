@@ -25,6 +25,7 @@ import DebounceDemo from './demo/use-debounce-demo';
 import DebouncedValueDemo from './demo/use-debounced-value-demo';
 import ElementPositionDemo from './demo/use-element-position-demo';
 import ElementScrollDemo from './demo/use-element-scroll-demo';
+import EventListenerDemo from './demo/use-event-listener-demo';
 import FileDropDemo from './demo/use-file-drop-demo';
 import FileToDataUrlDemo from './demo/use-file-to-data-url-demo';
 import HistoryStateDemo from './demo/use-history-state-demo';
@@ -36,6 +37,7 @@ import LocalStorageDemo from './demo/use-local-storage-demo';
 import MergedRefDemo from './demo/use-merged-ref-demo';
 import MultiSelectDemo from './demo/use-multi-select-demo';
 import MutationObserverDemo from './demo/use-mutation-observer-demo';
+import PreviousDemo from './demo/use-previous-demo';
 import RecursiveTimeoutDemo from './demo/use-recursive-timeout-demo';
 import ResizeObserverDemo from './demo/use-resize-observer-demo';
 import ResponsiveSizeDemo from './demo/use-responsive-size-demo';
@@ -43,6 +45,7 @@ import ScrollToElementsDemo from './demo/use-scroll-to-elements-demo';
 import ThrottleDemo from './demo/use-throttle-demo';
 import ThrottledCallbackDemo from './demo/use-throttled-callback-demo';
 import TimeoutDemo from './demo/use-timeout-demo';
+import ToggleDemo from './demo/use-toggle-demo';
 import ViewportDemo from './demo/use-viewport-demo';
 import WindowScrollDemo from './demo/use-window-scroll-demo';
 import { useLocalStorage } from './hooks';
@@ -55,6 +58,7 @@ const nav = [
   ['/use-controllable-state', 'useControllableState'],
   ['/use-element-position', 'useElementPosition'],
   ['/use-element-scroll', 'useElementScroll'],
+  ['/use-event-listener', 'useEventListener'],
   ['/use-file-drop', 'useFileDrop'],
   ['/use-file-to-data-url', 'useFileToDataUrl'],
   ['/use-history-state', 'useHistoryState'],
@@ -67,12 +71,14 @@ const nav = [
   ['/use-merged-ref', 'useMergedRef'],
   ['/use-multi-select', 'useMultiSelect'],
   ['/use-mutation-observer', 'useMutationObserver'],
+  ['/use-previous', 'usePrevious'],
   ['/use-recursive-timeout', 'useRecursiveTimeout'],
   ['/use-resize-observer', 'useResizeObserver'],
   ['/use-scroll-to-elements', 'useScrollToElements'],
   ['/use-throttle', 'useThrottle'],
   ['/use-throttled-callback', 'useThrottledCallback'],
   ['/use-timeout', 'useTimeout'],
+  ['/use-toggle', 'useToggle'],
   ['/use-viewport', 'useViewport'],
   ['/use-window-scroll', 'useWindowScroll'],
 ] as const;
@@ -200,6 +206,7 @@ const App = () => {
         />
         <Route path="/use-element-position" element={<ElementPositionDemo />} />
         <Route path="/use-element-scroll" element={<ElementScrollDemo />} />
+        <Route path="/use-event-listener" element={<EventListenerDemo />} />
         <Route path="/use-file-drop" element={<FileDropDemo />} />
         <Route path="/use-file-to-data-url" element={<FileToDataUrlDemo />} />
         <Route path="/use-history-state" element={<HistoryStateDemo />} />
@@ -218,6 +225,7 @@ const App = () => {
           path="/use-mutation-observer"
           element={<MutationObserverDemo />}
         />
+        <Route path="/use-previous" element={<PreviousDemo />} />
         <Route
           path="/use-recursive-timeout"
           element={<RecursiveTimeoutDemo />}
@@ -233,6 +241,7 @@ const App = () => {
           element={<ThrottledCallbackDemo />}
         />
         <Route path="/use-timeout" element={<TimeoutDemo />} />
+        <Route path="/use-toggle" element={<ToggleDemo />} />
         <Route path="/use-viewport" element={<ViewportDemo />} />
         <Route path="/use-window-scroll" element={<WindowScrollDemo />} />
       </Route>
