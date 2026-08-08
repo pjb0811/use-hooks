@@ -10,6 +10,7 @@ export { default as useHistoryState } from './use-history-state';
 export { default as useIntersectionObserver } from './use-intersection-observer';
 export { default as useResponsiveSize } from './use-responsive-size';
 export { default as useImage } from './use-image';
+export { default as useKeyPress } from './use-key-press';
 export { default as useLocalStorage } from './use-local-storage';
 export { default as useMergedRef } from './use-merged-ref';
 export { default as useMultiSelect } from './use-multi-select';
