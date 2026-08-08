@@ -1,5 +1,146 @@
 # Changelog
 
+## 3.0.0
+
+### Major Changes
+
+- 398a0e0: `useImage`'s `error` is now a real `Error` instead of `string | Event | null` — the `string` branch was never actually set (a leftover from `OnErrorEventHandler`'s type, not real behavior), and a bare `Event` carries no useful failure reason. The original event is attached as `error.cause` if you need it.
+
+  Also exposes `attemptCount` (previously internal-only state) for building retry UI.
+
+  ```ts
+  // before
+  const { loading, error, loaded, retry } = useImage(src, { retryCount: 1 });
+  // error: string | Event | null
+  
+  // after
+  const { loading, error, loaded, retry, attemptCount } = useImage(src, {
+    retryCount: 1,
+  });
+  // error: Error | null, error.message is a real description, error.cause is the original event
+  ```
+
+- 175cc8d: Removed `useTimeline`. It had zero consumers across both apps that depend on this library, was by far the largest hook (self-contained animation DSL driving inline styles via DOM selectors, plus a global, irreversible `CSS.registerProperty` registration), and duplicated capabilities already covered by GSAP/motion in those apps. If you were importing it directly, pin to `2.x` or bring the implementation into your own project.
+- b1a3f99: Redesigned `useScrollToElements`'s API from index-based registration (`elementRefs`/`setElementRef(el, index)`/`scrollToElement(index)`) to key-based (`register(key)`/`scrollTo(key, options)`):
+  - String keys instead of array indices — no more mismatches when a list is reordered/filtered, and no leftover `null` holes when an item is removed (registration is now a `Map`, cleaned up automatically on unmount).
+  - `elementRefs` is no longer exposed — it was a leaked implementation detail.
+  - Options can now be passed per-call to `scrollTo`, not just once at the hook level.
+  - The `offset` scroll path no longer assumes `window` is the scrolling container — pass `container` (an element or ref) to scroll a modal's own scrollable body, an iframe's body, etc. instead.
+
+  ```ts
+  // before
+  const { setElementRef, scrollToElement } = useScrollToElements({ offset: 16 });
+  <div ref={el => setElementRef(el, index)} />;
+  scrollToElement(index);
+  
+  // after
+  const { register, scrollTo } = useScrollToElements({ offset: 16 });
+  <div ref={register('section-1')} />;
+  scrollTo('section-1');
+  ```
+
+- f75d003: Redesigned `useClickOutside` to take the "inside" ref(s) as an argument instead of creating and returning one:
+  - Accepts a single ref or an array of refs — lets you exclude both a trigger element and a separately-mounted panel (e.g. a portaled dropdown/popover), which fixes the classic bug where clicking the trigger to close something re-opens it because the trigger itself registers as an "outside" click.
+  - Switched the default listened event from `mousedown` + `touchstart` (which can double-fire a handler on touch devices) to `pointerdown` alone; still configurable via the new `events` option.
+  - Added an `escape` option (default `true`) to also close on the Escape key.
+
+  ```ts
+  // before
+  const ref = useClickOutside<HTMLDivElement>(() => setOpen(false), open);
+  <div ref={ref} />
+  
+  // after
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  useClickOutside([triggerRef, panelRef], () => setOpen(false), { enabled: open });
+  <button ref={triggerRef} />
+  <div ref={panelRef} />
+  ```
+
+- d851c93: Redesigned `useIntersectionObserver`'s return shape and added missing capabilities:
+  - Returns `[ref, { entry, isIntersecting }]` instead of `[ref, entry]` — nearly every consumer only read `entry?.isIntersecting` anyway (ui-kit's infinite scroll included).
+  - Added `freezeOnceVisible` — disconnects for good the first time the target becomes intersecting, covering the common "seen once, that's enough" case (lazy loading, entrance animations, infinite-scroll triggers) that previously needed the consumer to track their own "already fired" flag.
+  - `options` (threshold/rootMargin/root) is now actually reactive — previously captured once and never reconnected, so it could never be changed at runtime despite looking like a normal prop.
+
+  ```ts
+  // before
+  const [ref, entry] = useIntersectionObserver({ threshold: 0.5 });
+  entry?.isIntersecting;
+  
+  // after
+  const [ref, { isIntersecting }] = useIntersectionObserver({
+    threshold: 0.5,
+    freezeOnceVisible: true,
+  });
+  ```
+
+### Minor Changes
+
+- 43f5a21: Added `useDebouncedValue(value, delay)` and `useThrottledCallback(callback, delay, options)`, rounding out the value/callback pairing for both debounce and throttle:
+  - `useDebouncedValue` is the value-shaped counterpart to `useDebounce` (which is callback-shaped), symmetric with `useThrottle`'s `(value, delay) => value` signature — the common "just give me the debounced value" case previously needed two pieces of state and an effect built on `useDebounce` by hand.
+  - `useThrottledCallback` throttles a callback directly instead of a value, with `leading`/`trailing` options (both default `true`).
+  - `useThrottle` also gains the same optional `leading`/`trailing` options (defaulting to its existing fixed behavior) — it's now implemented on top of `useThrottledCallback` internally instead of duplicating the same windowing logic a second time.
+
+- a28a574: Added `useEventListener`, `usePrevious`, and `useToggle` — following the issue's recommended order (these first since the other small-utility candidates, `useForceUpdate`/`useIsMounted`, don't build on them the way the rest of this library does).
+
+  ```ts
+  useEventListener('resize', () => setWidth(window.innerWidth));
+  useEventListener('error', onError, { target: window, capture: true });
+  
+  const previous = usePrevious(value);
+  
+  const [open, toggle, setOpen] = useToggle(false);
+  ```
+
+  - `useEventListener` resolves `target` (default `window`, or a `RefObject`/raw `EventTarget`) and (de)registers the listener — the addEventListener/removeEventListener pair duplicated across ui-kit (marquee item) and live-editor (error handlers). Handler is read through a ref so a fresh function every render doesn't tear down and re-add it.
+  - `usePrevious` returns the value from the previous render, for comparisons like detecting a false-to-true transition.
+  - `useToggle` is the boolean-toggle-with-a-direct-setter shape ui-kit's dropdown/collapse/drawer/modal all reimplement.
+
+- f6df4cb: Added `useFileDrop`, pairing with `useFileToDataUrl` to cover a drag-and-drop upload area end to end:
+
+  ```ts
+  const { dropRef, isDragging } = useFileDrop({
+    onDrop: files => addFiles(files),
+    accept: 'image/*',
+    multiple: true,
+    disabled,
+  });
+  ```
+
+  - `isDragging` is tracked with an enter/leave counter rather than a plain boolean, since `dragleave` also fires when the pointer moves onto a child element — a plain boolean would flicker `isDragging` off and back on as the pointer crosses child boundaries.
+  - `accept` filters dropped files using the same format as the native `<input accept>` attribute (extensions, MIME types, or wildcard subtypes like `image/*`).
+  - `multiple: false` truncates to the first accepted file.
+
+- e748350: Added `useKeyPress`, binding a key combo to a handler:
+
+  ```ts
+  useKeyPress('Escape', () => setOpen(false));
+  useKeyPress(['Enter', ' '], handleSelect, { preventDefault: true });
+  useKeyPress('mod+z', undo, { ignore: '.cm-editor' });
+  ```
+
+  - Accepts a single combo or an array, e.g. `'mod+shift+z'` or `['Enter', ' ']`. `mod` normalizes to Cmd on macOS / Ctrl elsewhere.
+  - Modifiers not named in a combo are required to be _absent_, not just ignored, so `'mod+z'` and `'mod+shift+z'` registered as separate bindings only ever fire one of them for a given keypress.
+  - `target` (default `window`), `enabled`, `preventDefault`, and `ignore` (a CSS selector — skip keydowns whose target is inside a matching element, e.g. a code editor with its own undo) options.
+
+- 80cf67b: Added `useMergedRef`, merging any number of refs (forwarded function refs, `RefObject`s, or `null`/`undefined`) into a single callback ref. Handles React 19's optional per-ref cleanup return value.
+- cac1a83: Added `useResizeObserver` and `useMutationObserver`.
+
+  `useResizeObserver` returns a `[ref, size]` tuple (same convention as `useIntersectionObserver`) reporting an element's own width/height — the unprocessed primitive behind `useResponsiveSize`/`useElementScroll`/`useElementPosition`, which each shape the value for their own purpose instead of exposing it directly.
+
+  `useMutationObserver(target, callback, options)` takes its target directly — a `RefObject`, or a plain `Node` like `document.head` that isn't behind any React ref — and reads `callback` through a ref so passing a fresh inline function every render doesn't tear down and resubscribe the observer.
+
+- 081e563: Added `useTimeout` and `useInterval` — the basic single-shot and repeating timer hooks this library was missing (only the polling-oriented `useRecursiveTimeout` existed before).
+
+  Both treat `delay === null` as "inactive" and `0` as a valid delay, same rule `useRecursiveTimeout` follows — a bare `if (!delay)` guard is the classic bug this exists to avoid, since it silently no-ops for a delay of `0` too. Both read their callback through a ref, so a fresh function every render doesn't reset the timer.
+
+  ```ts
+  const { reset, clear } = useTimeout(() => setOpen(false), open ? 2000 : null);
+  useInterval(() => setCount(c => c + 1), running ? 1000 : null);
+  ```
+
+  `useTimeout` additionally returns `reset`/`clear` for imperative control — e.g. pausing a toast's auto-dismiss while hovered, then restarting it on mouse leave.
+
 ## 2.11.0
 
 ### Minor Changes
