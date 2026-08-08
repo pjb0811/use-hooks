@@ -32,26 +32,33 @@ jobs:
         with:
           node-version: 24.x
 
-      # Only draft once per PR — if a changeset already exists (hand-written
-      # under any filename, or from an earlier run of this workflow on this
-      # PR), leave it alone rather than overwriting a human's edits on
-      # every subsequent push. Checks for *any* changeset file, not just
-      # one literally named pr-<PR#>.md — a hand-written one under a
-      # different name used to go unrecognized, so this kept re-drafting
-      # (and overwriting) it on every push.
+      # Only draft once per PR — if a changeset already exists for *this
+      # branch* (hand-written, or from an earlier run of this workflow on
+      # this PR), leave it alone rather than overwriting a human's edits on
+      # every subsequent push. Keyed off the branch name (slugified: `/`
+      # and other unsafe characters become `-`) rather than PR number so
+      # the check itself doubles as a human-readable filename — but the
+      # important part is that it's scoped to *this* branch specifically.
+      # An earlier version of this check looked for *any* changeset file
+      # anywhere in .changeset/, which falsely treated an older, still-
+      # unconsumed PR's changeset (one that just hadn't been released yet)
+      # as "this PR already has one" and silently skipped drafting for
+      # every PR merged after it until the next release. Scoping to this
+      # branch's own slug avoids that false positive the same way the
+      # original pr-<PR#>.md-specific check did, without losing this
+      # check's recognition of hand-written changesets under any name for
+      # *this* branch.
       - name: Check for existing changeset
         id: existing
+        env:
+          BRANCH_REF: ${{ github.event.pull_request.head.ref }}
         run: |
+          slug=$(printf '%s' "$BRANCH_REF" | tr '/' '-' | tr -c 'a-zA-Z0-9._-' '-')
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
           shopt -s nullglob
-          files=(.changeset/*.md)
+          files=(".changeset/${slug}"*.md)
           shopt -u nullglob
-          count=0
-          for f in "${files[@]}"; do
-            if [[ "$(basename "$f")" != "README.md" ]]; then
-              count=$((count + 1))
-            fi
-          done
-          if [ "$count" -gt 0 ]; then
+          if [ "${#files[@]}" -gt 0 ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
@@ -63,7 +70,7 @@ jobs:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BRANCH_SLUG: ${{ steps.existing.outputs.slug }}
         run: node .github/scripts/draft-changeset.mjs
 
       - name: Commit and push changeset
