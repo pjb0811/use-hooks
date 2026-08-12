@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.0.0
+
+### Major Changes
+
+- 28bd1ca: `useClickOutside`'s `escape` option now defaults to `false` (previously `true`). This is a behavior change for any caller relying on the 3.0.0 default: Escape no longer closes the referenced element(s) unless you pass `escape: true` explicitly.
+
+### Minor Changes
+
+- a82b668: Added retry logic for attaching event listeners to null targets, ensuring they are attached as soon as the target is available.
+- 663926f: Add human-friendly key aliases to `use-key-press` hook, allowing callers to write `'space'` instead of a literal `' '` or `'esc'` for Escape.
+- 528358f: Add support for function refs that return their own cleanup, improving compatibility with React 19.
+- 0f09c15: Add support for custom box sizing to the useResizeObserver hook, allowing users to observe the border-box or content-box size of an element.
+- 3af2f10: Add symmetric naming across debounce/throttle family, deprecate useDebounce and useThrottle in favor of useDebouncedCallback and useThrottledValue
+
 ## 3.0.0
 
 ### Major Changes
