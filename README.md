@@ -67,38 +67,38 @@ function MyComponent() {
 
 ## Available Hooks
 
-| Hook                      | Description                                                                                                      |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `useLocalStorage`         | JSON-based persistent state with error handling (SSR-safe)                                                       |
-| `useHistoryState`         | Undo/redo state management with a configurable history limit                                                     |
-| `useControllableState`    | Back a value/defaultValue/onChange prop pair with one controlled/uncontrolled state hook                         |
-| `usePrevious`             | Return a value as it was on the previous render                                                                  |
-| `useToggle`               | Boolean state with a toggle and an explicit setter                                                               |
-| `useMultiSelect`          | Checkbox-style multi-select for a list, with shift-click range selection                                         |
-| `useWindowScroll`         | Track window scroll position and percentage (iOS visualViewport compatible)                                      |
-| `useElementScroll`        | Monitor scroll state of specific elements using ResizeObserver                                                   |
-| `useElementPosition`      | Monitor element bounding rect on scroll/resize (element ref support)                                             |
-| `useResponsiveSize`       | Track element size with Tailwind-like breakpoints (debounced)                                                    |
-| `useViewport`             | visualViewport support with in-app mode option and debounce                                                      |
-| `useScrollToElements`     | Register elements by key and scroll to them by key (adjustable offset, optional container)                       |
-| `useBodyScrollLock`       | Lock/unlock body scroll with style preservation (iOS-specific handling)                                          |
-| `useIntersectionObserver` | Track viewport intersection; returns `[ref, { entry, isIntersecting }]` with optional `freezeOnceVisible`        |
-| `useResizeObserver`       | Track an element's own width/height via a callback ref (content-box or border-box)                               |
-| `useMutationObserver`     | Observe DOM mutations on a ref or a raw node (e.g. `document.head`)                                              |
-| `useEventListener`        | Add/remove an event listener on `window`, a ref, or a raw target                                                 |
-| `useClickOutside`         | Run a callback when a click/touch (or `Escape`) happens outside the referenced element(s); accepts multiple refs |
-| `useKeyPress`             | Run a callback on key combos with `mod`/`ctrl`/`meta`/`shift`/`alt` and aliases like `space`/`esc`               |
-| `useFileDrop`             | Drag-and-drop file zone with `accept`/`multiple` filtering; returns `{ dropRef, isDragging }`                    |
-| `useFileToDataUrl`        | Read a `File`/`Blob` into a data URL                                                                             |
-| `useDebounce`             | Auto-invoke a debounced callback when deps change (`leading`/`autoInvoke` options)                               |
-| `useDebouncedValue`       | Debounce a changing value to a fixed delay                                                                       |
-| `useThrottle`             | Throttle value updates to a fixed interval                                                                       |
-| `useThrottledCallback`    | Throttle a callback to a fixed interval                                                                          |
-| `useTimeout`              | Run a callback once after a delay; returns `{ reset, clear }` (`null` pauses)                                    |
-| `useInterval`             | Run a callback on an interval (`null` pauses)                                                                    |
-| `useRecursiveTimeout`     | Recursively schedule async/sync callbacks                                                                        |
-| `useMergedRef`            | Merge multiple object/callback refs into one callback ref                                                        |
-| `useImage`                | Preload an image and expose `loading`/`error` (an `Error`)/`loaded`/`attemptCount`/`retry`                       |
+| Hook                      | Description                                                                                                                           |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `useLocalStorage`         | JSON-based persistent state with error handling (SSR-safe)                                                                            |
+| `useHistoryState`         | Undo/redo state management with a configurable history limit                                                                          |
+| `useControllableState`    | Back a value/defaultValue/onChange prop pair with one controlled/uncontrolled state hook                                              |
+| `usePrevious`             | Return a value as it was on the previous render                                                                                       |
+| `useToggle`               | Boolean state with a toggle and an explicit setter                                                                                    |
+| `useMultiSelect`          | Checkbox-style multi-select for a list, with shift-click range selection                                                              |
+| `useWindowScroll`         | Track window scroll position and percentage (iOS visualViewport compatible)                                                           |
+| `useElementScroll`        | Monitor scroll state of specific elements using ResizeObserver                                                                        |
+| `useElementPosition`      | Monitor element bounding rect on scroll/resize (element ref support)                                                                  |
+| `useResponsiveSize`       | Track element size with Tailwind-like breakpoints (debounced)                                                                         |
+| `useViewport`             | visualViewport support with in-app mode option and debounce                                                                           |
+| `useScrollToElements`     | Register elements by key and scroll to them by key (adjustable offset, optional container)                                            |
+| `useBodyScrollLock`       | Lock/unlock body scroll with style preservation (iOS-specific handling)                                                               |
+| `useIntersectionObserver` | Track viewport intersection; returns `[ref, { entry, isIntersecting }]` with optional `freezeOnceVisible`                             |
+| `useResizeObserver`       | Track an element's own width/height via a callback ref (content-box or border-box)                                                    |
+| `useMutationObserver`     | Observe DOM mutations on a ref or a raw node (e.g. `document.head`)                                                                   |
+| `useEventListener`        | Add/remove an event listener on `window`, a ref, or a raw target                                                                      |
+| `useClickOutside`         | Run a callback when a click/touch (or `Escape`, opt-in via `escape`) happens outside the referenced element(s); accepts multiple refs |
+| `useKeyPress`             | Run a callback on key combos with `mod`/`ctrl`/`meta`/`shift`/`alt` and aliases like `space`/`esc`                                    |
+| `useFileDrop`             | Drag-and-drop file zone with `accept`/`multiple` filtering; returns `{ dropRef, isDragging }`                                         |
+| `useFileToDataUrl`        | Read a `File`/`Blob` into a data URL                                                                                                  |
+| `useDebounce`             | Auto-invoke a debounced callback when deps change (`leading`/`autoInvoke` options)                                                    |
+| `useDebouncedValue`       | Debounce a changing value to a fixed delay                                                                                            |
+| `useThrottle`             | Throttle value updates to a fixed interval                                                                                            |
+| `useThrottledCallback`    | Throttle a callback to a fixed interval                                                                                               |
+| `useTimeout`              | Run a callback once after a delay; returns `{ reset, clear }` (`null` pauses)                                                         |
+| `useInterval`             | Run a callback on an interval (`null` pauses)                                                                                         |
+| `useRecursiveTimeout`     | Recursively schedule async/sync callbacks                                                                                             |
+| `useMergedRef`            | Merge multiple object/callback refs into one callback ref                                                                             |
+| `useImage`                | Preload an image and expose `loading`/`error` (an `Error`)/`loaded`/`attemptCount`/`retry`                                            |
 
 ## Migrating from v2
 

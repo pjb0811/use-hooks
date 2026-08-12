@@ -22,7 +22,8 @@ its API is unchanged.
 
 Now takes the "inside" ref(s) as an argument instead of creating and returning
 one. This lets you exclude both a trigger and a separately-mounted panel (e.g. a
-portaled dropdown), and adds an `escape` option (default `true`).
+portaled dropdown), and adds an opt-in `escape` option (default `false`) to
+also close on the Escape key.
 
 ```tsx
 // v2
