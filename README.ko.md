@@ -100,6 +100,11 @@ function MyComponent() {
 | `useMergedRef`            | 여러 객체/콜백 ref를 하나의 콜백 ref로 병합                                         |
 | `useImage`                | 이미지 사전로드 및 `loading`/`error`(`Error`)/`loaded`/`attemptCount`/`retry` 노출  |
 
+## v2에서 마이그레이션
+
+v3.0.0은 breaking change가 여럿 포함된 메이저 릴리스입니다. 전후 예제는
+[마이그레이션 가이드](./MIGRATION.ko.md)를 참고하세요.
+
 ## 개발
 
 ```bash

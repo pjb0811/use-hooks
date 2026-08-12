@@ -100,6 +100,11 @@ function MyComponent() {
 | `useMergedRef`            | Merge multiple object/callback refs into one callback ref                                                        |
 | `useImage`                | Preload an image and expose `loading`/`error` (an `Error`)/`loaded`/`attemptCount`/`retry`                       |
 
+## Migrating from v2
+
+v3.0.0 is a major release with several breaking changes. See the
+[Migration Guide](./MIGRATION.md) for before/after examples.
+
 ## Development
 
 ```bash
