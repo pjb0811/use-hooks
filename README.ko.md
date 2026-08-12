@@ -67,38 +67,38 @@ function MyComponent() {
 
 ## 사용 가능한 훅
 
-| 훅                        | 설명                                                                                      |
-| ------------------------- | ----------------------------------------------------------------------------------------- |
-| `useLocalStorage`         | 에러 핸들링이 포함된 JSON 기반 영속 상태 (SSR 안전)                                       |
-| `useHistoryState`         | 히스토리 개수 제한을 설정할 수 있는 실행 취소/다시 실행 상태 관리                         |
-| `useControllableState`    | value/defaultValue/onChange prop 조합을 훅 하나로 제어/비제어 상태 관리                   |
-| `usePrevious`             | 이전 렌더 시점의 값을 반환                                                                |
-| `useToggle`               | 토글 함수와 명시적 setter를 제공하는 불리언 상태                                          |
-| `useMultiSelect`          | shift-클릭 범위 선택을 지원하는 체크박스 스타일 다중 선택                                 |
-| `useWindowScroll`         | 윈도우 스크롤 위치 및 백분율 추적 (iOS visualViewport 대응)                               |
-| `useElementScroll`        | ResizeObserver를 사용한 특정 요소의 스크롤 상태 추적                                      |
-| `useElementPosition`      | 스크롤/리사이즈 시 요소의 바운딩 렉트 모니터링 (요소 참조 지원)                           |
-| `useResponsiveSize`       | Tailwind 유사 브레이크포인트를 포함한 요소 크기 추적 (debounce)                           |
-| `useViewport`             | visualViewport 지원, 인앱 모드 옵션, debounce 포함                                        |
-| `useScrollToElements`     | 키로 요소를 등록하고 키로 스크롤 (오프셋 조절, 컨테이너 지정 가능)                        |
-| `useBodyScrollLock`       | 스타일 보존을 포함한 바디 스크롤 잠금/해제 (iOS 특별 처리)                                |
-| `useIntersectionObserver` | 뷰포트 교차 추적, `[ref, { entry, isIntersecting }]` 반환, `freezeOnceVisible` 옵션       |
-| `useResizeObserver`       | 콜백 ref로 요소 자체의 너비/높이 추적 (content-box/border-box)                            |
-| `useMutationObserver`     | ref 또는 raw 노드(예: `document.head`)의 DOM 변경 관측                                    |
-| `useEventListener`        | `window`, ref, raw 타겟에 이벤트 리스너 등록/해제                                         |
-| `useClickOutside`         | 참조한 요소(들) 바깥 클릭/터치 또는 `Escape` 시 콜백 실행, 다중 ref 지원                  |
-| `useKeyPress`             | `mod`/`ctrl`/`meta`/`shift`/`alt` 조합과 `space`/`esc` 별칭으로 키 콜백 실행              |
-| `useFileDrop`             | `accept`/`multiple` 필터링을 갖춘 드래그앤드롭 존, `{ dropRef, isDragging }` 반환         |
-| `useFileToDataUrl`        | `File`/`Blob`을 data URL로 변환                                                           |
-| `useDebouncedCallback`    | deps 변경 시 debounce된 콜백 자동 실행 (`leading`/`autoInvoke` 옵션); 별칭: `useDebounce` |
-| `useDebouncedValue`       | 변하는 값을 일정 지연으로 debounce                                                        |
-| `useThrottledValue`       | 값 업데이트를 일정 간격으로 제한; 별칭: `useThrottle`                                     |
-| `useThrottledCallback`    | 콜백을 일정 간격으로 제한                                                                 |
-| `useTimeout`              | 지연 후 콜백 1회 실행, `{ reset, clear }` 반환 (`null`이면 일시정지)                      |
-| `useInterval`             | 일정 간격으로 콜백 실행 (`null`이면 일시정지)                                             |
-| `useRecursiveTimeout`     | 비동기/동기 콜백을 재귀적으로 스케줄링                                                    |
-| `useMergedRef`            | 여러 객체/콜백 ref를 하나의 콜백 ref로 병합                                               |
-| `useImage`                | 이미지 사전로드 및 `loading`/`error`(`Error`)/`loaded`/`attemptCount`/`retry` 노출        |
+| 훅                        | 설명                                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------- |
+| `useLocalStorage`         | 에러 핸들링이 포함된 JSON 기반 영속 상태 (SSR 안전)                                         |
+| `useHistoryState`         | 히스토리 개수 제한을 설정할 수 있는 실행 취소/다시 실행 상태 관리                           |
+| `useControllableState`    | value/defaultValue/onChange prop 조합을 훅 하나로 제어/비제어 상태 관리                     |
+| `usePrevious`             | 이전 렌더 시점의 값을 반환                                                                  |
+| `useToggle`               | 토글 함수와 명시적 setter를 제공하는 불리언 상태                                            |
+| `useMultiSelect`          | shift-클릭 범위 선택을 지원하는 체크박스 스타일 다중 선택                                   |
+| `useWindowScroll`         | 윈도우 스크롤 위치 및 백분율 추적 (iOS visualViewport 대응)                                 |
+| `useElementScroll`        | ResizeObserver를 사용한 특정 요소의 스크롤 상태 추적                                        |
+| `useElementPosition`      | 스크롤/리사이즈 시 요소의 바운딩 렉트 모니터링 (요소 참조 지원)                             |
+| `useResponsiveSize`       | Tailwind 유사 브레이크포인트를 포함한 요소 크기 추적 (debounce)                             |
+| `useViewport`             | visualViewport 지원, 인앱 모드 옵션, debounce 포함                                          |
+| `useScrollToElements`     | 키로 요소를 등록하고 키로 스크롤 (오프셋 조절, 컨테이너 지정 가능)                          |
+| `useBodyScrollLock`       | 스타일 보존을 포함한 바디 스크롤 잠금/해제 (iOS 특별 처리)                                  |
+| `useIntersectionObserver` | 뷰포트 교차 추적, `[ref, { entry, isIntersecting }]` 반환, `freezeOnceVisible` 옵션         |
+| `useResizeObserver`       | 콜백 ref로 요소 자체의 너비/높이 추적 (content-box/border-box)                              |
+| `useMutationObserver`     | ref 또는 raw 노드(예: `document.head`)의 DOM 변경 관측                                      |
+| `useEventListener`        | `window`, ref, raw 타겟에 이벤트 리스너 등록/해제                                           |
+| `useClickOutside`         | 참조한 요소(들) 바깥 클릭/터치(또는 opt-in `escape`로 `Escape`) 시 콜백 실행, 다중 ref 지원 |
+| `useKeyPress`             | `mod`/`ctrl`/`meta`/`shift`/`alt` 조합과 `space`/`esc` 별칭으로 키 콜백 실행                |
+| `useFileDrop`             | `accept`/`multiple` 필터링을 갖춘 드래그앤드롭 존, `{ dropRef, isDragging }` 반환           |
+| `useFileToDataUrl`        | `File`/`Blob`을 data URL로 변환                                                             |
+| `useDebouncedCallback`    | deps 변경 시 debounce된 콜백 자동 실행 (`leading`/`autoInvoke` 옵션); 별칭: `useDebounce`   |
+| `useDebouncedValue`       | 변하는 값을 일정 지연으로 debounce                                                          |
+| `useThrottledValue`       | 값 업데이트를 일정 간격으로 제한; 별칭: `useThrottle`                                       |
+| `useThrottledCallback`    | 콜백을 일정 간격으로 제한                                                                   |
+| `useTimeout`              | 지연 후 콜백 1회 실행, `{ reset, clear }` 반환 (`null`이면 일시정지)                        |
+| `useInterval`             | 일정 간격으로 콜백 실행 (`null`이면 일시정지)                                               |
+| `useRecursiveTimeout`     | 비동기/동기 콜백을 재귀적으로 스케줄링                                                      |
+| `useMergedRef`            | 여러 객체/콜백 ref를 하나의 콜백 ref로 병합                                                 |
+| `useImage`                | 이미지 사전로드 및 `loading`/`error`(`Error`)/`loaded`/`attemptCount`/`retry` 노출          |
 
 ## v2에서 마이그레이션
 

@@ -19,7 +19,11 @@ const useClickOutside = (
   handler: (event: ClickOutsideEvent) => void,
   options: Options = {},
 ) => {
-  const { enabled = true, events = ['pointerdown'], escape = true } = options;
+  // `escape` is opt-in (default `false`): the hook is named for clicks, and
+  // an always-on Escape handler both surprises callers who already handle
+  // Escape themselves (double-fire) and closes every layer at once in
+  // nested UI (a dropdown inside a modal). Turn it on where you want it.
+  const { enabled = true, events = ['pointerdown'], escape = false } = options;
 
   const handlerRef = useRef(handler);
 
