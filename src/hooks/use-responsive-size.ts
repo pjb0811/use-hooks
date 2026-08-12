@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 
-import useDebounce from './use-debounce';
+import useDebouncedCallback from './use-debounced-callback';
 
 type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
@@ -125,9 +125,12 @@ const useResponsiveSize = <T extends HTMLElement>(options?: Options) => {
     );
   }, []);
 
-  // Manual invocation only (`autoInvoke: false`) — reuses useDebounce's
-  // debounced-callback machinery instead of duplicating it here.
-  const debouncedCommit = useDebounce(commit, { delay, autoInvoke: false });
+  // Manual invocation only (`autoInvoke: false`) — reuses
+  // useDebouncedCallback's machinery instead of duplicating it here.
+  const debouncedCommit = useDebouncedCallback(commit, {
+    delay,
+    autoInvoke: false,
+  });
 
   // Measure synchronously before paint so the very first render reflects
   // the real size/breakpoint instead of the `{0,0}`/`xs` placeholder —

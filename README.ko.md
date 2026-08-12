@@ -36,7 +36,7 @@ pnpm add @jbpark/use-hooks
 import {
   useLocalStorage,
   useResponsiveSize,
-  useThrottle,
+  useThrottledValue,
   useWindowScroll,
 } from '@jbpark/use-hooks';
 
@@ -51,7 +51,7 @@ function MyComponent() {
   const { size, breakpoint, ref } = useResponsiveSize();
 
   // 너비 업데이트를 스로틀링
-  const throttledWidth = useThrottle(size.width, 200);
+  const throttledWidth = useThrottledValue(size.width, 200);
 
   return (
     <div ref={ref}>
@@ -90,9 +90,9 @@ function MyComponent() {
 | `useKeyPress`             | `mod`/`ctrl`/`meta`/`shift`/`alt` 조합과 `space`/`esc` 별칭으로 키 콜백 실행                |
 | `useFileDrop`             | `accept`/`multiple` 필터링을 갖춘 드래그앤드롭 존, `{ dropRef, isDragging }` 반환           |
 | `useFileToDataUrl`        | `File`/`Blob`을 data URL로 변환                                                             |
-| `useDebounce`             | deps 변경 시 debounce된 콜백 자동 실행 (`leading`/`autoInvoke` 옵션)                        |
+| `useDebouncedCallback`    | deps 변경 시 debounce된 콜백 자동 실행 (`leading`/`autoInvoke` 옵션); 별칭: `useDebounce`   |
 | `useDebouncedValue`       | 변하는 값을 일정 지연으로 debounce                                                          |
-| `useThrottle`             | 값 업데이트를 일정 간격으로 제한                                                            |
+| `useThrottledValue`       | 값 업데이트를 일정 간격으로 제한; 별칭: `useThrottle`                                       |
 | `useThrottledCallback`    | 콜백을 일정 간격으로 제한                                                                   |
 | `useTimeout`              | 지연 후 콜백 1회 실행, `{ reset, clear }` 반환 (`null`이면 일시정지)                        |
 | `useInterval`             | 일정 간격으로 콜백 실행 (`null`이면 일시정지)                                               |
