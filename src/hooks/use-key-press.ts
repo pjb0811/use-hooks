@@ -124,11 +124,9 @@ const useKeyPress = (
       return;
     }
 
-    const resolvedTarget = resolveTarget(target);
-
-    if (!resolvedTarget) {
-      return;
-    }
+    let cancelled = false;
+    let rafId: number | undefined;
+    let resolvedTarget: EventTarget | null = null;
 
     const onKeyDown = (event: Event) => {
       const keyboardEvent = event as KeyboardEvent;
@@ -149,10 +147,37 @@ const useKeyPress = (
       handlerRef.current(keyboardEvent);
     };
 
-    resolvedTarget.addEventListener('keydown', onKeyDown);
+    const attach = () => {
+      if (cancelled) {
+        return;
+      }
+
+      // A RefObject target can still be null right after mount (conditional
+      // render, portal, lazy mount) — retry every frame until it's
+      // populated instead of giving up on the first effect run. The default
+      // window and raw element/document targets have nothing to wait for.
+      if (target && 'current' in target && !target.current) {
+        rafId = requestAnimationFrame(attach);
+        return;
+      }
+
+      resolvedTarget = resolveTarget(target);
+
+      if (!resolvedTarget) {
+        return;
+      }
+
+      resolvedTarget.addEventListener('keydown', onKeyDown);
+    };
+
+    attach();
 
     return () => {
-      resolvedTarget.removeEventListener('keydown', onKeyDown);
+      cancelled = true;
+      if (rafId !== undefined) {
+        cancelAnimationFrame(rafId);
+      }
+      resolvedTarget?.removeEventListener('keydown', onKeyDown);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled, comboKey, target, preventDefault, ignore]);

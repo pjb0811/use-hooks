@@ -38,20 +38,50 @@ const useMutationObserver = <T extends Node>(
   const optionsKey = JSON.stringify(mutationOptions);
 
   useEffect(() => {
-    const node = resolveTarget(target);
-
-    if (!enabled || !node || typeof MutationObserver === 'undefined') {
+    if (!enabled || typeof MutationObserver === 'undefined') {
       return;
     }
 
-    const observer = new MutationObserver((mutations, obs) => {
-      callbackRef.current(mutations, obs);
-    });
+    let cancelled = false;
+    let rafId: number | undefined;
+    let observer: MutationObserver | undefined;
 
-    observer.observe(node, mutationOptions);
+    const attach = () => {
+      if (cancelled) {
+        return;
+      }
+
+      // A RefObject target can still be null right after mount (conditional
+      // render, portal, lazy mount) — retry every frame until it's
+      // populated instead of giving up on the first effect run, since the
+      // ref object's identity doesn't change to re-run this effect. A raw
+      // node has nothing to wait for.
+      if (target && 'current' in target && !target.current) {
+        rafId = requestAnimationFrame(attach);
+        return;
+      }
+
+      const node = resolveTarget(target);
+
+      if (!node) {
+        return;
+      }
+
+      observer = new MutationObserver((mutations, obs) => {
+        callbackRef.current(mutations, obs);
+      });
+
+      observer.observe(node, mutationOptions);
+    };
+
+    attach();
 
     return () => {
-      observer.disconnect();
+      cancelled = true;
+      if (rafId !== undefined) {
+        cancelAnimationFrame(rafId);
+      }
+      observer?.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target, enabled, optionsKey]);
