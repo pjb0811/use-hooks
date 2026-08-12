@@ -30,13 +30,38 @@ const isMac = () =>
   typeof navigator !== 'undefined' &&
   /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
 
+// Human-friendly spellings mapped to the actual `event.key` value, so
+// callers can write `'space'` instead of a literal ' ' (whose trimmed form
+// is empty and easy to lose) or `'esc'` for Escape.
+const KEY_ALIASES: Record<string, string> = {
+  space: ' ',
+  spacebar: ' ',
+  esc: 'escape',
+};
+
 // `mod` normalizes to the platform's usual "primary" modifier (Cmd on
 // macOS, Ctrl elsewhere) so a single combo string covers both without the
 // caller branching on platform themselves.
 const parseCombo = (combo: string): ParsedCombo => {
-  const parts = combo.split('+').map(part => part.trim().toLowerCase());
-  const key = parts[parts.length - 1] ?? '';
-  const modifiers = parts.slice(0, -1);
+  const parts = combo.split('+');
+  const modifiers = parts.slice(0, -1).map(part => part.trim().toLowerCase());
+
+  // The last segment is the key. Trim it like the modifiers so 'ctrl + z'
+  // still resolves to 'z' — but if trimming would wipe a non-empty segment
+  // entirely, the key *is* whitespace: the space key, whose event.key is ' '.
+  const rawKey = parts[parts.length - 1] ?? '';
+  const trimmedKey = rawKey.trim();
+  let key = (
+    trimmedKey === '' && rawKey !== '' ? rawKey : trimmedKey
+  ).toLowerCase();
+
+  // A bare '+' or a combo like 'ctrl++' splits to an empty final segment —
+  // the '+' separator itself is the intended key.
+  if (key === '' && parts.length > 1) {
+    key = '+';
+  }
+
+  key = KEY_ALIASES[key] ?? key;
 
   let ctrl = modifiers.includes('ctrl');
   let meta = modifiers.includes('meta') || modifiers.includes('cmd');
