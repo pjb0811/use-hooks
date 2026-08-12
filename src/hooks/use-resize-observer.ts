@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface Size {
   width: number;
@@ -16,40 +16,87 @@ interface Options {
 const useResizeObserver = <T extends Element = Element>(
   options?: Options,
 ): [(node: T | null) => void, Size | null] => {
+  const box = options?.box ?? 'content-box';
+
   const [size, setSize] = useState<Size | null>(null);
   const observerRef = useRef<ResizeObserver | null>(null);
+  const nodeRef = useRef<T | null>(null);
 
-  // Same convention as useIntersectionObserver: `options` is typically a
-  // fresh object literal at the call site, so it isn't a dependency here
-  // — that would tear down and recreate the observer on every render. The
-  // ref callback only re-runs when the observed node itself changes,
-  // capturing whatever `options` was current at that time.
-  const ref = useCallback((node: T | null) => {
+  // `options` is typically a fresh object literal at the call site — track
+  // the current box in a ref (read at connect time) and reconnect only when
+  // the value actually changes, so `box` can be flipped at runtime without
+  // tearing the observer down on every render. The previous version pinned
+  // whatever `box` was current when the node first attached and never
+  // reacted to changes — the same bug #118 fixed in useIntersectionObserver.
+  const boxRef = useRef(box);
+
+  useEffect(() => {
+    boxRef.current = box;
+  });
+
+  const connect = useCallback(() => {
     if (observerRef.current) {
       observerRef.current.disconnect();
       observerRef.current = null;
     }
 
+    const node = nodeRef.current;
+
     if (!node || typeof ResizeObserver === 'undefined') {
       return;
     }
 
-    const box = options?.box ?? 'content-box';
+    const currentBox = boxRef.current;
 
     const observer = new ResizeObserver(([entry]) => {
       if (!entry) {
         return;
       }
 
-      const [{ inlineSize, blockSize }] =
-        box === 'border-box' ? entry.borderBoxSize : entry.contentBoxSize;
+      const boxSize =
+        currentBox === 'border-box'
+          ? entry.borderBoxSize
+          : entry.contentBoxSize;
+      const measurement = boxSize?.[0];
 
-      setSize({ width: inlineSize, height: blockSize });
+      if (measurement) {
+        // inlineSize/blockSize are writing-mode relative; for the default
+        // horizontal-tb writing mode they map to width/height as expected.
+        setSize({
+          width: measurement.inlineSize,
+          height: measurement.blockSize,
+        });
+      } else {
+        // contentBoxSize/borderBoxSize come back as empty arrays for a
+        // `display: none` target, so destructuring the first element would
+        // throw. contentRect still reports (0×0 there) and is already in
+        // physical width/height, so it's also unaffected by writing-mode.
+        setSize({
+          width: entry.contentRect.width,
+          height: entry.contentRect.height,
+        });
+      }
     });
 
-    observer.observe(node, { box });
+    observer.observe(node, { box: currentBox });
     observerRef.current = observer;
+  }, []);
+
+  const ref = useCallback((node: T | null) => {
+    nodeRef.current = node;
+    connect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    connect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [box]);
+
+  useEffect(() => {
+    return () => {
+      observerRef.current?.disconnect();
+    };
   }, []);
 
   return [ref, size];
