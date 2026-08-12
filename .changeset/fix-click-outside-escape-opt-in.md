@@ -1,5 +1,5 @@
 ---
-'@jbpark/use-hooks': minor
+'@jbpark/use-hooks': major
 ---
 
-Add opt-in Escape key handling to the useClickOutside hook.
+`useClickOutside`'s `escape` option now defaults to `false` (previously `true`). This is a behavior change for any caller relying on the 3.0.0 default: Escape no longer closes the referenced element(s) unless you pass `escape: true` explicitly.
