@@ -36,7 +36,7 @@ pnpm add @jbpark/use-hooks
 import {
   useLocalStorage,
   useResponsiveSize,
-  useThrottle,
+  useThrottledValue,
   useWindowScroll,
 } from '@jbpark/use-hooks';
 
@@ -51,7 +51,7 @@ function MyComponent() {
   const { size, breakpoint, ref } = useResponsiveSize();
 
   // Throttled width update
-  const throttledWidth = useThrottle(size.width, 200);
+  const throttledWidth = useThrottledValue(size.width, 200);
 
   return (
     <div ref={ref}>
@@ -90,9 +90,9 @@ function MyComponent() {
 | `useKeyPress`             | Run a callback on key combos with `mod`/`ctrl`/`meta`/`shift`/`alt` and aliases like `space`/`esc`               |
 | `useFileDrop`             | Drag-and-drop file zone with `accept`/`multiple` filtering; returns `{ dropRef, isDragging }`                    |
 | `useFileToDataUrl`        | Read a `File`/`Blob` into a data URL                                                                             |
-| `useDebounce`             | Auto-invoke a debounced callback when deps change (`leading`/`autoInvoke` options)                               |
+| `useDebouncedCallback`    | Auto-invoke a debounced callback when deps change (`leading`/`autoInvoke` options); alias: `useDebounce`         |
 | `useDebouncedValue`       | Debounce a changing value to a fixed delay                                                                       |
-| `useThrottle`             | Throttle value updates to a fixed interval                                                                       |
+| `useThrottledValue`       | Throttle value updates to a fixed interval; alias: `useThrottle`                                                 |
 | `useThrottledCallback`    | Throttle a callback to a fixed interval                                                                          |
 | `useTimeout`              | Run a callback once after a delay; returns `{ reset, clear }` (`null` pauses)                                    |
 | `useInterval`             | Run a callback on an interval (`null` pauses)                                                                    |

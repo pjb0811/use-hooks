@@ -7,7 +7,11 @@ interface Options {
   trailing?: boolean;
 }
 
-const useThrottle = <T>(value: T, delay = 100, options: Options = {}): T => {
+const useThrottledValue = <T>(
+  value: T,
+  delay = 100,
+  options: Options = {},
+): T => {
   const [throttledValue, setThrottledValue] = useState(value);
 
   const throttledSetValue = useThrottledCallback(
@@ -26,4 +30,4 @@ const useThrottle = <T>(value: T, delay = 100, options: Options = {}): T => {
   return throttledValue;
 };
 
-export default useThrottle;
+export default useThrottledValue;
