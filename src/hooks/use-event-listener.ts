@@ -52,23 +52,52 @@ function useEventListener(
       return;
     }
 
-    const resolvedTarget =
-      target && 'current' in target
-        ? target.current
-        : (target ?? (typeof window === 'undefined' ? null : window));
-
-    if (!resolvedTarget) {
-      return;
-    }
+    let cancelled = false;
+    let rafId: number | undefined;
+    let resolvedTarget: EventTarget | null = null;
 
     const listener = (event: Event) => {
       handlerRef.current(event);
     };
 
-    resolvedTarget.addEventListener(type, listener, { capture, passive, once });
+    const attach = () => {
+      if (cancelled) {
+        return;
+      }
+
+      // A RefObject target can still be null right after mount (conditional
+      // render, portal, lazy mount) — retry every frame until it's
+      // populated instead of giving up on the first effect run. A raw
+      // target or the default window has nothing to wait for.
+      if (target && 'current' in target && !target.current) {
+        rafId = requestAnimationFrame(attach);
+        return;
+      }
+
+      resolvedTarget =
+        target && 'current' in target
+          ? target.current
+          : (target ?? (typeof window === 'undefined' ? null : window));
+
+      if (!resolvedTarget) {
+        return;
+      }
+
+      resolvedTarget.addEventListener(type, listener, {
+        capture,
+        passive,
+        once,
+      });
+    };
+
+    attach();
 
     return () => {
-      resolvedTarget.removeEventListener(type, listener, { capture });
+      cancelled = true;
+      if (rafId !== undefined) {
+        cancelAnimationFrame(rafId);
+      }
+      resolvedTarget?.removeEventListener(type, listener, { capture });
     };
   }, [type, target, capture, passive, once, enabled]);
 }
