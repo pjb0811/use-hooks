@@ -12,7 +12,7 @@ interface Options {
 // auto-invoke has no natural argument to supply, so an arg-taking callback
 // here was a latent type hole (it was always invoked with zero args
 // regardless of what the callback's own signature claimed).
-const useDebounce = (
+const useDebouncedCallback = (
   callback: () => unknown,
   { delay = 100, autoInvoke = true, leading = true }: Options,
   deps: React.DependencyList = [],
@@ -81,4 +81,4 @@ const useDebounce = (
   return stableDebouncedCallback.current;
 };
 
-export default useDebounce;
+export default useDebouncedCallback;

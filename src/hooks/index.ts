@@ -1,4 +1,7 @@
-export { default as useDebounce } from './use-debounce';
+export { default as useDebouncedCallback } from './use-debounced-callback';
+// Deprecated alias — prefer `useDebouncedCallback` for a symmetric
+// `{action}{Value|Callback}` naming across the debounce/throttle family.
+export { default as useDebounce } from './use-debounced-callback';
 export { default as useDebouncedValue } from './use-debounced-value';
 export { default as useBodyScrollLock } from './use-body-scroll-lock';
 export { default as useClickOutside } from './use-click-outside';
@@ -22,7 +25,10 @@ export { default as usePrevious } from './use-previous';
 export { default as useRecursiveTimeout } from './use-recursive-timeout';
 export { default as useResizeObserver } from './use-resize-observer';
 export { default as useScrollToElements } from './use-scroll-to-elements';
-export { default as useThrottle } from './use-throttle';
+export { default as useThrottledValue } from './use-throttled-value';
+// Deprecated alias — prefer `useThrottledValue` for a symmetric
+// `{action}{Value|Callback}` naming across the debounce/throttle family.
+export { default as useThrottle } from './use-throttled-value';
 export { default as useThrottledCallback } from './use-throttled-callback';
 export { default as useTimeout } from './use-timeout';
 export { default as useToggle } from './use-toggle';
