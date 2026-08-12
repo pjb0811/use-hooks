@@ -12,31 +12,45 @@ type MergeableRef<T> =
 // runs them together when the node detaches.
 const useMergedRef = <T>(...refs: MergeableRef<T>[]) => {
   return useCallback((node: T | null) => {
-    const cleanups: (() => void)[] = [];
-
-    refs.forEach(ref => {
+    // Per-ref cleanups, aligned to `refs` by index: a function ref that
+    // returns its own cleanup keeps it here, everything else is undefined.
+    const cleanups = refs.map(ref => {
       if (!ref) {
-        return;
+        return undefined;
       }
 
       if (typeof ref === 'function') {
         const cleanup = ref(node);
-
-        if (typeof cleanup === 'function') {
-          cleanups.push(cleanup);
-        }
-        return;
+        return typeof cleanup === 'function' ? cleanup : undefined;
       }
 
       ref.current = node;
+      return undefined;
     });
 
-    if (cleanups.length === 0) {
-      return;
-    }
-
+    // Always return a cleanup and detach *every* ref here. When any ref
+    // returns a cleanup, React 19 runs this instead of re-invoking the
+    // callback with null on detach — so if we only ran the collected
+    // cleanups, the object refs and cleanup-less function refs merged
+    // alongside would never be released and would pin a stale node.
     return () => {
-      cleanups.forEach(cleanup => cleanup());
+      refs.forEach((ref, i) => {
+        if (!ref) {
+          return;
+        }
+
+        if (typeof ref === 'function') {
+          const cleanup = cleanups[i];
+          if (cleanup) {
+            cleanup();
+          } else {
+            ref(null);
+          }
+          return;
+        }
+
+        ref.current = null;
+      });
     };
     // The number of refs passed at a given call site is stable across
     // renders even though this array literal isn't — same pattern every
