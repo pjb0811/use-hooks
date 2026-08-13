@@ -151,7 +151,7 @@ const Layout = () => {
   );
 
   return (
-    <Config theme={{ dark: theme === 'dark' }}>
+    <Config theme={{ dark: theme }}>
       <div className="demo-app">
         <header className="demo-mobile-header">
           <button
