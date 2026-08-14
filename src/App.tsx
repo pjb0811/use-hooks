@@ -8,7 +8,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 
-import { Config, Drawer } from '@jbpark/ui-kit';
+import { Button, Config, Drawer } from '@jbpark/ui-kit';
 import {
   GitHubLogoIcon,
   HamburgerMenuIcon,
@@ -136,32 +136,34 @@ const Layout = () => {
   }, [theme]);
 
   const themeToggle = (
-    <button
-      type="button"
+    <Button
+      type="text"
+      shape="circle"
       className="demo-theme-toggle"
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+      icon={
+        theme === 'dark' ? (
+          <MoonIcon width={16} height={16} />
+        ) : (
+          <SunIcon width={16} height={16} />
+        )
+      }
       onClick={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
-    >
-      {theme === 'dark' ? (
-        <MoonIcon width={16} height={16} />
-      ) : (
-        <SunIcon width={16} height={16} />
-      )}
-    </button>
+    />
   );
 
   return (
     <Config theme={{ dark: theme }}>
       <div className="demo-app">
         <header className="demo-mobile-header">
-          <button
-            type="button"
+          <Button
+            type="text"
+            shape="circle"
             className="demo-mobile-menu-button"
             aria-label="Open menu"
+            icon={<HamburgerMenuIcon width={18} height={18} />}
             onClick={() => setMobileNavOpen(true)}
-          >
-            <HamburgerMenuIcon width={18} height={18} />
-          </button>
+          />
           <h1>use-hooks</h1>
           {themeToggle}
         </header>
