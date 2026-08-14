@@ -1,7 +1,7 @@
 import { Button } from '@jbpark/ui-kit';
 
 import { useLocalStorage } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const [count, setCount] = useLocalStorage('demo-count', 0);`;
 

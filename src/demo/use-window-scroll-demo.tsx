@@ -1,7 +1,7 @@
 import { Progress } from '@jbpark/ui-kit';
 
 import { useWindowScroll } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const { x, y, percent } = useWindowScroll();`;
 

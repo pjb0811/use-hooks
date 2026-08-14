@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useFileDrop, useFileToDataUrl } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const readAsDataUrl = useFileToDataUrl();
 const { dropRef, isDragging } = useFileDrop({

@@ -1,5 +1,5 @@
 import { useResizeObserver } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const [ref, size] = useResizeObserver<HTMLDivElement>();
 
