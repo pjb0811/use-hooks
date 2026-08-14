@@ -33,27 +33,6 @@
   font-size: 1.25rem;
 }
 
-.demo-theme-toggle,
-.demo-mobile-menu-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border: 1px solid var(--sidebar-border);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--sidebar-foreground);
-  cursor: pointer;
-}
-
-.demo-theme-toggle:hover,
-.demo-mobile-menu-button:hover {
-  background: var(--sidebar-accent);
-  color: var(--sidebar-accent-foreground);
-}
-
 .demo-nav-sub {
   margin: 0 0 16px;
   color: var(--muted-foreground);

@@ -139,7 +139,6 @@ const Layout = () => {
     <Button
       type="text"
       shape="circle"
-      className="demo-theme-toggle"
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
       icon={
         theme === 'dark' ? (
@@ -159,7 +158,6 @@ const Layout = () => {
           <Button
             type="text"
             shape="circle"
-            className="demo-mobile-menu-button"
             aria-label="Open menu"
             icon={<HamburgerMenuIcon width={18} height={18} />}
             onClick={() => setMobileNavOpen(true)}
