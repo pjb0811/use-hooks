@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Options {
   leading?: boolean;
@@ -32,11 +32,12 @@ const useThrottledCallback = <Args extends unknown[]>(
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastArgsRef = useRef<Args | null>(null);
 
-  const stableThrottledCallback = useRef<((...args: Args) => void) | null>(
-    null,
-  );
-
-  if (!stableThrottledCallback.current) {
+  // Built once via useState's lazy initializer (runs only on mount) rather
+  // than the ref-guarded-by-if pattern this used to use — same "create
+  // once, keep a stable identity" effect, but without ever reading/writing
+  // a ref during render, which react-hooks/refs now disallows even for the
+  // otherwise-idempotent lazy-ref-init form (see facebook/react#36896).
+  const [stableThrottledCallback] = useState(() => {
     const invoke = () => {
       lastExecutedRef.current = Date.now();
       timeoutRef.current = null;
@@ -46,7 +47,7 @@ const useThrottledCallback = <Args extends unknown[]>(
       }
     };
 
-    stableThrottledCallback.current = (...args: Args) => {
+    return (...args: Args) => {
       lastArgsRef.current = args;
 
       const now = Date.now();
@@ -77,7 +78,7 @@ const useThrottledCallback = <Args extends unknown[]>(
         timeoutRef.current = setTimeout(invoke, delayRef.current - elapsed);
       }
     };
-  }
+  });
 
   useEffect(() => {
     return () => {
@@ -87,7 +88,7 @@ const useThrottledCallback = <Args extends unknown[]>(
     };
   }, []);
 
-  return stableThrottledCallback.current;
+  return stableThrottledCallback;
 };
 
 export default useThrottledCallback;

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Options {
   delay?: number;
@@ -30,19 +30,20 @@ const useDebouncedCallback = (
     delayRef.current = delay;
   });
 
-  const stableDebouncedCallback = useRef<(() => void) | null>(null);
+  // Built once via useState's lazy initializer (runs only on mount) rather
+  // than the ref-guarded-by-if pattern this used to use — same "create
+  // once, keep a stable identity" effect, but without ever reading/writing
+  // a ref during render, which react-hooks/refs now disallows even for the
+  // otherwise-idempotent lazy-ref-init form (see facebook/react#36896).
+  const [stableDebouncedCallback] = useState(() => () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
 
-  if (!stableDebouncedCallback.current) {
-    stableDebouncedCallback.current = () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-
-      timeoutRef.current = setTimeout(() => {
-        callbackRef.current();
-      }, delayRef.current);
-    };
-  }
+    timeoutRef.current = setTimeout(() => {
+      callbackRef.current();
+    }, delayRef.current);
+  });
 
   useEffect(() => {
     const depsChanged =
@@ -63,7 +64,7 @@ const useDebouncedCallback = (
       if (isFirstRender && leading) {
         callbackRef.current();
       } else {
-        stableDebouncedCallback.current?.();
+        stableDebouncedCallback();
       }
     }
 
@@ -78,7 +79,7 @@ const useDebouncedCallback = (
     };
   }, []);
 
-  return stableDebouncedCallback.current;
+  return stableDebouncedCallback;
 };
 
 export default useDebouncedCallback;

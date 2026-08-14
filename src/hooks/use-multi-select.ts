@@ -1,25 +1,31 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 const useMultiSelect = (count: number) => {
   const [rawSelected, setRawSelected] = useState<Set<number>>(new Set());
   const [anchor, setAnchor] = useState<number | null>(null);
-
-  const selected = useMemo(() => {
-    const next = new Set([...rawSelected].filter(index => index < count));
-    return next.size === rawSelected.size ? rawSelected : next;
-  }, [rawSelected, count]);
+  const [prevCount, setPrevCount] = useState(count);
 
   // Clamp `rawSelected`/`anchor` themselves (not just the derived
-  // `selected` view above) whenever `count` shrinks — otherwise
+  // `selected` view below) whenever `count` shrinks — otherwise
   // out-of-range indices and a stale anchor keep accumulating in state
-  // indefinitely instead of actually being dropped.
-  useEffect(() => {
+  // indefinitely instead of actually being dropped. Adjusted directly in
+  // render (React's "adjust state during render" pattern) instead of an
+  // effect, so the clamp lands in the same render as the `count` change
+  // rather than the render after — see
+  // https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes.
+  if (count !== prevCount) {
+    setPrevCount(count);
     setRawSelected(prev => {
       const next = new Set([...prev].filter(index => index < count));
       return next.size === prev.size ? prev : next;
     });
     setAnchor(prev => (prev !== null && prev >= count ? null : prev));
-  }, [count]);
+  }
+
+  const selected = useMemo(() => {
+    const next = new Set([...rawSelected].filter(index => index < count));
+    return next.size === rawSelected.size ? rawSelected : next;
+  }, [rawSelected, count]);
 
   const toggle = useCallback(
     (index: number, shiftKey = false) => {
