@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import { Button } from '@jbpark/ui-kit';
+import { Button, Skeleton, Spin, Tag } from '@jbpark/ui-kit';
 
 import { useImage } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const GOOD_SRC = 'https://picsum.photos/seed/use-hooks/320/200';
 const BAD_SRC = 'https://this-domain-does-not-exist-123456.invalid/broken.png';
@@ -17,6 +17,22 @@ const ImageDemo = () => {
     retryCount: 1,
   });
 
+  const status = loading
+    ? 'loading'
+    : error
+      ? 'error'
+      : loaded
+        ? 'loaded'
+        : 'idle';
+  const statusColor =
+    status === 'loading'
+      ? 'primary'
+      : status === 'error'
+        ? 'danger'
+        : status === 'loaded'
+          ? 'success'
+          : 'default';
+
   return (
     <Section
       id="use-image"
@@ -26,13 +42,16 @@ const ImageDemo = () => {
     >
       <div className="demo-output">
         <div>
-          Status:{' '}
-          {loading ? 'loading' : error ? 'error' : loaded ? 'loaded' : 'idle'}
+          Status: <Tag color={statusColor}>{status}</Tag>
         </div>
         {error && <div>Error: {error.message}</div>}
         <div>Attempt count: {attemptCount}</div>
       </div>
-      {loaded && <img src={src} alt="demo" className="demo-image" />}
+      <Spin spinning={loading}>
+        <Skeleton loading={!loaded} width={320} height={200}>
+          {loaded && <img src={src} alt="demo" className="demo-image" />}
+        </Skeleton>
+      </Spin>
       <div className="demo-actions">
         <Button type="primary" onClick={retry}>
           Retry
