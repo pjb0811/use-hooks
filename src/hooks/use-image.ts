@@ -8,24 +8,49 @@ interface Options {
 const useImage = (src: string, options: Options = {}) => {
   const { retryCount = 0, retryDelay = 1000 } = options;
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => Boolean(src));
   const [error, setError] = useState<Error | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [attemptCount, setAttemptCount] = useState(0);
   const [reloadToken, setReloadToken] = useState(0);
+  const [prevTrigger, setPrevTrigger] = useState({
+    src,
+    attemptCount,
+    retryCount,
+    retryDelay,
+    reloadToken,
+  });
+
+  // Adjusted directly in render (React's "adjust state during render"
+  // pattern) instead of inside the effect below — mirrors that effect's
+  // own dependency list, so `loading`/`error`/`loaded` reset in the same
+  // render a reload is triggered rather than the render after.
+  const triggerChanged =
+    prevTrigger.src !== src ||
+    prevTrigger.attemptCount !== attemptCount ||
+    prevTrigger.retryCount !== retryCount ||
+    prevTrigger.retryDelay !== retryDelay ||
+    prevTrigger.reloadToken !== reloadToken;
+
+  if (triggerChanged) {
+    setPrevTrigger({ src, attemptCount, retryCount, retryDelay, reloadToken });
+
+    if (src) {
+      setLoading(true);
+      setError(null);
+    } else {
+      setLoading(false);
+      setLoaded(false);
+    }
+  }
 
   useEffect(() => {
     if (!src) {
-      setLoading(false);
-      setLoaded(false);
       return;
     }
 
     let cancelled = false;
     let retryTimeoutId: ReturnType<typeof setTimeout> | undefined;
-
-    setLoading(true);
-    setError(null);
 
     const img = new Image();
     img.src = src;

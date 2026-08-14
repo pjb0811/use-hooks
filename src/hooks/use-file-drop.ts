@@ -65,10 +65,24 @@ const useFileDrop = <T extends HTMLElement = HTMLElement>(
     disabledRef.current = disabled;
   });
 
+  const [prevDisabled, setPrevDisabled] = useState(disabled);
+
+  // Adjusted directly in render (React's "adjust state during render"
+  // pattern) instead of an effect, so `isDragging` clears in the same
+  // render `disabled` flips true rather than the render after. The
+  // counter itself is a ref, not render output, so it's zeroed separately
+  // below — refs may only be written in effects/handlers, never in render.
+  if (disabled !== prevDisabled) {
+    setPrevDisabled(disabled);
+
+    if (disabled) {
+      setIsDragging(false);
+    }
+  }
+
   useEffect(() => {
     if (disabled) {
       dragCounterRef.current = 0;
-      setIsDragging(false);
     }
   }, [disabled]);
 
