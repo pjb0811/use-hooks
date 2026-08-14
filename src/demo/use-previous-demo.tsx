@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Button } from '@jbpark/ui-kit';
 
 import { usePrevious } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const [count, setCount] = useState(0);
 const previous = usePrevious(count);`;

@@ -1,7 +1,7 @@
 import { Button } from '@jbpark/ui-kit';
 
 import { useHistoryState } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const { value, setValue, undo, redo, canUndo, canRedo } =
   useHistoryState(0);`;

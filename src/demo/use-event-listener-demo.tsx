@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useEventListener } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const [width, setWidth] = useState(window.innerWidth);
 

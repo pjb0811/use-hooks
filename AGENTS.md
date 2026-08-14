@@ -15,6 +15,13 @@
 5. 외부 노출은 `src/index.ts`의 `export * from './hooks';` 체인을 유지합니다.
 6. 데모 페이지도 함께 추가합니다: `src/demo/{kebab-case-name}-demo.tsx` + `src/App.tsx`의 nav/route 등록 (기존 훅 데모 참고).
 
+## 데모에서 ui-kit 컴포넌트 사용 기준
+
+데모는 각 훅의 `@jbpark/ui-kit` devDependency를 자유롭게 쓸 수 있지만, 다음 기준으로 나눠서 판단합니다.
+
+- **훅의 동작을 직접 보여주는 부분 → raw 엘리먼트를 유지**합니다. 그 자리를 ui-kit 컴포넌트로 바꿨을 때, 그 컴포넌트가 내부적으로 같은 기능을 이미 내장하고 있으면(예: ui-kit `Modal`은 자체적으로 body 스크롤을 잠그고, `Popover`/`Dropdown`은 바깥 클릭 닫기를 내장하고, `Upload`는 내부에서 이 저장소의 `useFileDrop`/`useFileToDataUrl`을 직접 사용) 훅을 지워도 데모 동작이 똑같아져 버립니다 — 무엇을 시연하는 데모인지가 사라집니다. 이 경우 raw 엘리먼트를 유지하되 접근성 속성(`role`, `aria-*`, 키보드 처리 등)은 갖춥니다.
+- **훅과 무관한 주변 UI(버튼, 입력, 상태 표시, 레이아웃 등) → ui-kit을 적극 사용**합니다.
+
 ## 구현 규칙
 
 - React 19 기준으로 작성합니다.

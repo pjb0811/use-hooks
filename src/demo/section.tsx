@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 import { Card, Typography } from '@jbpark/ui-kit';
 
-interface SectionProps {
+interface Props {
   id: string;
   title: string;
   description: string;
@@ -10,7 +10,7 @@ interface SectionProps {
   children: ReactNode;
 }
 
-const Section = ({ id, title, description, code, children }: SectionProps) => {
+const Section = ({ id, title, description, code, children }: Props) => {
   return (
     <section id={id} className="demo-section">
       <Typography.Title level={2} className="demo-title">

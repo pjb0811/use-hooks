@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useFileToDataUrl } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const readAsDataUrl = useFileToDataUrl();
 const dataUrl = await readAsDataUrl(file);`;

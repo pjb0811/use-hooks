@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Progress } from '@jbpark/ui-kit';
 
 import { useThrottle } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const [value, setValue] = useState(0);
 const throttled = useThrottle(value, 500);`;

@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import { Button } from '@jbpark/ui-kit';
 
 import { useMutationObserver } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const listRef = useRef<HTMLUListElement>(null);
 const [count, setCount] = useState(0);

@@ -1,5 +1,5 @@
 import { useViewport } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const viewport = useViewport();`;
 

@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import { Button } from '@jbpark/ui-kit';
 
 import { useMergedRef } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const mergedRef = useMergedRef(forwardedRef, internalRef);
 

@@ -2,16 +2,21 @@ import { useState } from 'react';
 
 import { Button } from '@jbpark/ui-kit';
 
-import { useBodyScrollLock } from '../hooks';
-import Section from './Section';
+import { useBodyScrollLock, useKeyPress } from '../hooks';
+import Section from './section';
 
 const code = `const [open, setOpen] = useState(false);
 
-useBodyScrollLock(open);`;
+useBodyScrollLock(open);
+useKeyPress('esc', () => setOpen(false), { enabled: open });`;
 
+// NOTE: ui-kit's Modal (Radix Dialog) locks body scroll on its own, which
+// would mask what this hook does — the demo deliberately uses a plain
+// overlay so the lock visibly comes from useBodyScrollLock.
 const BodyScrollLockDemo = () => {
   const [open, setOpen] = useState(false);
   useBodyScrollLock(open);
+  useKeyPress('esc', () => setOpen(false), { enabled: open });
 
   return (
     <Section
@@ -25,8 +30,16 @@ const BodyScrollLockDemo = () => {
       </Button>
       {open && (
         <div className="demo-modal-overlay" onClick={() => setOpen(false)}>
-          <div className="demo-modal" onClick={e => e.stopPropagation()}>
-            <p>The page behind this modal is scroll-locked while it's open.</p>
+          <div
+            className="demo-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="scroll-lock-modal-title"
+            onClick={e => e.stopPropagation()}
+          >
+            <p id="scroll-lock-modal-title">
+              The page behind this modal is scroll-locked while it's open.
+            </p>
             <Button onClick={() => setOpen(false)}>Close</Button>
           </div>
         </div>

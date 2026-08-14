@@ -1,7 +1,7 @@
 import { Button } from '@jbpark/ui-kit';
 
 import { useScrollToElements } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const { register, scrollTo } = useScrollToElements({ offset: 16 });
 

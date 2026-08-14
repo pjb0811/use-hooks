@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Input } from '@jbpark/ui-kit';
 
 import { useDebounce } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const [text, setText] = useState('');
 const [debounced, setDebounced] = useState('');

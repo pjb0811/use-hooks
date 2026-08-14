@@ -1,7 +1,7 @@
 import { Button } from '@jbpark/ui-kit';
 
 import { useToggle } from '../hooks';
-import Section from './Section';
+import Section from './section';
 
 const code = `const [open, toggle, setOpen] = useToggle(false);`;
 
