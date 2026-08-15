@@ -28,8 +28,10 @@ const IntersectionObserverDemo = () => {
       code={code}
     >
       <div className="demo-output">
-        Live: <b>{live ? 'Y' : 'N'}</b> &nbsp; Frozen:{' '}
-        <b>{frozen ? 'Y' : 'N'}</b>
+        <div>
+          Live: <b>{live ? 'Y' : 'N'}</b>&nbsp;&nbsp;Frozen:{' '}
+          <b>{frozen ? 'Y' : 'N'}</b>
+        </div>
       </div>
       <p className="demo-hint">
         Scroll down — the target box becomes visible once it's 50% in view. Live
