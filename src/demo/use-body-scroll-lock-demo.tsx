@@ -40,7 +40,9 @@ const BodyScrollLockDemo = () => {
             <p id="scroll-lock-modal-title">
               The page behind this modal is scroll-locked while it's open.
             </p>
-            <Button onClick={() => setOpen(false)}>Close</Button>
+            <div className="demo-modal-actions">
+              <Button onClick={() => setOpen(false)}>Close</Button>
+            </div>
           </div>
         </div>
       )}
