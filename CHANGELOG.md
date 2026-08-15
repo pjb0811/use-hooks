@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.0
+
+### Minor Changes
+
+- 0380604: Add a new demo modal with improved styling and layout.
+
 ## 4.0.1
 
 ### Patch Changes
