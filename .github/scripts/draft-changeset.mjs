@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 // Drafts a .changeset/<branch-slug>.md file by asking an LLM to summarize
-// this PR's diff to src/ as a semver bump + one-paragraph description, in
-// changesets' own file format. Runs once per PR (the calling workflow skips
-// this script entirely if a changeset file for this branch already
-// exists), so it never overwrites something a human already wrote or
-// edited.
+// this PR's diff to the published package's source (src/, minus the demo
+// app — see PACKAGE_EXCLUDE_DIRS) as a semver bump + one-paragraph
+// description, in changesets' own file format. Runs once per PR (the
+// calling workflow skips this script entirely if a changeset was already
+// added in this PR), so it never overwrites something a human already
+// wrote or edited.
 //
 // Uses NVIDIA's OpenAI-compatible API Catalog endpoint (not Gemini/GitHub
 // Models — both have hit sustained outages/retirement before this).
@@ -17,6 +18,21 @@ const API_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
 const MAX_DIFF_CHARS = 12000;
 const PACKAGE_NAME = '@jbpark/use-hooks';
 const PACKAGE_DIR = 'src';
+
+// The published package is just `dist` (built from src/hooks + src/index.ts
+// — see package.json's "files"). Everything else under src/ is the demo
+// app (src/App.tsx, src/demo/**, src/main.tsx, src/index.css) and has zero
+// effect on what actually ships, so it's excluded from the diff the model
+// sees entirely — no LLM judgment call needed, the diff is just empty for
+// a demo-only PR and drafting is skipped below. Relying on the model to
+// recognize "this is demo-only, don't draft" was unreliable in practice.
+const PACKAGE_EXCLUDE_DIRS = [
+  'src/demo',
+  'src/App.tsx',
+  'src/App.css',
+  'src/main.tsx',
+  'src/index.css',
+];
 
 // The API occasionally returns 503/429 for a few minutes at a time — retry
 // those with backoff instead of failing the required "draft" check
@@ -68,7 +84,13 @@ function extractJson(content) {
 function diffBetween(base, head) {
   return execFileSync(
     'git',
-    ['diff', `${base}...${head}`, '--', PACKAGE_DIR],
+    [
+      'diff',
+      `${base}...${head}`,
+      '--',
+      PACKAGE_DIR,
+      ...PACKAGE_EXCLUDE_DIRS.map(dir => `:!${dir}`),
+    ],
     { encoding: 'utf8', maxBuffer: 1024 * 1024 * 20 },
   );
 }
@@ -88,7 +110,9 @@ async function main() {
   }
 
   if (!diff.trim()) {
-    console.log(`No changes under ${PACKAGE_DIR} — skipping changeset draft.`);
+    console.log(
+      `No changes under ${PACKAGE_DIR} (outside the demo app) — skipping changeset draft.`,
+    );
     return;
   }
 
