@@ -17,7 +17,7 @@ const config: Config = {
   // Vercel is the deploy target (see vercel.json). `url` + `baseUrl` must
   // match it, since canonical <link> tags, sitemap.xml, and Open Graph URLs
   // are all derived from them.
-  url: 'https://use-hooks.vercel.app',
+  url: 'https://use-hooks-lab.vercel.app',
   baseUrl: '/',
 
   organizationName: 'pjb0811',

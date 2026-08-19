@@ -7,7 +7,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/pjb0811/use-hooks)](https://github.com/pjb0811/use-hooks/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-📖 **문서 및 라이브 데모:** https://use-hooks.vercel.app
+📖 **문서 및 라이브 데모:** https://use-hooks-lab.vercel.app
 
 일반적인 UI 및 상호작용 패턴을 위한 재사용 가능한 React 19 훅 모음입니다. TypeScript로 빌드되었으며, 서버 사이드 렌더링과 클라이언트 사이드 애플리케이션 모두에 최적화되어 있습니다.
 
