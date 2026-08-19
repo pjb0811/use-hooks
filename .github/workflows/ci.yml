@@ -40,3 +40,12 @@ jobs:
 
       - name: Build
         run: pnpm run build
+
+      - name: Install website dependencies
+        run: pnpm --dir website install
+
+      - name: Type check website
+        run: pnpm --dir website run typecheck
+
+      - name: Build website
+        run: pnpm --dir website build
