@@ -7,7 +7,9 @@
 [![GitHub issues](https://img.shields.io/github/issues/pjb0811/use-hooks)](https://github.com/pjb0811/use-hooks/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A collection of reusable React 19 hooks for common UI and interaction patterns. Built with TypeScript and Vite, optimized for both server-side rendering and client-side applications.
+📖 **Documentation & live demos:** https://use-hooks.vercel.app
+
+A collection of reusable React 19 hooks for common UI and interaction patterns. Built with TypeScript, optimized for both server-side rendering and client-side applications.
 
 ## Features
 
@@ -108,20 +110,17 @@ v3.0.0 is a major release with several breaking changes. See the
 ## Development
 
 ```bash
-# Start development server with HMR
-pnpm dev
-
-# Build library (tsc + vite)
+# Build library (tsc + tsdown)
 pnpm build
-
-# Preview built library
-pnpm preview
 
 # Run lint and type check
 pnpm lint
 
 # Format code with prettier
 pnpm exec prettier --write .
+
+# Start the docs/demo site (each hook's demo lives on its docs page)
+pnpm --dir website start
 ```
 
 ## Project Structure
@@ -146,9 +145,12 @@ src/
 │   ├── use-viewport.ts
 │   ├── use-window-scroll.ts
 │   └── index.ts                # Barrel export
+├── demo/                       # One interactive demo component per hook
+│   └── use-x-demo.tsx          # Rendered directly on that hook's docs page
 └── index.ts                    # Package entry point
 
 dist/                            # Built library (ESM + types)
+website/                         # Docusaurus documentation & demo site
 ```
 
 ## Build & Deployment
@@ -163,6 +165,9 @@ The library is built as:
 
 - **ES Module**: `dist/index.mjs`
 - **Type Definitions**: `dist/index.d.ts`
+
+The Docusaurus documentation site is built from `website/` and deployed via
+Vercel (see `vercel.json`).
 
 ## Key Patterns
 

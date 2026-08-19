@@ -7,7 +7,9 @@
 [![GitHub issues](https://img.shields.io/github/issues/pjb0811/use-hooks)](https://github.com/pjb0811/use-hooks/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-일반적인 UI 및 상호작용 패턴을 위한 재사용 가능한 React 19 훅 모음입니다. TypeScript와 Vite로 빌드되었으며, 서버 사이드 렌더링과 클라이언트 사이드 애플리케이션 모두에 최적화되어 있습니다.
+📖 **문서 및 라이브 데모:** https://use-hooks.vercel.app
+
+일반적인 UI 및 상호작용 패턴을 위한 재사용 가능한 React 19 훅 모음입니다. TypeScript로 빌드되었으며, 서버 사이드 렌더링과 클라이언트 사이드 애플리케이션 모두에 최적화되어 있습니다.
 
 ## 기능
 
@@ -108,20 +110,17 @@ v3.0.0은 breaking change가 여럿 포함된 메이저 릴리스입니다. 전�
 ## 개발
 
 ```bash
-# HMR이 포함된 개발 서버 시작
-pnpm dev
-
-# 라이브러리 빌드 (tsc + vite)
+# 라이브러리 빌드 (tsc + tsdown)
 pnpm build
-
-# 빌드된 라이브러리 미리보기
-pnpm preview
 
 # 린트 및 타입 체크
 pnpm lint
 
 # prettier로 포맷팅
 pnpm exec prettier --write .
+
+# 문서/데모 사이트 시작 (각 훅의 데모는 해당 훅의 문서 페이지에 있습니다)
+pnpm --dir website start
 ```
 
 ## 프로젝트 구조
@@ -146,9 +145,12 @@ src/
 │   ├── use-viewport.ts
 │   ├── use-window-scroll.ts
 │   └── index.ts                # 배럴 익스포트
+├── demo/                       # 훅별 인터랙티브 데모 컴포넌트 1개씩
+│   └── use-x-demo.tsx          # 해당 훅의 문서 페이지에 그대로 렌더링됨
 └── index.ts                    # 패키지 진입점
 
 dist/                            # 빌드된 라이브러리 (ESM + types)
+website/                         # Docusaurus 문서 및 데모 사이트
 ```
 
 ## 빌드 및 배포
@@ -163,6 +165,9 @@ dist/                            # 빌드된 라이브러리 (ESM + types)
 
 - **ES Module**: `dist/index.mjs`
 - **타입 정의**: `dist/index.d.ts`
+
+Docusaurus 문서 사이트는 `website/`에서 빌드되어 Vercel로 배포됩니다
+(`vercel.json` 참고).
 
 ## 주요 패턴
 
