@@ -7,7 +7,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/pjb0811/use-hooks)](https://github.com/pjb0811/use-hooks/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-📖 **Documentation & live demos:** https://use-hooks.vercel.app
+📖 **Documentation & live demos:** https://use-hooks-lab.vercel.app
 
 A collection of reusable React 19 hooks for common UI and interaction patterns. Built with TypeScript, optimized for both server-side rendering and client-side applications.
 
