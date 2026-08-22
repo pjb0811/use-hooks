@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useEventListener } from '../hooks';
 import Section from './section';
@@ -8,9 +8,21 @@ const code = `const [width, setWidth] = useState(window.innerWidth);
 useEventListener('resize', () => setWidth(window.innerWidth));`;
 
 const EventListenerDemo = () => {
-  const [width, setWidth] = useState(
-    typeof window === 'undefined' ? 0 : window.innerWidth,
-  );
+  // Starts at 0 to match SSR (no `window` there) rather than branching on
+  // `typeof window` — reading the real width up front made the client's
+  // first render disagree with the server-rendered markup, which is a
+  // hydration mismatch (React error #418), not a fix for one. The real
+  // value gets filled in immediately after mount instead.
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    // Not synchronizing with an external store's ongoing changes (that's
+    // the resize listener below) — this is a one-time correction so the
+    // client's post-mount render picks up the real value SSR could never
+    // know, which is the standard fix for this exact mismatch.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setWidth(window.innerWidth);
+  }, []);
 
   useEventListener('resize', () => setWidth(window.innerWidth));
 
