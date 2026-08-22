@@ -2,24 +2,24 @@ import { useState } from 'react';
 
 import { Input } from '@jbpark/ui-kit';
 
-import { useDebounce } from '../hooks';
+import { useDebouncedCallback } from '../hooks';
 import Section from './section';
 
 const code = `const [text, setText] = useState('');
 const [debounced, setDebounced] = useState('');
 
-useDebounce(
+useDebouncedCallback(
   () => setDebounced(text),
   { delay: 400 },
   [text],
 );`;
 
-const DebounceDemo = () => {
+const DebouncedCallbackDemo = () => {
   const [text, setText] = useState('');
   const [debounced, setDebounced] = useState('');
   const [count, setCount] = useState(0);
 
-  useDebounce(
+  useDebouncedCallback(
     () => {
       setDebounced(text);
       setCount(c => c + 1);
@@ -30,8 +30,8 @@ const DebounceDemo = () => {
 
   return (
     <Section
-      id="use-debounce"
-      title="useDebounce"
+      id="use-debounced-callback"
+      title="useDebouncedCallback"
       description="Fires a callback only after the value stops changing for delay(ms). Useful for search inputs, autosave, etc."
       code={code}
     >
@@ -52,4 +52,4 @@ const DebounceDemo = () => {
   );
 };
 
-export default DebounceDemo;
+export default DebouncedCallbackDemo;
