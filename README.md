@@ -130,7 +130,7 @@ src/
 ├── hooks/                      # Individual hook implementations (one file per hook)
 │   ├── use-body-scroll-lock.ts
 │   ├── use-click-outside.ts
-│   ├── use-debounce.ts
+│   ├── use-debounced-value.ts
 │   ├── use-element-position.ts
 │   ├── use-element-scroll.ts
 │   ├── use-history-state.ts
@@ -141,7 +141,7 @@ src/
 │   ├── use-recursive-timeout.ts
 │   ├── use-responsive-size.ts
 │   ├── use-scroll-to-elements.ts
-│   ├── use-throttle.ts
+│   ├── use-throttled-value.ts
 │   ├── use-viewport.ts
 │   ├── use-window-scroll.ts
 │   └── index.ts                # Barrel export

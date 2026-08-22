@@ -31,10 +31,8 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-/* App.css's .demo-app/.demo-nav rules assume the old standalone playground
- * shell and are simply unused here — demo components render inside a doc
- * page's normal content flow instead, stacked one after another, so they
- * need spacing between them that the old single-page shell never needed. */
+/* Demo components render inside a doc page's normal content flow,
+ * stacked one after another, so they need spacing between them. */
 .demo-section + .demo-section {
   margin-top: 3rem;
   padding-top: 3rem;
