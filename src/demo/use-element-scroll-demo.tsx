@@ -12,8 +12,6 @@ const ElementScrollDemo = () => {
 
   return (
     <Section
-      id="use-element-scroll"
-      title="useElementScroll"
       description="Tracks a scroll container's position, percentage, and whether it's at the top or bottom."
       code={code}
     >

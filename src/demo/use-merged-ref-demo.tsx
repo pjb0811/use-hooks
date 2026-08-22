@@ -38,8 +38,6 @@ const MergedRefDemo = () => {
 
   return (
     <Section
-      id="use-merged-ref"
-      title="useMergedRef"
       description="Merges a forwarded ref with a component's own internal ref into one callback ref, so a component can keep an internal ref to the same DOM node its parent also has a ref to."
       code={code}
     >

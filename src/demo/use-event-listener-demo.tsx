@@ -28,8 +28,6 @@ const EventListenerDemo = () => {
 
   return (
     <Section
-      id="use-event-listener"
-      title="useEventListener"
       description="Registers/unregisters an event listener on window (default), document, or a ref'd element, with the handler read from a ref so a fresh function every render doesn't tear down and re-add it."
       code={code}
     >

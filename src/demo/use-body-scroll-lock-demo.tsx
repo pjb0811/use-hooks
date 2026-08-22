@@ -20,8 +20,6 @@ const BodyScrollLockDemo = () => {
 
   return (
     <Section
-      id="use-body-scroll-lock"
-      title="useBodyScrollLock"
       description="Locks the body scroll behind a modal or drawer while it's open."
       code={code}
     >

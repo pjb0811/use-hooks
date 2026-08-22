@@ -8,8 +8,6 @@ const ViewportDemo = () => {
 
   return (
     <Section
-      id="use-viewport"
-      title="useViewport"
       description="Tracks the actual visible viewport size, offset, and scale via visualViewport. Useful for handling mobile keyboards and pinch-zoom."
       code={code}
     >

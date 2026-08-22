@@ -12,8 +12,6 @@ const ElementPositionDemo = () => {
 
   return (
     <Section
-      id="use-element-position"
-      title="useElementPosition"
       description="Tracks an element's getBoundingClientRect in real time as you scroll or resize."
       code={code}
     >

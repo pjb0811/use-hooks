@@ -10,8 +10,6 @@ const ResponsiveSizeDemo = () => {
 
   return (
     <Section
-      id="use-responsive-size"
-      title="useResponsiveSize"
       description="Observes an element's size and reports the current breakpoint (xs–2xl). Useful as a container-query alternative."
       code={code}
     >

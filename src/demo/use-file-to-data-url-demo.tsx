@@ -13,8 +13,6 @@ const FileToDataUrlDemo = () => {
 
   return (
     <Section
-      id="use-file-to-data-url"
-      title="useFileToDataUrl"
       description="Reads a File as a data URL via FileReader, wrapped in a Promise-returning function."
       code={code}
     >

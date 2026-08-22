@@ -10,8 +10,6 @@ const ToggleDemo = () => {
 
   return (
     <Section
-      id="use-toggle"
-      title="useToggle"
       description="A boolean toggle with a toggle function and a direct setter — the state shape dropdowns, collapses, drawers, and modals all share."
       code={code}
     >

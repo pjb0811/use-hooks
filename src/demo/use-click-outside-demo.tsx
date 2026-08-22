@@ -32,8 +32,6 @@ const ClickOutsideDemo = () => {
 
   return (
     <Section
-      id="use-click-outside"
-      title="useClickOutside"
       description="Fires a callback on a click/tap outside every ref passed in, or on Escape. Passing both a trigger and a portaled panel as separate refs avoids the classic toggle bug where clicking the trigger to close it re-opens it."
       code={code}
     >

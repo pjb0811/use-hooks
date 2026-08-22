@@ -17,8 +17,6 @@ const ScrollToElementsDemo = () => {
 
   return (
     <Section
-      id="use-scroll-to-elements"
-      title="useScrollToElements"
       description="Smoothly scrolls to elements registered by key."
       code={code}
     >

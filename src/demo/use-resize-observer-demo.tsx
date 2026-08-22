@@ -10,8 +10,6 @@ const ResizeObserverDemo = () => {
 
   return (
     <Section
-      id="use-resize-observer"
-      title="useResizeObserver"
       description="Reports an element's own width/height as it's resized — the unprocessed primitive behind useResponsiveSize/useElementScroll/useElementPosition, for when you just want the size."
       code={code}
     >

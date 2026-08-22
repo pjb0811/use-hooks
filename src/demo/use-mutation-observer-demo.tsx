@@ -23,8 +23,6 @@ const MutationObserverDemo = () => {
 
   return (
     <Section
-      id="use-mutation-observer"
-      title="useMutationObserver"
       description="Watches a target (a ref, or a plain Node like document.head) for DOM mutations. The callback is read from a ref, so passing a fresh inline function every render doesn't tear down and resubscribe the observer."
       code={code}
     >

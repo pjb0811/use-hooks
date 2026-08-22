@@ -21,9 +21,7 @@ const ThrottledCallbackDemo = () => {
 
   return (
     <Section
-      id="use-throttled-callback"
-      title="useThrottledCallback"
-      description="Throttles a callback directly (unlike useThrottle, which throttles a value) — the natural fit for scroll/mousemove/resize handlers. Supports leading/trailing options."
+      description="Throttles a callback directly (unlike useThrottledValue, which throttles a value) — the natural fit for scroll/mousemove/resize handlers. Supports leading/trailing options."
       code={code}
     >
       <div

@@ -23,8 +23,6 @@ const ControllableStateDemo = () => {
 
   return (
     <Section
-      id="use-controllable-state"
-      title="useControllableState"
       description="Backs a controlled/uncontrolled prop pair (`value`/`defaultValue`/`onChange`) with a single hook — falls back to internal state when `value` is undefined, and always calls `onChange` on updates."
       code={code}
     >

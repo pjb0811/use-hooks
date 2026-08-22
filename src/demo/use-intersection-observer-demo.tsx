@@ -22,8 +22,6 @@ const IntersectionObserverDemo = () => {
 
   return (
     <Section
-      id="use-intersection-observer"
-      title="useIntersectionObserver"
       description="Tracks whether an element is visible in the viewport via a callback ref, powered by the native IntersectionObserver API. Shown here side by side: the default (Live) toggles on every crossing, while freezeOnceVisible (Frozen) disconnects for good the first time it's seen — commonly used for lazy loading, entrance animations, and infinite-scroll triggers."
       code={code}
     >

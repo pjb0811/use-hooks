@@ -14,9 +14,7 @@ const DebouncedValueDemo = () => {
 
   return (
     <Section
-      id="use-debounced-value"
-      title="useDebouncedValue"
-      description="The value-shaped counterpart to useDebounce — symmetric with useThrottle's (value, delay) => value signature, for when all you need is the debounced value itself."
+      description="The value-shaped counterpart to useDebouncedCallback — symmetric with useThrottledValue's (value, delay) => value signature, for when all you need is the debounced value itself."
       code={code}
     >
       <Input
