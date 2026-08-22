@@ -55,14 +55,14 @@ function MyComponent() {
 
 Each page below has a live, interactive demo for every hook in that group.
 
-| Page                                                       | Hooks                                                                                                                                       |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| [State](./hooks/state.mdx)                                 | `useLocalStorage`, `useHistoryState`, `useControllableState`, `usePrevious`, `useToggle`, `useMultiSelect`                                  |
-| [Scroll & Position](./hooks/scroll-and-position.mdx)       | `useWindowScroll`, `useElementScroll`, `useElementPosition`, `useResponsiveSize`, `useViewport`, `useScrollToElements`, `useBodyScrollLock` |
-| [Observers](./hooks/observers.mdx)                         | `useIntersectionObserver`, `useResizeObserver`, `useMutationObserver`                                                                       |
-| [Events & Interaction](./hooks/events-and-interaction.mdx) | `useEventListener`, `useClickOutside`, `useKeyPress`, `useFileDrop`, `useFileToDataUrl`                                                     |
-| [Timing](./hooks/timing.mdx)                               | `useDebounce`, `useDebouncedValue`, `useThrottle`, `useThrottledCallback`, `useTimeout`, `useInterval`, `useRecursiveTimeout`               |
-| [Utility](./hooks/utility.mdx)                             | `useMergedRef`, `useImage`                                                                                                                  |
+| Page                                                       | Hooks                                                                                                                                        |
+| ---------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| [State](./hooks/state.mdx)                                 | `useLocalStorage`, `useHistoryState`, `useControllableState`, `usePrevious`, `useToggle`, `useMultiSelect`                                   |
+| [Scroll & Position](./hooks/scroll-and-position.mdx)       | `useWindowScroll`, `useElementScroll`, `useElementPosition`, `useResponsiveSize`, `useViewport`, `useScrollToElements`, `useBodyScrollLock`  |
+| [Observers](./hooks/observers.mdx)                         | `useIntersectionObserver`, `useResizeObserver`, `useMutationObserver`                                                                        |
+| [Events & Interaction](./hooks/events-and-interaction.mdx) | `useEventListener`, `useClickOutside`, `useKeyPress`, `useFileDrop`, `useFileToDataUrl`                                                      |
+| [Timing](./hooks/timing.mdx)                               | `useDebouncedCallback`, `useDebouncedValue`, `useThrottledValue`, `useThrottledCallback`, `useTimeout`, `useInterval`, `useRecursiveTimeout` |
+| [Utility](./hooks/utility.mdx)                             | `useMergedRef`, `useImage`                                                                                                                   |
 
 ## Links
 

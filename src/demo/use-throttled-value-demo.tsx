@@ -2,20 +2,20 @@ import { useState } from 'react';
 
 import { Progress } from '@jbpark/ui-kit';
 
-import { useThrottle } from '../hooks';
+import { useThrottledValue } from '../hooks';
 import Section from './section';
 
 const code = `const [value, setValue] = useState(0);
-const throttled = useThrottle(value, 500);`;
+const throttled = useThrottledValue(value, 500);`;
 
-const ThrottleDemo = () => {
+const ThrottledValueDemo = () => {
   const [value, setValue] = useState(0);
-  const throttled = useThrottle(value, 500);
+  const throttled = useThrottledValue(value, 500);
 
   return (
     <Section
-      id="use-throttle"
-      title="useThrottle"
+      id="use-throttled-value"
+      title="useThrottledValue"
       description="Applies the latest value only at delay(ms) intervals, even if it changes rapidly. Useful for scroll/resize handling."
       code={code}
     >
@@ -35,4 +35,4 @@ const ThrottleDemo = () => {
   );
 };
 
-export default ThrottleDemo;
+export default ThrottledValueDemo;
