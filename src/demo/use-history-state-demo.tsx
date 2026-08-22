@@ -11,8 +11,6 @@ const HistoryStateDemo = () => {
 
   return (
     <Section
-      id="use-history-state"
-      title="useHistoryState"
       description="State with undo/redo support. Every setValue call snapshots the previous value; undo/redo step through that history."
       code={code}
     >

@@ -18,8 +18,6 @@ const TimeoutDemo = () => {
 
   return (
     <Section
-      id="use-timeout"
-      title="useTimeout"
       description="A setTimeout that doesn't go stale — the callback is read from a ref, delay === null pauses it (0 is a valid delay), and reset/clear let you restart or cancel imperatively."
       code={code}
     >

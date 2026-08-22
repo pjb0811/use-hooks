@@ -14,8 +14,6 @@ const PreviousDemo = () => {
 
   return (
     <Section
-      id="use-previous"
-      title="usePrevious"
       description="Returns the value from the previous render — useful for comparing against the current value, e.g. to detect a false-to-true transition."
       code={code}
     >

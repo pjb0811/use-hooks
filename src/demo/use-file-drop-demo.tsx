@@ -28,8 +28,6 @@ const FileDropDemo = () => {
 
   return (
     <Section
-      id="use-file-drop"
-      title="useFileDrop"
       description="Handles drag-and-drop file input — pairs with useFileToDataUrl to cover an upload area end to end. isDragging is tracked with an enter/leave counter so it doesn't flicker as the pointer crosses child elements."
       code={code}
     >

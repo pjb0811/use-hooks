@@ -24,8 +24,6 @@ const RecursiveTimeoutDemo = () => {
 
   return (
     <Section
-      id="use-recursive-timeout"
-      title="useRecursiveTimeout"
       description="Repeats a callback using recursive setTimeout instead of setInterval. Pass null as delay to stop."
       code={code}
     >

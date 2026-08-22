@@ -35,8 +35,6 @@ const ImageDemo = () => {
 
   return (
     <Section
-      id="use-image"
-      title="useImage"
       description="Tracks image loading state (loading/loaded/error) and provides a retry. error is a real Error (with the original event as its cause), and attemptCount is exposed for building retry UI."
       code={code}
     >

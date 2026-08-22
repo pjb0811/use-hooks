@@ -10,8 +10,6 @@ const WindowScrollDemo = () => {
 
   return (
     <Section
-      id="use-window-scroll"
-      title="useWindowScroll"
       description="Tracks the window scroll position (x/y) and progress (%) in real time. Try scrolling this page!"
       code={code}
     >

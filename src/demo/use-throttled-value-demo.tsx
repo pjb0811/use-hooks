@@ -14,8 +14,6 @@ const ThrottledValueDemo = () => {
 
   return (
     <Section
-      id="use-throttled-value"
-      title="useThrottledValue"
       description="Applies the latest value only at delay(ms) intervals, even if it changes rapidly. Useful for scroll/resize handling."
       code={code}
     >

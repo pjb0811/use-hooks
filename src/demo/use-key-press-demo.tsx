@@ -16,8 +16,6 @@ const KeyPressDemo = () => {
 
   return (
     <Section
-      id="use-key-press"
-      title="useKeyPress"
       description="Binds a key combo (Escape, Enter, mod+z, ...) to a handler. 'mod' normalizes to Cmd on macOS / Ctrl elsewhere. Pairs naturally with useHistoryState for undo/redo shortcuts."
       code={code}
     >

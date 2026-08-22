@@ -18,8 +18,6 @@ const IntervalDemo = () => {
 
   return (
     <Section
-      id="use-interval"
-      title="useInterval"
       description="Dan Abramov's useInterval pattern — the callback is read from a ref so a fresh function every render doesn't reset the interval, only delay === null (pause) vs a number (running) does."
       code={code}
     >

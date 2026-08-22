@@ -26,8 +26,6 @@ const MultiSelectDemo = () => {
 
   return (
     <Section
-      id="use-multi-select"
-      title="useMultiSelect"
       description="Checkbox-style multi-select for a list, with shift-click range selection. Selection is clamped against the current item count, so it stays valid if the list shrinks."
       code={code}
     >

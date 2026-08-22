@@ -30,8 +30,6 @@ const DebouncedCallbackDemo = () => {
 
   return (
     <Section
-      id="use-debounced-callback"
-      title="useDebouncedCallback"
       description="Fires a callback only after the value stops changing for delay(ms). Useful for search inputs, autosave, etc."
       code={code}
     >

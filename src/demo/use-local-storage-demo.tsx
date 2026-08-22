@@ -10,8 +10,6 @@ const LocalStorageDemo = () => {
 
   return (
     <Section
-      id="use-local-storage"
-      title="useLocalStorage"
       description="State synced with localStorage. The value survives reloads and updates across tabs."
       code={code}
     >
