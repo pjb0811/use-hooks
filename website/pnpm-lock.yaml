@@ -29,6 +29,9 @@ importers:
       clsx:
         specifier: ^2.0.0
         version: 2.1.1
+      lucide-react:
+        specifier: ^1.31.0
+        version: 1.32.0(react@19.2.8)
       prism-react-renderer:
         specifier: ^2.3.0
         version: 2.4.1(react@19.2.8)
