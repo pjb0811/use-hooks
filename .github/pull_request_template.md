@@ -36,7 +36,7 @@
 
 ## Checklist
 
-- [ ] Commit messages follow gitmoji + conventional-commit style
+- [ ] Commit messages follow conventional-commit style (no gitmoji)
 - [ ] No lint/type errors (`pnpm lint`, `tsc -b`)
 - [ ] Build completes successfully (`pnpm build`)
 - [ ] Updated hook exports/docs if needed (`src/hooks/index.ts`, README)
