@@ -16,12 +16,12 @@
 
 <!-- Check all that apply -->
 
-- [ ] ✨ feat — new feature
-- [ ] 🐛 fix — bug fix
-- [ ] ♻️ refactor — code refactoring
-- [ ] 📝 docs — documentation update
-- [ ] 💚 ci — CI/CD workflow update
-- [ ] 🔧 chore — build/config/maintenance changes
+- [ ] feat — new feature
+- [ ] fix — bug fix
+- [ ] refactor — code refactoring
+- [ ] docs — documentation update
+- [ ] ci — CI/CD workflow update
+- [ ] chore — build/config/maintenance changes
 
 ## Breaking Changes
 
