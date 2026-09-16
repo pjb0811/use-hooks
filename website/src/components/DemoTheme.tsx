@@ -14,5 +14,13 @@ import { Config } from '@jbpark/ui-kit';
 export default function DemoTheme({ children }: { children: ReactNode }) {
   const { colorMode } = useColorMode();
 
-  return <Config theme={{ dark: colorMode }}>{children}</Config>;
+  // The class is a styling hook, not a layout box: Config renders its wrapper
+  // with `display: contents`, which keeps it out of the layout tree but *not*
+  // out of the DOM — so Infima's `.markdown > h2` rules stop reaching the
+  // headings nested inside it. `custom.css` re-states them through this class.
+  return (
+    <Config className="demo-theme" theme={{ dark: colorMode }}>
+      {children}
+    </Config>
+  );
 }
