@@ -121,7 +121,14 @@ pnpm exec prettier --write .
 
 # Start the docs/demo site (each hook's demo lives on its docs page)
 pnpm --dir website start
+
+# Install the docs site's own dependencies (separate pnpm project)
+pnpm --dir website install
 ```
+
+Both `package.json` files pin `packageManager` to the same pnpm version, so
+running pnpm inside `website/` picks up that version rather than whatever is
+on `PATH`. Bump the two together.
 
 ## Project Structure
 
