@@ -1,0 +1,23 @@
+import { useViewport } from '../../../src/hooks';
+import Section from './section';
+
+const ViewportDemo = () => {
+  const viewport = useViewport();
+
+  return (
+    <Section description="Tracks the actual visible viewport size, offset, and scale via visualViewport. Useful for handling mobile keyboards and pinch-zoom.">
+      <div className="demo-output">
+        <div>
+          width: {viewport.width.toFixed(0)} / height:{' '}
+          {viewport.height.toFixed(0)}
+        </div>
+        <div>scale: {viewport.scale.toFixed(2)}</div>
+      </div>
+      <p className="demo-hint">
+        Pinch-zoom or open the keyboard on mobile to see the values change.
+      </p>
+    </Section>
+  );
+};
+
+export default ViewportDemo;

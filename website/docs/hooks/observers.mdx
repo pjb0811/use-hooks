@@ -4,9 +4,9 @@ title: Observers
 ---
 
 import DemoTheme from '@site/src/components/DemoTheme';
-import IntersectionObserverDemo from '../../../src/demo/use-intersection-observer-demo';
-import MutationObserverDemo from '../../../src/demo/use-mutation-observer-demo';
-import ResizeObserverDemo from '../../../src/demo/use-resize-observer-demo';
+import IntersectionObserverDemo from '@site/src/demo/use-intersection-observer-demo';
+import MutationObserverDemo from '@site/src/demo/use-mutation-observer-demo';
+import ResizeObserverDemo from '@site/src/demo/use-resize-observer-demo';
 
 # Observers
 
@@ -18,12 +18,42 @@ Thin, cleanup-safe wrappers around the browser's own Observer APIs.
 
 <IntersectionObserverDemo />
 
+```tsx
+const [liveRef, { isIntersecting: live }] = useIntersectionObserver({
+  threshold: 0.5,
+});
+const [frozenRef, { isIntersecting: frozen }] = useIntersectionObserver({
+  threshold: 0.5,
+  freezeOnceVisible: true,
+});
+const targetRef = useMergedRef(liveRef, frozenRef);
+
+<div ref={targetRef}>...target...</div>;
+```
+
 ## useResizeObserver {/* #use-resize-observer */}
 
 <ResizeObserverDemo />
 
+```tsx
+const [ref, size] = useResizeObserver<HTMLDivElement>();
+
+<div ref={ref}>
+  {size?.width} x {size?.height}
+</div>;
+```
+
 ## useMutationObserver {/* #use-mutation-observer */}
 
 <MutationObserverDemo />
+
+```tsx
+const listRef = useRef<HTMLUListElement>(null);
+const [count, setCount] = useState(0);
+
+useMutationObserver(listRef, () => setCount(c => c + 1), { childList: true });
+
+<ul ref={listRef}>{items.map(...)}</ul>
+```
 
 </DemoTheme>

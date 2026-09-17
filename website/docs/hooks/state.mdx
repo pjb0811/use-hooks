@@ -4,12 +4,12 @@ title: State
 ---
 
 import DemoTheme from '@site/src/components/DemoTheme';
-import ControllableStateDemo from '../../../src/demo/use-controllable-state-demo';
-import HistoryStateDemo from '../../../src/demo/use-history-state-demo';
-import LocalStorageDemo from '../../../src/demo/use-local-storage-demo';
-import MultiSelectDemo from '../../../src/demo/use-multi-select-demo';
-import PreviousDemo from '../../../src/demo/use-previous-demo';
-import ToggleDemo from '../../../src/demo/use-toggle-demo';
+import ControllableStateDemo from '@site/src/demo/use-controllable-state-demo';
+import HistoryStateDemo from '@site/src/demo/use-history-state-demo';
+import LocalStorageDemo from '@site/src/demo/use-local-storage-demo';
+import MultiSelectDemo from '@site/src/demo/use-multi-select-demo';
+import PreviousDemo from '@site/src/demo/use-previous-demo';
+import ToggleDemo from '@site/src/demo/use-toggle-demo';
 
 # State
 
@@ -22,24 +22,71 @@ controlled/uncontrolled, or just a boolean.
 
 <LocalStorageDemo />
 
+```tsx
+const [count, setCount] = useLocalStorage('demo-count', 0);
+```
+
 ## useHistoryState {/* #use-history-state */}
 
 <HistoryStateDemo />
+
+```tsx
+const { value, setValue, undo, redo, canUndo, canRedo } = useHistoryState(0);
+```
 
 ## useControllableState {/* #use-controllable-state */}
 
 <ControllableStateDemo />
 
+```tsx
+const [checked, setChecked] = useControllableState({
+  value: externalValue, // undefined = uncontrolled
+  defaultValue: false,
+  onChange: value => console.log('checked:', value),
+});
+```
+
 ## usePrevious {/* #use-previous */}
 
 <PreviousDemo />
+
+```tsx
+const [count, setCount] = useState(0);
+const previous = usePrevious(count);
+```
 
 ## useToggle {/* #use-toggle */}
 
 <ToggleDemo />
 
+```tsx
+const [open, toggle, setOpen] = useToggle(false);
+```
+
 ## useMultiSelect {/* #use-multi-select */}
 
 <MultiSelectDemo />
+
+```tsx
+const { selected, isSelected, toggle, clear } = useMultiSelect(items.length);
+// shift-click range-select is mouse-only, so the modifier is captured on
+// the CAPTURE phase (before Checkbox's own click-driven onChange fires)
+// and read back in onChange, which fires exactly once per real toggle
+// (mouse click or keyboard Space).
+const shiftHeldRef = useRef(false);
+
+<div
+  onClickCapture={e => {
+    shiftHeldRef.current = e.shiftKey;
+  }}
+>
+  <Checkbox
+    checked={isSelected(index)}
+    onChange={() => toggle(index, shiftHeldRef.current)}
+  >
+    {item}
+  </Checkbox>
+</div>;
+```
 
 </DemoTheme>

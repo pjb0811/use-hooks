@@ -145,12 +145,12 @@ src/
 │   ├── use-viewport.ts
 │   ├── use-window-scroll.ts
 │   └── index.ts                # Barrel export
-├── demo/                       # One interactive demo component per hook
-│   └── use-x-demo.tsx          # Rendered directly on that hook's docs page
 └── index.ts                    # Package entry point
 
 dist/                            # Built library (ESM + types)
 website/                         # Docusaurus documentation & demo site
+└── src/demo/                    # One interactive demo component per hook
+    └── use-x-demo.tsx           # Rendered directly on that hook's docs page
 ```
 
 ## Build & Deployment
@@ -172,7 +172,7 @@ Vercel (see `vercel.json`).
 ## Key Patterns
 
 - **One File Per Hook**: Each hook lives in a single flat file at `src/hooks/use-x.ts` (no per-hook folder/`index.ts`) and is re-exported from `src/hooks/index.ts`
-- **Demo File Naming**: Each hook's demo page file is named `src/demo/use-x-demo.tsx`, matching the hook's own filename with a `-demo` suffix (the component name itself stays PascalCase, e.g. `ClickOutsideDemo`)
+- **Demo File Naming**: Each hook's demo page file is named `website/src/demo/use-x-demo.tsx`, matching the hook's own filename with a `-demo` suffix (the component name itself stays PascalCase, e.g. `ClickOutsideDemo`)
 - **Window Protection**: Hooks accessing `window`/`document` check `typeof window` for SSR safety (e.g., `useLocalStorage`)
 - **Event Listeners**: All scroll/resize listeners use passive flag when possible
 - **ResizeObserver**: Used in `useResponsiveSize` and `useElementPosition` for performance

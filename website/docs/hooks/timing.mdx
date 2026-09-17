@@ -4,13 +4,13 @@ title: Timing
 ---
 
 import DemoTheme from '@site/src/components/DemoTheme';
-import DebouncedCallbackDemo from '../../../src/demo/use-debounced-callback-demo';
-import DebouncedValueDemo from '../../../src/demo/use-debounced-value-demo';
-import IntervalDemo from '../../../src/demo/use-interval-demo';
-import RecursiveTimeoutDemo from '../../../src/demo/use-recursive-timeout-demo';
-import ThrottledValueDemo from '../../../src/demo/use-throttled-value-demo';
-import ThrottledCallbackDemo from '../../../src/demo/use-throttled-callback-demo';
-import TimeoutDemo from '../../../src/demo/use-timeout-demo';
+import DebouncedCallbackDemo from '@site/src/demo/use-debounced-callback-demo';
+import DebouncedValueDemo from '@site/src/demo/use-debounced-value-demo';
+import IntervalDemo from '@site/src/demo/use-interval-demo';
+import RecursiveTimeoutDemo from '@site/src/demo/use-recursive-timeout-demo';
+import ThrottledCallbackDemo from '@site/src/demo/use-throttled-callback-demo';
+import ThrottledValueDemo from '@site/src/demo/use-throttled-value-demo';
+import TimeoutDemo from '@site/src/demo/use-timeout-demo';
 
 # Timing
 
@@ -23,28 +23,82 @@ unmount.
 
 <DebouncedCallbackDemo />
 
+```tsx
+const [text, setText] = useState('');
+const [debounced, setDebounced] = useState('');
+
+useDebouncedCallback(() => setDebounced(text), { delay: 400 }, [text]);
+```
+
 ## useDebouncedValue {/* #use-debounced-value */}
 
 <DebouncedValueDemo />
+
+```tsx
+const [text, setText] = useState('');
+const debounced = useDebouncedValue(text, 400);
+```
 
 ## useThrottledValue {/* #use-throttled-value */}
 
 <ThrottledValueDemo />
 
+```tsx
+const [value, setValue] = useState(0);
+const throttled = useThrottledValue(value, 500);
+```
+
 ## useThrottledCallback {/* #use-throttled-callback */}
 
 <ThrottledCallbackDemo />
+
+```tsx
+const onMouseMove = useThrottledCallback(
+  (x: number, y: number) => setPosition({ x, y }),
+  200,
+);
+
+<div onMouseMove={e => onMouseMove(e.clientX, e.clientY)} />;
+```
 
 ## useTimeout {/* #use-timeout */}
 
 <TimeoutDemo />
 
+```tsx
+const [open, setOpen] = useState(false);
+const { reset, clear } = useTimeout(() => setOpen(false), open ? 2000 : null);
+
+// Pause the auto-dismiss while hovered, restart it on mouse leave
+<div onMouseEnter={clear} onMouseLeave={reset}>
+  Toast
+</div>;
+```
+
 ## useInterval {/* #use-interval */}
 
 <IntervalDemo />
 
+```tsx
+const [running, setRunning] = useState(false);
+const [count, setCount] = useState(0);
+
+useInterval(() => setCount(c => c + 1), running ? 1000 : null);
+```
+
 ## useRecursiveTimeout {/* #use-recursive-timeout */}
 
 <RecursiveTimeoutDemo />
+
+```tsx
+const [tick, setTick] = useState(0);
+
+useRecursiveTimeout(
+  () => {
+    setTick(t => t + 1);
+  },
+  running ? 1000 : null,
+);
+```
 
 </DemoTheme>
