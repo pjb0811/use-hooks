@@ -121,7 +121,14 @@ pnpm exec prettier --write .
 
 # 문서/데모 사이트 시작 (각 훅의 데모는 해당 훅의 문서 페이지에 있습니다)
 pnpm --dir website start
+
+# 문서 사이트 의존성 설치 (별도의 pnpm 프로젝트입니다)
+pnpm --dir website install
 ```
+
+두 `package.json` 모두 `packageManager`에 같은 pnpm 버전을 핀하고 있어,
+`website/` 안에서 pnpm을 실행해도 `PATH`에 깔린 버전이 아니라 핀된 버전이
+쓰입니다. 버전을 올릴 때는 두 곳을 함께 올립니다.
 
 ## 프로젝트 구조
 
