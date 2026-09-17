@@ -1,8 +1,36 @@
 import type * as Preset from '@docusaurus/preset-classic';
 import type { Config } from '@docusaurus/types';
+import { createRequire } from 'node:module';
 import { themes as prismThemes } from 'prism-react-renderer';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+
+// The doc pages import their demos from `../../src/demo`, which belongs to the
+// library project one directory up — and that project installs its own
+// `node_modules`, separate from this site's. So `@jbpark/ui-kit` resolves to two
+// physically distinct copies: the site's for `src/components/DemoTheme.tsx`, the
+// library's for every demo file. Two copies means two `createContext` calls, so
+// `DemoTheme`'s `<Config>` publishes to a context that `CodeEditor` — which
+// reads `theme.dark` in JS rather than through the `.dark` class every other
+// component follows — never sees, and it was pinned to the light VSCode theme.
+//
+// Docusaurus hits the same problem with React and solves it the same way (see
+// `getReactAliases` in @docusaurus/core's webpack/base.js), which is exactly why
+// React survives this layout and ui-kit did not. Aliasing per subpath rather
+// than at the package root because the published `exports` map points these at
+// `dist/*.mjs` — a directory alias would bypass it. Add an entry here when a
+// demo starts using a new subpath.
+const requireFromSite = createRequire(import.meta.url);
+
+const uiKitAliases = {
+  '@jbpark/ui-kit$': requireFromSite.resolve('@jbpark/ui-kit'),
+  '@jbpark/ui-kit/CodeEditor$': requireFromSite.resolve(
+    '@jbpark/ui-kit/CodeEditor',
+  ),
+  '@jbpark/ui-kit/style.css$': requireFromSite.resolve(
+    '@jbpark/ui-kit/style.css',
+  ),
+};
 
 const config: Config = {
   title: 'use-hooks',
@@ -44,6 +72,13 @@ const config: Config = {
         },
       } satisfies Preset.Options,
     ],
+  ],
+
+  plugins: [
+    () => ({
+      name: 'dedupe-ui-kit',
+      configureWebpack: () => ({ resolve: { alias: uiKitAliases } }),
+    }),
   ],
 
   themeConfig: {
