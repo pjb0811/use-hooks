@@ -5,18 +5,12 @@ import { Input } from '@jbpark/ui-kit';
 import { useDebouncedValue } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [text, setText] = useState('');
-const debounced = useDebouncedValue(text, 400);`;
-
 const DebouncedValueDemo = () => {
   const [text, setText] = useState('');
   const debounced = useDebouncedValue(text, 400);
 
   return (
-    <Section
-      description="The value-shaped counterpart to useDebouncedCallback — symmetric with useThrottledValue's (value, delay) => value signature, for when all you need is the debounced value itself."
-      code={code}
-    >
+    <Section description="The value-shaped counterpart to useDebouncedCallback — symmetric with useThrottledValue's (value, delay) => value signature, for when all you need is the debounced value itself.">
       <Input
         value={text}
         onChange={e => setText(e.target.value)}

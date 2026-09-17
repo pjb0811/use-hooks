@@ -1,15 +1,6 @@
 import { useIntersectionObserver, useMergedRef } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [liveRef, { isIntersecting: live }] = useIntersectionObserver({ threshold: 0.5 });
-const [frozenRef, { isIntersecting: frozen }] = useIntersectionObserver({
-  threshold: 0.5,
-  freezeOnceVisible: true,
-});
-const targetRef = useMergedRef(liveRef, frozenRef);
-
-<div ref={targetRef}>...target...</div>`;
-
 const IntersectionObserverDemo = () => {
   const [liveRef, { isIntersecting: live }] =
     useIntersectionObserver<HTMLDivElement>({ threshold: 0.5 });
@@ -21,10 +12,7 @@ const IntersectionObserverDemo = () => {
   const targetRef = useMergedRef(liveRef, frozenRef);
 
   return (
-    <Section
-      description="Tracks whether an element is visible in the viewport via a callback ref, powered by the native IntersectionObserver API. Shown here side by side: the default (Live) toggles on every crossing, while freezeOnceVisible (Frozen) disconnects for good the first time it's seen — commonly used for lazy loading, entrance animations, and infinite-scroll triggers."
-      code={code}
-    >
+    <Section description="Tracks whether an element is visible in the viewport via a callback ref, powered by the native IntersectionObserver API. Shown here side by side: the default (Live) toggles on every crossing, while freezeOnceVisible (Frozen) disconnects for good the first time it's seen — commonly used for lazy loading, entrance animations, and infinite-scroll triggers.">
       <div className="demo-output">
         <div>
           Live: <b>{live ? 'Y' : 'N'}</b>&nbsp;&nbsp;Frozen:{' '}

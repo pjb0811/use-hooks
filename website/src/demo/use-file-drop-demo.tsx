@@ -3,15 +3,6 @@ import { useState } from 'react';
 import { useFileDrop, useFileToDataUrl } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const readAsDataUrl = useFileToDataUrl();
-const { dropRef, isDragging } = useFileDrop({
-  accept: 'image/*',
-  multiple: false,
-  onDrop: async ([file]) => setDataUrl(await readAsDataUrl(file)),
-});
-
-<div ref={dropRef}>{isDragging ? 'Drop it!' : 'Drag an image here'}</div>`;
-
 const FileDropDemo = () => {
   const readAsDataUrl = useFileToDataUrl();
   const [dataUrl, setDataUrl] = useState<string | null>(null);
@@ -27,10 +18,7 @@ const FileDropDemo = () => {
   });
 
   return (
-    <Section
-      description="Handles drag-and-drop file input — pairs with useFileToDataUrl to cover an upload area end to end. isDragging is tracked with an enter/leave counter so it doesn't flicker as the pointer crosses child elements."
-      code={code}
-    >
+    <Section description="Handles drag-and-drop file input — pairs with useFileToDataUrl to cover an upload area end to end. isDragging is tracked with an enter/leave counter so it doesn't flicker as the pointer crosses child elements.">
       <div
         ref={dropRef}
         className="demo-box"

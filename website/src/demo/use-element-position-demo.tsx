@@ -3,18 +3,12 @@ import { useRef } from 'react';
 import { useElementPosition } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const ref = useRef<HTMLDivElement>(null);
-const rect = useElementPosition(ref);`;
-
 const ElementPositionDemo = () => {
   const ref = useRef<HTMLDivElement>(null);
   const rect = useElementPosition(ref);
 
   return (
-    <Section
-      description="Tracks an element's getBoundingClientRect in real time as you scroll or resize."
-      code={code}
-    >
+    <Section description="Tracks an element's getBoundingClientRect in real time as you scroll or resize.">
       <div ref={ref} className="demo-box">
         Tracked box
       </div>

@@ -5,12 +5,6 @@ import { Button, Checkbox } from '@jbpark/ui-kit';
 import { useControllableState } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [checked, setChecked] = useControllableState({
-  value: externalValue, // undefined = uncontrolled
-  defaultValue: false,
-  onChange: value => console.log('checked:', value),
-});`;
-
 const ControllableStateDemo = () => {
   const [externalValue, setExternalValue] = useState<boolean | undefined>(
     undefined,
@@ -22,10 +16,7 @@ const ControllableStateDemo = () => {
   });
 
   return (
-    <Section
-      description="Backs a controlled/uncontrolled prop pair (`value`/`defaultValue`/`onChange`) with a single hook — falls back to internal state when `value` is undefined, and always calls `onChange` on updates."
-      code={code}
-    >
+    <Section description="Backs a controlled/uncontrolled prop pair (`value`/`defaultValue`/`onChange`) with a single hook — falls back to internal state when `value` is undefined, and always calls `onChange` on updates.">
       <div className="demo-output">
         <Checkbox checked={checked} onChange={setChecked}>
           {externalValue === undefined ? 'Uncontrolled' : 'Controlled'} checkbox

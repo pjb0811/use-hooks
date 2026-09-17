@@ -8,9 +8,6 @@ import Section from './section';
 const GOOD_SRC = 'https://picsum.photos/seed/use-hooks/320/200';
 const BAD_SRC = 'https://this-domain-does-not-exist-123456.invalid/broken.png';
 
-const code = `const { loading, error, loaded, retry, attemptCount } =
-  useImage(src, { retryCount: 1 });`;
-
 const ImageDemo = () => {
   const [src, setSrc] = useState(GOOD_SRC);
   const { loading, error, loaded, retry, attemptCount } = useImage(src, {
@@ -34,10 +31,7 @@ const ImageDemo = () => {
           : 'default';
 
   return (
-    <Section
-      description="Tracks image loading state (loading/loaded/error) and provides a retry. error is a real Error (with the original event as its cause), and attemptCount is exposed for building retry UI."
-      code={code}
-    >
+    <Section description="Tracks image loading state (loading/loaded/error) and provides a retry. error is a real Error (with the original event as its cause), and attemptCount is exposed for building retry UI.">
       <div className="demo-output">
         <div>
           Status: <Tag color={statusColor}>{status}</Tag>

@@ -3,11 +3,6 @@ import { Button } from '@jbpark/ui-kit';
 import { useScrollToElements } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const { register, scrollTo } = useScrollToElements({ offset: 16 });
-
-<div ref={register('section-1')}>...</div>
-<button onClick={() => scrollTo('section-1')}>Go</button>`;
-
 const sections = ['section-1', 'section-2', 'section-3'];
 
 const ScrollToElementsDemo = () => {
@@ -16,10 +11,7 @@ const ScrollToElementsDemo = () => {
   });
 
   return (
-    <Section
-      description="Smoothly scrolls to elements registered by key."
-      code={code}
-    >
+    <Section description="Smoothly scrolls to elements registered by key.">
       <div className="demo-actions">
         {sections.map((key, i) => (
           <Button key={key} onClick={() => scrollTo(key)}>

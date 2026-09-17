@@ -3,16 +3,11 @@ import { Progress } from '@jbpark/ui-kit';
 import { useWindowScroll } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const { x, y, percent } = useWindowScroll();`;
-
 const WindowScrollDemo = () => {
   const { x, y, percent } = useWindowScroll();
 
   return (
-    <Section
-      description="Tracks the window scroll position (x/y) and progress (%) in real time. Try scrolling this page!"
-      code={code}
-    >
+    <Section description="Tracks the window scroll position (x/y) and progress (%) in real time. Try scrolling this page!">
       <Progress value={percent.y} />
       <div className="demo-output">
         <div>

@@ -23,28 +23,67 @@ bounding rect, viewport size, or breakpoint.
 
 <WindowScrollDemo />
 
+```tsx
+const { x, y, percent } = useWindowScroll();
+```
+
 ## useElementScroll {/* #use-element-scroll */}
 
 <ElementScrollDemo />
+
+```tsx
+const { setRef, scrollPercentage, isAtTop, isAtBottom } = useElementScroll();
+
+<div ref={setRef}>...scrollable content...</div>;
+```
 
 ## useElementPosition {/* #use-element-position */}
 
 <ElementPositionDemo />
 
+```tsx
+const ref = useRef<HTMLDivElement>(null);
+const rect = useElementPosition(ref);
+```
+
 ## useResponsiveSize {/* #use-responsive-size */}
 
 <ResponsiveSizeDemo />
+
+```tsx
+const { size, breakpoint, ref } = useResponsiveSize<HTMLDivElement>();
+
+<div ref={ref}>Current breakpoint: {breakpoint.current}</div>;
+```
 
 ## useViewport {/* #use-viewport */}
 
 <ViewportDemo />
 
+```tsx
+const viewport = useViewport();
+```
+
 ## useScrollToElements {/* #use-scroll-to-elements */}
 
 <ScrollToElementsDemo />
 
+```tsx
+const { register, scrollTo } = useScrollToElements({ offset: 16 });
+
+<div ref={register('section-1')}>...</div>
+<button onClick={() => scrollTo('section-1')}>Go</button>
+```
+
 ## useBodyScrollLock {/* #use-body-scroll-lock */}
 
 <BodyScrollLockDemo />
+
+```tsx
+const [open, setOpen] = useState(false);
+
+useBodyScrollLock(open);
+useKeyPress('esc', () => setOpen(false), { enabled: open });
+```
 
 </DemoTheme>

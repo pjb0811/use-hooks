@@ -5,10 +5,6 @@ import { Button } from '@jbpark/ui-kit';
 import { useMergedRef } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const mergedRef = useMergedRef(forwardedRef, internalRef);
-
-<div ref={mergedRef} />`;
-
 interface MeasuredBoxProps {
   ref?: React.Ref<HTMLDivElement>;
 }
@@ -37,10 +33,7 @@ const MergedRefDemo = () => {
   const forwardedRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Section
-      description="Merges a forwarded ref with a component's own internal ref into one callback ref, so a component can keep an internal ref to the same DOM node its parent also has a ref to."
-      code={code}
-    >
+    <Section description="Merges a forwarded ref with a component's own internal ref into one callback ref, so a component can keep an internal ref to the same DOM node its parent also has a ref to.">
       <MeasuredBox ref={forwardedRef} />
       <div className="demo-actions">
         <Button

@@ -3,19 +3,13 @@ import { useState } from 'react';
 import { useFileToDataUrl } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const readAsDataUrl = useFileToDataUrl();
-const dataUrl = await readAsDataUrl(file);`;
-
 const FileToDataUrlDemo = () => {
   const readAsDataUrl = useFileToDataUrl();
   const [dataUrl, setDataUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   return (
-    <Section
-      description="Reads a File as a data URL via FileReader, wrapped in a Promise-returning function."
-      code={code}
-    >
+    <Section description="Reads a File as a data URL via FileReader, wrapped in a Promise-returning function.">
       <div className="demo-actions">
         <input
           type="file"

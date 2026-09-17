@@ -5,22 +5,13 @@ import { Button } from '@jbpark/ui-kit';
 import { useTimeout } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [open, setOpen] = useState(false);
-const { reset, clear } = useTimeout(() => setOpen(false), open ? 2000 : null);
-
-// Pause the auto-dismiss while hovered, restart it on mouse leave
-<div onMouseEnter={clear} onMouseLeave={reset}>Toast</div>`;
-
 const TimeoutDemo = () => {
   const [open, setOpen] = useState(false);
 
   const { reset, clear } = useTimeout(() => setOpen(false), open ? 2000 : null);
 
   return (
-    <Section
-      description="A setTimeout that doesn't go stale — the callback is read from a ref, delay === null pauses it (0 is a valid delay), and reset/clear let you restart or cancel imperatively."
-      code={code}
-    >
+    <Section description="A setTimeout that doesn't go stale — the callback is read from a ref, delay === null pauses it (0 is a valid delay), and reset/clear let you restart or cancel imperatively.">
       <div className="demo-actions">
         <Button
           onClick={() => {

@@ -5,13 +5,6 @@ import { Button } from '@jbpark/ui-kit';
 import { useMutationObserver } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const listRef = useRef<HTMLUListElement>(null);
-const [count, setCount] = useState(0);
-
-useMutationObserver(listRef, () => setCount(c => c + 1), { childList: true });
-
-<ul ref={listRef}>{items.map(...)}</ul>`;
-
 const MutationObserverDemo = () => {
   const listRef = useRef<HTMLUListElement>(null);
   const [items, setItems] = useState(['Item 1']);
@@ -22,10 +15,7 @@ const MutationObserverDemo = () => {
   });
 
   return (
-    <Section
-      description="Watches a target (a ref, or a plain Node like document.head) for DOM mutations. The callback is read from a ref, so passing a fresh inline function every render doesn't tear down and resubscribe the observer."
-      code={code}
-    >
+    <Section description="Watches a target (a ref, or a plain Node like document.head) for DOM mutations. The callback is read from a ref, so passing a fresh inline function every render doesn't tear down and resubscribe the observer.">
       <div className="demo-actions">
         <Button
           onClick={() => setItems(prev => [...prev, `Item ${prev.length + 1}`])}

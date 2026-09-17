@@ -3,17 +3,11 @@ import { Button } from '@jbpark/ui-kit';
 import { useHistoryState } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const { value, setValue, undo, redo, canUndo, canRedo } =
-  useHistoryState(0);`;
-
 const HistoryStateDemo = () => {
   const { value, setValue, undo, redo, canUndo, canRedo } = useHistoryState(0);
 
   return (
-    <Section
-      description="State with undo/redo support. Every setValue call snapshots the previous value; undo/redo step through that history."
-      code={code}
-    >
+    <Section description="State with undo/redo support. Every setValue call snapshots the previous value; undo/redo step through that history.">
       <div className="demo-output">
         Current value: <b>{value}</b>
       </div>

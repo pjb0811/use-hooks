@@ -5,11 +5,6 @@ import { Button } from '@jbpark/ui-kit';
 import { useBodyScrollLock, useKeyPress } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [open, setOpen] = useState(false);
-
-useBodyScrollLock(open);
-useKeyPress('esc', () => setOpen(false), { enabled: open });`;
-
 // NOTE: ui-kit's Modal (Radix Dialog) locks body scroll on its own, which
 // would mask what this hook does — the demo deliberately uses a plain
 // overlay so the lock visibly comes from useBodyScrollLock.
@@ -19,10 +14,7 @@ const BodyScrollLockDemo = () => {
   useKeyPress('esc', () => setOpen(false), { enabled: open });
 
   return (
-    <Section
-      description="Locks the body scroll behind a modal or drawer while it's open."
-      code={code}
-    >
+    <Section description="Locks the body scroll behind a modal or drawer while it's open.">
       <Button type="primary" onClick={() => setOpen(true)}>
         Open modal
       </Button>

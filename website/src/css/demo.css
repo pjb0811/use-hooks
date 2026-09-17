@@ -19,29 +19,6 @@
   gap: 12px;
 }
 
-/* Wraps ui-kit's CodeEditor rather than a <pre>, so this contributes the frame
-   only — the VSCode theme inside paints its own background, text color, and
-   padding. `overflow: hidden` is what makes the radius clip the editor's
-   corners. */
-.demo-code {
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.85rem;
-}
-
-/* The pre-hydration stand-in (see section.tsx). Its padding and line-height
-   mirror what CodeMirror lays out with the gutters off, so the swap to the
-   editor doesn't shift the page. */
-.demo-code-static {
-  margin: 0;
-  padding: 4px 6px;
-  overflow-x: auto;
-  background: var(--muted);
-  color: var(--foreground);
-  line-height: 1.4;
-}
-
 .demo-output {
   display: flex;
   flex-direction: column;

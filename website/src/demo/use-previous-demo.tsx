@@ -5,18 +5,12 @@ import { Button } from '@jbpark/ui-kit';
 import { usePrevious } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [count, setCount] = useState(0);
-const previous = usePrevious(count);`;
-
 const PreviousDemo = () => {
   const [count, setCount] = useState(0);
   const previous = usePrevious(count);
 
   return (
-    <Section
-      description="Returns the value from the previous render — useful for comparing against the current value, e.g. to detect a false-to-true transition."
-      code={code}
-    >
+    <Section description="Returns the value from the previous render — useful for comparing against the current value, e.g. to detect a false-to-true transition.">
       <div className="demo-output">
         <div>Current: {count}</div>
         <div>Previous: {previous ?? '(none yet)'}</div>

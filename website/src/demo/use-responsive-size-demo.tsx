@@ -1,18 +1,11 @@
 import { useResponsiveSize } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const { size, breakpoint, ref } = useResponsiveSize<HTMLDivElement>();
-
-<div ref={ref}>Current breakpoint: {breakpoint.current}</div>`;
-
 const ResponsiveSizeDemo = () => {
   const { size, breakpoint, ref } = useResponsiveSize<HTMLDivElement>();
 
   return (
-    <Section
-      description="Observes an element's size and reports the current breakpoint (xs–2xl). Useful as a container-query alternative."
-      code={code}
-    >
+    <Section description="Observes an element's size and reports the current breakpoint (xs–2xl). Useful as a container-query alternative.">
       <div ref={ref} className="demo-resizable">
         <div>
           Current breakpoint: <b>{breakpoint.current}</b>

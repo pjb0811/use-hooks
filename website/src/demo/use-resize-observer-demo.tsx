@@ -1,18 +1,11 @@
 import { useResizeObserver } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [ref, size] = useResizeObserver<HTMLDivElement>();
-
-<div ref={ref}>{size?.width} x {size?.height}</div>`;
-
 const ResizeObserverDemo = () => {
   const [ref, size] = useResizeObserver<HTMLDivElement>();
 
   return (
-    <Section
-      description="Reports an element's own width/height as it's resized — the unprocessed primitive behind useResponsiveSize/useElementScroll/useElementPosition, for when you just want the size."
-      code={code}
-    >
+    <Section description="Reports an element's own width/height as it's resized — the unprocessed primitive behind useResponsiveSize/useElementScroll/useElementPosition, for when you just want the size.">
       <div ref={ref} className="demo-resizable">
         <div>
           Size:{' '}

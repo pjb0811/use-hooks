@@ -21,20 +21,68 @@ drag-and-drop file handling.
 
 <EventListenerDemo />
 
+```tsx
+const [width, setWidth] = useState(window.innerWidth);
+
+useEventListener('resize', () => setWidth(window.innerWidth));
+```
+
 ## useClickOutside {/* #use-click-outside */}
 
 <ClickOutsideDemo />
+
+```tsx
+const [open, setOpen] = useState(false);
+const triggerRef = useRef<HTMLButtonElement>(null);
+const panelRef = useRef<HTMLDivElement>(null);
+
+// Both the trigger and the panel are "inside" — otherwise clicking the
+// trigger to close it would register as an outside click and reopen it.
+// escape defaults to false as of v4 — pass it explicitly to close on Escape too.
+useClickOutside([triggerRef, panelRef], () => setOpen(false), {
+  enabled: open,
+  escape: true,
+});
+
+<button ref={triggerRef}>Toggle</button>;
+{
+  open && <div ref={panelRef}>Panel</div>;
+}
+```
 
 ## useKeyPress {/* #use-key-press */}
 
 <KeyPressDemo />
 
+```tsx
+const { value, setValue, undo, redo } = useHistoryState(0);
+
+useKeyPress('mod+z', undo, { preventDefault: true });
+useKeyPress('mod+shift+z', redo, { preventDefault: true });
+```
+
 ## useFileDrop {/* #use-file-drop */}
 
 <FileDropDemo />
 
+```tsx
+const readAsDataUrl = useFileToDataUrl();
+const { dropRef, isDragging } = useFileDrop({
+  accept: 'image/*',
+  multiple: false,
+  onDrop: async ([file]) => setDataUrl(await readAsDataUrl(file)),
+});
+
+<div ref={dropRef}>{isDragging ? 'Drop it!' : 'Drag an image here'}</div>;
+```
+
 ## useFileToDataUrl {/* #use-file-to-data-url */}
 
 <FileToDataUrlDemo />
+
+```tsx
+const readAsDataUrl = useFileToDataUrl();
+const dataUrl = await readAsDataUrl(file);
+```
 
 </DemoTheme>

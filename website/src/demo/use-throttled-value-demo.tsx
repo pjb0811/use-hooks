@@ -5,18 +5,12 @@ import { Progress } from '@jbpark/ui-kit';
 import { useThrottledValue } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [value, setValue] = useState(0);
-const throttled = useThrottledValue(value, 500);`;
-
 const ThrottledValueDemo = () => {
   const [value, setValue] = useState(0);
   const throttled = useThrottledValue(value, 500);
 
   return (
-    <Section
-      description="Applies the latest value only at delay(ms) intervals, even if it changes rapidly. Useful for scroll/resize handling."
-      code={code}
-    >
+    <Section description="Applies the latest value only at delay(ms) intervals, even if it changes rapidly. Useful for scroll/resize handling.">
       <input
         type="range"
         min={0}

@@ -3,13 +3,6 @@ import { useState } from 'react';
 import { useThrottledCallback } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const onMouseMove = useThrottledCallback(
-  (x: number, y: number) => setPosition({ x, y }),
-  200,
-);
-
-<div onMouseMove={e => onMouseMove(e.clientX, e.clientY)} />`;
-
 const ThrottledCallbackDemo = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [calls, setCalls] = useState(0);
@@ -20,10 +13,7 @@ const ThrottledCallbackDemo = () => {
   }, 200);
 
   return (
-    <Section
-      description="Throttles a callback directly (unlike useThrottledValue, which throttles a value) — the natural fit for scroll/mousemove/resize handlers. Supports leading/trailing options."
-      code={code}
-    >
+    <Section description="Throttles a callback directly (unlike useThrottledValue, which throttles a value) — the natural fit for scroll/mousemove/resize handlers. Supports leading/trailing options.">
       <div
         className="demo-box"
         onMouseMove={e => onMouseMove(e.clientX, e.clientY)}

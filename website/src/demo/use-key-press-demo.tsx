@@ -3,11 +3,6 @@ import { Button } from '@jbpark/ui-kit';
 import { useHistoryState, useKeyPress } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const { value, setValue, undo, redo } = useHistoryState(0);
-
-useKeyPress('mod+z', undo, { preventDefault: true });
-useKeyPress('mod+shift+z', redo, { preventDefault: true });`;
-
 const KeyPressDemo = () => {
   const { value, setValue, undo, redo, canUndo, canRedo } = useHistoryState(0);
 
@@ -15,10 +10,7 @@ const KeyPressDemo = () => {
   useKeyPress('mod+shift+z', redo, { preventDefault: true });
 
   return (
-    <Section
-      description="Binds a key combo (Escape, Enter, mod+z, ...) to a handler. 'mod' normalizes to Cmd on macOS / Ctrl elsewhere. Pairs naturally with useHistoryState for undo/redo shortcuts."
-      code={code}
-    >
+    <Section description="Binds a key combo (Escape, Enter, mod+z, ...) to a handler. 'mod' normalizes to Cmd on macOS / Ctrl elsewhere. Pairs naturally with useHistoryState for undo/redo shortcuts.">
       <div className="demo-output">
         Current value: <b>{value}</b>
       </div>

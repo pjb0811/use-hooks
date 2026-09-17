@@ -8,7 +8,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 // library project one directory up, which installs a separate
 // `node_modules` — that made `@jbpark/ui-kit` resolve to two physically
 // distinct copies, two `createContext` calls, and a `Config` context that
-// `CodeEditor` never saw; see #196). They import the hooks from
+// ui-kit's `CodeEditor` never saw; see #196). They import the hooks from
 // `../../../src/hooks` as plain source, which pulls in no packages of its
 // own, so every dependency now resolves through this site alone.
 const config: Config = {

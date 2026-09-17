@@ -3,16 +3,11 @@ import { Button } from '@jbpark/ui-kit';
 import { useLocalStorage } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [count, setCount] = useLocalStorage('demo-count', 0);`;
-
 const LocalStorageDemo = () => {
   const [count, setCount] = useLocalStorage('use-hooks-demo-count', 0);
 
   return (
-    <Section
-      description="State synced with localStorage. The value survives reloads and updates across tabs."
-      code={code}
-    >
+    <Section description="State synced with localStorage. The value survives reloads and updates across tabs.">
       <div className="demo-output">
         <div>
           Stored value: <b>{count}</b>

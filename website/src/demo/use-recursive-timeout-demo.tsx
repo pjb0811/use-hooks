@@ -5,12 +5,6 @@ import { Switch } from '@jbpark/ui-kit';
 import { useRecursiveTimeout } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [tick, setTick] = useState(0);
-
-useRecursiveTimeout(() => {
-  setTick((t) => t + 1);
-}, running ? 1000 : null);`;
-
 const RecursiveTimeoutDemo = () => {
   const [tick, setTick] = useState(0);
   const [running, setRunning] = useState(true);
@@ -23,10 +17,7 @@ const RecursiveTimeoutDemo = () => {
   );
 
   return (
-    <Section
-      description="Repeats a callback using recursive setTimeout instead of setInterval. Pass null as delay to stop."
-      code={code}
-    >
+    <Section description="Repeats a callback using recursive setTimeout instead of setInterval. Pass null as delay to stop.">
       <div className="demo-output">
         <div>
           Elapsed ticks: <b>{tick}</b>s

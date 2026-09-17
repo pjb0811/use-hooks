@@ -17,8 +17,20 @@ Small standalone utilities that don't fit the other categories.
 
 <MergedRefDemo />
 
+```tsx
+const mergedRef = useMergedRef(forwardedRef, internalRef);
+
+<div ref={mergedRef} />;
+```
+
 ## useImage {/* #use-image */}
 
 <ImageDemo />
+
+```tsx
+const { loading, error, loaded, retry, attemptCount } = useImage(src, {
+  retryCount: 1,
+});
+```
 
 </DemoTheme>

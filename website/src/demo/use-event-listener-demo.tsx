@@ -3,10 +3,6 @@ import { useEffect, useState } from 'react';
 import { useEventListener } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [width, setWidth] = useState(window.innerWidth);
-
-useEventListener('resize', () => setWidth(window.innerWidth));`;
-
 const EventListenerDemo = () => {
   // Starts at 0 to match SSR (no `window` there) rather than branching on
   // `typeof window` — reading the real width up front made the client's
@@ -27,10 +23,7 @@ const EventListenerDemo = () => {
   useEventListener('resize', () => setWidth(window.innerWidth));
 
   return (
-    <Section
-      description="Registers/unregisters an event listener on window (default), document, or a ref'd element, with the handler read from a ref so a fresh function every render doesn't tear down and re-add it."
-      code={code}
-    >
+    <Section description="Registers/unregisters an event listener on window (default), document, or a ref'd element, with the handler read from a ref so a fresh function every render doesn't tear down and re-add it.">
       <div className="demo-output">Window width: {width}px</div>
       <p className="demo-hint">Resize your browser window to see it update.</p>
     </Section>

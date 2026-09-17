@@ -5,15 +5,6 @@ import { Input } from '@jbpark/ui-kit';
 import { useDebouncedCallback } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const [text, setText] = useState('');
-const [debounced, setDebounced] = useState('');
-
-useDebouncedCallback(
-  () => setDebounced(text),
-  { delay: 400 },
-  [text],
-);`;
-
 const DebouncedCallbackDemo = () => {
   const [text, setText] = useState('');
   const [debounced, setDebounced] = useState('');
@@ -29,10 +20,7 @@ const DebouncedCallbackDemo = () => {
   );
 
   return (
-    <Section
-      description="Fires a callback only after the value stops changing for delay(ms). Useful for search inputs, autosave, etc."
-      code={code}
-    >
+    <Section description="Fires a callback only after the value stops changing for delay(ms). Useful for search inputs, autosave, etc.">
       <Input
         value={text}
         onChange={e => setText(e.target.value)}

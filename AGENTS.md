@@ -13,7 +13,7 @@
 3. 훅은 `default export`를 사용합니다.
 4. `src/hooks/index.ts`에 named export를 추가합니다.
 5. 외부 노출은 `src/index.ts`의 `export * from './hooks';` 체인을 유지합니다.
-6. 데모 페이지도 함께 추가합니다: `website/src/demo/{kebab-case-name}-demo.tsx` + 해당 카테고리 문서(`website/docs/hooks/*.mdx`)에 `@site/src/demo/...` import와 렌더링 추가 (기존 훅 데모 참고).
+6. 데모 페이지도 함께 추가합니다: `website/src/demo/{kebab-case-name}-demo.tsx` + 해당 카테고리 문서(`website/docs/hooks/*.mdx`)에 `@site/src/demo/...` import와 렌더링 추가 (기존 훅 데모 참고). 사용 예시 스니펫은 데모 컴포넌트가 아니라 MDX의 ` ```tsx ` 코드블록으로 데모 바로 아래에 씁니다.
 
 ## 데모에서 ui-kit 컴포넌트 사용 기준
 
