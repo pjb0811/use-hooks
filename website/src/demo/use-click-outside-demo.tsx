@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 
 import { Button } from '@jbpark/ui-kit';
 
-import { useClickOutside } from '../hooks';
+import { useClickOutside } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const [open, setOpen] = useState(false);

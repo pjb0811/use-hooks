@@ -2,7 +2,7 @@ import { useRef } from 'react';
 
 import { Button, Checkbox, List } from '@jbpark/ui-kit';
 
-import { useMultiSelect } from '../hooks';
+import { useMultiSelect } from '../../../src/hooks';
 import Section from './section';
 
 const items = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig'];

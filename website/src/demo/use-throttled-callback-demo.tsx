@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useThrottledCallback } from '../hooks';
+import { useThrottledCallback } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const onMouseMove = useThrottledCallback(

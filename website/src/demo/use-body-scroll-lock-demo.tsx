@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Button } from '@jbpark/ui-kit';
 
-import { useBodyScrollLock, useKeyPress } from '../hooks';
+import { useBodyScrollLock, useKeyPress } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const [open, setOpen] = useState(false);

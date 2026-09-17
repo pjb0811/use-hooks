@@ -6,7 +6,7 @@
 
 /* Reuse the demo playground's own scoped styles (.demo-* classes only —
  * no bare-tag/global selectors, so this is safe to load site-wide). */
-@import '../../../src/App.css';
+@import './demo.css';
 
 /* Black-and-white palette matching ui-kit docs' monochrome tone. A neutral
    scale sidesteps the pastel-on-dark-page problem a hue-based accent runs

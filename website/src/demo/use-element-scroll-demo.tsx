@@ -1,6 +1,6 @@
 import { Progress } from '@jbpark/ui-kit';
 
-import { useElementScroll } from '../hooks';
+import { useElementScroll } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const { setRef, scrollPercentage, isAtTop, isAtBottom } = useElementScroll();

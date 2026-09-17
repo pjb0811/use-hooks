@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Button } from '@jbpark/ui-kit';
 
-import { useTimeout } from '../hooks';
+import { useTimeout } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const [open, setOpen] = useState(false);

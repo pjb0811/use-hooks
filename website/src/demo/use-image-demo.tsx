@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Button, Skeleton, Spin, Tag } from '@jbpark/ui-kit';
 
-import { useImage } from '../hooks';
+import { useImage } from '../../../src/hooks';
 import Section from './section';
 
 const GOOD_SRC = 'https://picsum.photos/seed/use-hooks/320/200';

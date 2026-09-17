@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Button, Checkbox } from '@jbpark/ui-kit';
 
-import { useControllableState } from '../hooks';
+import { useControllableState } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const [checked, setChecked] = useControllableState({

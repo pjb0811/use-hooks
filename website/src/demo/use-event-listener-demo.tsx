@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useEventListener } from '../hooks';
+import { useEventListener } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const [width, setWidth] = useState(window.innerWidth);

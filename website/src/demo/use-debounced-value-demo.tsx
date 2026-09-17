@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Input } from '@jbpark/ui-kit';
 
-import { useDebouncedValue } from '../hooks';
+import { useDebouncedValue } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const [text, setText] = useState('');

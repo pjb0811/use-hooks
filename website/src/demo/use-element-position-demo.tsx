@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { useElementPosition } from '../hooks';
+import { useElementPosition } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const ref = useRef<HTMLDivElement>(null);

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useFileToDataUrl } from '../hooks';
+import { useFileToDataUrl } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const readAsDataUrl = useFileToDataUrl();

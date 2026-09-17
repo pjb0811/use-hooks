@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Button } from '@jbpark/ui-kit';
 
-import { useInterval } from '../hooks';
+import { useInterval } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const [running, setRunning] = useState(false);

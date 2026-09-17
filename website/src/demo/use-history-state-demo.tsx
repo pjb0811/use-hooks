@@ -1,22 +1,17 @@
 import { Button } from '@jbpark/ui-kit';
 
-import { useHistoryState, useKeyPress } from '../hooks';
+import { useHistoryState } from '../../../src/hooks';
 import Section from './section';
 
-const code = `const { value, setValue, undo, redo } = useHistoryState(0);
+const code = `const { value, setValue, undo, redo, canUndo, canRedo } =
+  useHistoryState(0);`;
 
-useKeyPress('mod+z', undo, { preventDefault: true });
-useKeyPress('mod+shift+z', redo, { preventDefault: true });`;
-
-const KeyPressDemo = () => {
+const HistoryStateDemo = () => {
   const { value, setValue, undo, redo, canUndo, canRedo } = useHistoryState(0);
-
-  useKeyPress('mod+z', undo, { preventDefault: true });
-  useKeyPress('mod+shift+z', redo, { preventDefault: true });
 
   return (
     <Section
-      description="Binds a key combo (Escape, Enter, mod+z, ...) to a handler. 'mod' normalizes to Cmd on macOS / Ctrl elsewhere. Pairs naturally with useHistoryState for undo/redo shortcuts."
+      description="State with undo/redo support. Every setValue call snapshots the previous value; undo/redo step through that history."
       code={code}
     >
       <div className="demo-output">
@@ -35,11 +30,11 @@ const KeyPressDemo = () => {
         </Button>
       </div>
       <p className="demo-hint">
-        Try the keyboard shortcuts too: Cmd/Ctrl+Z to undo, Cmd/Ctrl+Shift+Z to
-        redo.
+        Change the value a few times, then use Undo/Redo to step through
+        history.
       </p>
     </Section>
   );
 };
 
-export default KeyPressDemo;
+export default HistoryStateDemo;

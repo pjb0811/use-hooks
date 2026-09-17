@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Progress } from '@jbpark/ui-kit';
 
-import { useThrottledValue } from '../hooks';
+import { useThrottledValue } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const [value, setValue] = useState(0);

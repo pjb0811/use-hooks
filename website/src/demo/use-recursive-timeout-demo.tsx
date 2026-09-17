@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Switch } from '@jbpark/ui-kit';
 
-import { useRecursiveTimeout } from '../hooks';
+import { useRecursiveTimeout } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const [tick, setTick] = useState(0);

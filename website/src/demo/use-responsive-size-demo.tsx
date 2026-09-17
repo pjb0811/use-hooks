@@ -1,4 +1,4 @@
-import { useResponsiveSize } from '../hooks';
+import { useResponsiveSize } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const { size, breakpoint, ref } = useResponsiveSize<HTMLDivElement>();

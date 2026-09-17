@@ -1,4 +1,4 @@
-import { useIntersectionObserver, useMergedRef } from '../hooks';
+import { useIntersectionObserver, useMergedRef } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const [liveRef, { isIntersecting: live }] = useIntersectionObserver({ threshold: 0.5 });

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Button } from '@jbpark/ui-kit';
 
-import { usePrevious } from '../hooks';
+import { usePrevious } from '../../../src/hooks';
 import Section from './section';
 
 const code = `const [count, setCount] = useState(0);

@@ -13,7 +13,6 @@ src/
 !*.d.ts
 
 # 빌드 설정
-vite.config.ts
 tsconfig*.json
 eslint.config.js
 
