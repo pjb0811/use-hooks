@@ -82,7 +82,7 @@ function MyComponent() {
 | `useElementPosition`      | 스크롤/리사이즈 시 요소의 바운딩 렉트 모니터링 (요소 참조 지원)                             |
 | `useResponsiveSize`       | Tailwind 유사 브레이크포인트를 포함한 요소 크기 추적 (debounce)                             |
 | `useViewport`             | visualViewport 지원, 인앱 모드 옵션, debounce 포함                                          |
-| `useScrollToElements`     | 키로 요소를 등록하고 키로 스크롤 (오프셋 조절, 컨테이너 지정 가능)                          |
+| `useScrollToElements`     | 키로 요소를 등록하고 키로 스크롤 (오프셋 조절, 가장 가까운 스크롤 조상을 스크롤)            |
 | `useBodyScrollLock`       | 스타일 보존을 포함한 바디 스크롤 잠금/해제 (iOS 특별 처리)                                  |
 | `useIntersectionObserver` | 뷰포트 교차 추적, `[ref, { entry, isIntersecting }]` 반환, `freezeOnceVisible` 옵션         |
 | `useResizeObserver`       | 콜백 ref로 요소 자체의 너비/높이 추적 (content-box/border-box)                              |
