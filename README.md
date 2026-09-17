@@ -82,7 +82,7 @@ function MyComponent() {
 | `useElementPosition`      | Monitor element bounding rect on scroll/resize (element ref support)                                                                  |
 | `useResponsiveSize`       | Track element size with Tailwind-like breakpoints (debounced)                                                                         |
 | `useViewport`             | visualViewport support with in-app mode option and debounce                                                                           |
-| `useScrollToElements`     | Register elements by key and scroll to them by key (adjustable offset, optional container)                                            |
+| `useScrollToElements`     | Register elements by key and scroll to them by key (adjustable offset, scrolls the nearest scrollable ancestor)                       |
 | `useBodyScrollLock`       | Lock/unlock body scroll with style preservation (iOS-specific handling)                                                               |
 | `useIntersectionObserver` | Track viewport intersection; returns `[ref, { entry, isIntersecting }]` with optional `freezeOnceVisible`                             |
 | `useResizeObserver`       | Track an element's own width/height via a callback ref (content-box or border-box)                                                    |
