@@ -8,7 +8,6 @@ interface LockedStyles {
     width: string;
   };
   body: {
-    overflow: string;
     height: string;
     position: string;
     top: string;
@@ -47,7 +46,6 @@ const lockScroll = (token: symbol) => {
         width: document.documentElement.style.width,
       },
       body: {
-        overflow: document.body.style.overflow,
         height: document.body.style.height,
         position: document.body.style.position,
         top: document.body.style.top,
@@ -66,7 +64,13 @@ const lockScroll = (token: symbol) => {
     document.documentElement.style.position = 'fixed';
     document.documentElement.style.width = '100%';
 
-    document.body.style.overflow = 'hidden';
+    // `overflow: hidden` belongs on the root element only. Setting it on the
+    // body as well clips the body's own box — and that box is shifted up by
+    // `top: -scrollY`, so everything the user was looking at gets clipped out
+    // of view and the page goes blank behind the modal. The overlay survives
+    // because a `position: fixed` element isn't clipped by an ancestor's
+    // overflow, which makes the failure look like an opaque backdrop rather
+    // than a rendering bug.
     document.body.style.height = '100%';
     document.body.style.position = 'fixed';
     document.body.style.top = `-${originalScrollY}px`;
@@ -100,7 +104,6 @@ const unlockScroll = (token: symbol) => {
     originalStyles.documentElement.position;
   document.documentElement.style.width = originalStyles.documentElement.width;
 
-  document.body.style.overflow = originalStyles.body.overflow;
   document.body.style.height = originalStyles.body.height;
   document.body.style.position = originalStyles.body.position;
   document.body.style.top = originalStyles.body.top;
