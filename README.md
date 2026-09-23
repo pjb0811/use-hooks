@@ -101,6 +101,7 @@ function MyComponent() {
 | `useRecursiveTimeout`     | Recursively schedule async/sync callbacks                                                                                             |
 | `useMergedRef`            | Merge multiple object/callback refs into one callback ref                                                                             |
 | `useImage`                | Preload an image and expose `loading`/`error` (an `Error`)/`loaded`/`attemptCount`/`retry`                                            |
+| `useMediaQuery`           | Track a CSS media query via `matchMedia` (SSR-safe, optional `target` for iframe/portal windows)                                      |
 
 ## Migrating from v2
 
