@@ -101,6 +101,7 @@ function MyComponent() {
 | `useRecursiveTimeout`     | 비동기/동기 콜백을 재귀적으로 스케줄링                                                      |
 | `useMergedRef`            | 여러 객체/콜백 ref를 하나의 콜백 ref로 병합                                                 |
 | `useImage`                | 이미지 사전로드 및 `loading`/`error`(`Error`)/`loaded`/`attemptCount`/`retry` 노출          |
+| `useMediaQuery`           | `matchMedia`로 CSS 미디어 쿼리 추적 (SSR 안전, iframe/포털 창을 위한 `target` 옵션)         |
 
 ## v2에서 마이그레이션
 

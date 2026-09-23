@@ -5,6 +5,7 @@ title: Utility
 
 import DemoTheme from '@site/src/components/DemoTheme';
 import ImageDemo from '@site/src/demo/use-image-demo';
+import MediaQueryDemo from '@site/src/demo/use-media-query-demo';
 import MergedRefDemo from '@site/src/demo/use-merged-ref-demo';
 
 # Utility
@@ -30,6 +31,21 @@ const mergedRef = useMergedRef(forwardedRef, internalRef);
 ```tsx
 const { loading, error, loaded, retry, attemptCount } = useImage(src, {
   retryCount: 1,
+});
+```
+
+## useMediaQuery {/* #use-media-query */}
+
+<MediaQueryDemo />
+
+```tsx
+const prefersDark = useMediaQuery('(prefers-color-scheme: dark)');
+
+// Evaluate the query against another window (an iframe preview, a portal)
+// by pointing at an element rendered inside it.
+const isWide = useMediaQuery('(min-width: 768px)', {
+  target: frameRef,
+  defaultValue: true,
 });
 ```
 
