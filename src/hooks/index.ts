@@ -1,4 +1,5 @@
 export { default as useDebouncedCallback } from './use-debounced-callback';
+export type { DebouncedCallback } from './use-debounced-callback';
 // Deprecated alias — prefer `useDebouncedCallback` for a symmetric
 // `{action}{Value|Callback}` naming across the debounce/throttle family.
 export { default as useDebounce } from './use-debounced-callback';

@@ -30,6 +30,22 @@ const [debounced, setDebounced] = useState('');
 useDebouncedCallback(() => setDebounced(text), { delay: 400 }, [text]);
 ```
 
+The returned function also acts on a call that is still waiting: `flush()` runs it now and `cancel()` drops it. Both do nothing when no call is waiting. By default a waiting call is dropped when the component unmounts; pass `flushOnUnmount: true` to run it instead, for work that must not be lost when its UI goes away.
+
+```tsx
+const save = useDebouncedCallback(
+  () => persist(draft),
+  { delay: 1000, flushOnUnmount: true },
+  [draft],
+);
+
+<textarea
+  value={draft}
+  onChange={e => setDraft(e.target.value)}
+  onBlur={save.flush}
+/>;
+```
+
 ## useDebouncedValue {/* #use-debounced-value */}
 
 <DebouncedValueDemo />
