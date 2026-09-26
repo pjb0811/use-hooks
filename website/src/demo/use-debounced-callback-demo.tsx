@@ -10,7 +10,7 @@ const DebouncedCallbackDemo = () => {
   const [debounced, setDebounced] = useState('');
   const [count, setCount] = useState(0);
 
-  useDebouncedCallback(
+  const apply = useDebouncedCallback(
     () => {
       setDebounced(text);
       setCount(c => c + 1);
@@ -20,11 +20,17 @@ const DebouncedCallbackDemo = () => {
   );
 
   return (
-    <Section description="Fires a callback only after the value stops changing for delay(ms). Useful for search inputs, autosave, etc.">
+    <Section description="Fires a callback only after the value stops changing for delay(ms). Useful for search inputs, autosave, etc. Leaving the field applies a waiting value at once (flush); Escape drops it (cancel).">
       <Input
         value={text}
         onChange={e => setText(e.target.value)}
-        placeholder="Type here (applied after 400ms)"
+        onBlur={apply.flush}
+        onKeyDown={e => {
+          if (e.key === 'Escape') {
+            apply.cancel();
+          }
+        }}
+        placeholder="Type here (applied after 400ms, or on blur)"
       />
       <div className="demo-output">
         <div>
