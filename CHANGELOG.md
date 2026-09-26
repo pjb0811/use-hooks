@@ -1,5 +1,32 @@
 # Changelog
 
+## 4.1.0
+
+### Minor Changes
+
+- 069bd0a: Add `useMediaQuery`, which subscribes to a CSS media query through
+  `matchMedia` and re-renders when it starts or stops matching. It covers the
+  conditions element size can't express — `prefers-color-scheme`,
+  `prefers-reduced-motion`, `orientation` — which `useResponsiveSize`'s
+  element-measured breakpoints don't reach. The subscription runs through
+  `useSyncExternalStore`, so the value stays consistent with concurrent
+  rendering, and `matchMedia`'s absence during SSR falls back to the
+  `defaultValue` option (`false` unless set) until the real value is readable on
+  the client. An optional `target` (a ref or an element) evaluates the query
+  against that element's window instead of the host one, for previews rendered
+  into an iframe or a portal. Extracted from a copy in `@jbpark/ui-kit`, whose
+  `useSystemPrefersDark` had hand-rolled the same `matchMedia` wiring.
+- a949eaa: Let `useDebouncedCallback` act on a call that is still waiting.
+
+  - The returned function now has `flush()`, which runs a waiting call right
+    away, and `cancel()`, which drops it. Both do nothing when no call is
+    waiting. The function keeps its stable identity and can still be called as
+    before.
+  - A new `flushOnUnmount` option runs a waiting call when the component
+    unmounts, with the latest callback, instead of dropping it. The default is
+    unchanged: a waiting call is dropped on unmount.
+  - The `DebouncedCallback` type is exported for the returned function.
+
 ## 4.0.2
 
 ### Patch Changes
