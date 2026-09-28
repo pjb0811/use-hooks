@@ -10,7 +10,7 @@ description: "changesets 기반 버전 관리/릴리스 흐름(Version Packages 
 ## 릴리스 흐름
 
 1. **changeset 추가**: 사용자 대상 변경(기능/버그 수정)이 있는 PR에는 `.changeset/*.md`가 필요하다. `pnpm changeset`으로 수동 생성하거나, `changeset-draft.yml` 워크플로우(필수 상태 체크 `draft`)가 PR별로 초안을 자동 생성/갱신해준다.
-2. **Version Packages PR**: main에 push될 때마다 `version.yml`이 돌면서, 누적된 changeset들로 `changeset-release/main` 브랜치에 "🔖 chore: version packages" PR을 열고 최신 상태로 유지한다. 이 PR은 `package.json` 버전을 bump하고 `CHANGELOG.md`를 갱신한다.
+2. **Version Packages PR**: main에 push될 때마다 `version.yml`이 돌면서, 누적된 changeset들로 `changeset-release/main` 브랜치에 "chore: version packages" PR을 열고 최신 상태로 유지한다. 이 PR은 `package.json` 버전을 bump하고 `CHANGELOG.md`를 갱신한다.
 3. **머지 시 자동 배포**: 이 PR을 머지하면 그 자체가 main에 대한 push이므로 `publish.yml`이 실행된다 — 현재 `package.json` 버전이 이미 `vX.Y.Z` 태그로 존재하는지 확인하고, 없으면: build → `npm publish`(OIDC Trusted Publishing이라 `NPM_TOKEN` 불필요) → git 태그 push → GitHub Release 생성(가능하면 GH Models로 릴리즈 노트 다듬기, 실패 시 원본 CHANGELOG 텍스트로 폴백).
 
 ⚠️ **npm publish는 공개적이고 되돌리기 어려운 배포다.** "Version Packages" PR(`changeset-release/main`)을 머지하기 전에는, 그게 다른 일반 기능 PR 머지와 다르다는 것 — 즉 "이 머지 = 실제 npm에 새 버전 배포"라는 것 — 을 사용자에게 명확히 알리고 별도로 확인받는다. 사용자가 먼저 "머지해줘"라고 명시적으로 말했더라도, 이 저장소에서는 매번 "지금 머지하면 npm에 vX.Y.Z가 배포됩니다"라고 재확인하는 게 안전하다.
