@@ -10,6 +10,7 @@ description: "changesets 기반 버전 관리/릴리스 흐름(Version Packages 
 ## 릴리스 흐름
 
 1. **changeset 추가**: 사용자 대상 변경(기능/버그 수정)이 있는 PR에는 `.changeset/*.md`가 필요하다. `pnpm changeset`으로 수동 생성하거나, `changeset-draft.yml` 워크플로우(필수 상태 체크 `draft`)가 PR별로 초안을 자동 생성/갱신해준다.
+   - 봇 초안은 **최대 `minor`까지만** 작성한다(`.github/scripts/draft-bump.mjs`). 모델이 `major`를 고르면 `minor`로 낮춰 쓰고, 봇 커밋 메시지 끝에 `(model suggested major; capped at minor)`가 붙는다. 정말 호환성을 깨는 변경이면 초안 파일을 직접 `major`로 고친다 — major 릴리스는 사람이 판단한다(pjb0811/live-editor#457에서 동작 변화 없는 리팩터링이 `major`로 초안 작성돼 머지된 사고가 계기).
 2. **Version Packages PR**: main에 push될 때마다 `version.yml`이 돌면서, 누적된 changeset들로 `changeset-release/main` 브랜치에 "chore: version packages" PR을 열고 최신 상태로 유지한다. 이 PR은 `package.json` 버전을 bump하고 `CHANGELOG.md`를 갱신한다.
 3. **머지 시 자동 배포**: 이 PR을 머지하면 그 자체가 main에 대한 push이므로 `publish.yml`이 실행된다 — 현재 `package.json` 버전이 이미 `vX.Y.Z` 태그로 존재하는지 확인하고, 없으면: build → `npm publish`(OIDC Trusted Publishing이라 `NPM_TOKEN` 불필요) → git 태그 push → GitHub Release 생성(가능하면 GH Models로 릴리즈 노트 다듬기, 실패 시 원본 CHANGELOG 텍스트로 폴백).
 
