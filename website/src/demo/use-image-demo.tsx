@@ -10,9 +10,12 @@ const BAD_SRC = 'https://this-domain-does-not-exist-123456.invalid/broken.png';
 
 const ImageDemo = () => {
   const [src, setSrc] = useState(GOOD_SRC);
-  const { loading, error, loaded, retry, attemptCount } = useImage(src, {
-    retryCount: 1,
-  });
+  const { loading, error, loaded, naturalSize, retry, attemptCount } = useImage(
+    src,
+    {
+      retryCount: 1,
+    },
+  );
 
   const status = loading
     ? 'loading'
@@ -31,12 +34,18 @@ const ImageDemo = () => {
           : 'default';
 
   return (
-    <Section description="Tracks image loading state (loading/loaded/error) and provides a retry. error is a real Error (with the original event as its cause), and attemptCount is exposed for building retry UI.">
+    <Section description="Tracks image loading state (loading/loaded/error) and provides a retry. error is a real Error (with the original event as its cause), naturalSize reports the loaded image's intrinsic width and height, and attemptCount is exposed for building retry UI.">
       <div className="demo-output">
         <div>
           Status: <Tag color={statusColor}>{status}</Tag>
         </div>
         {error && <div>Error: {error.message}</div>}
+        <div>
+          Natural size:{' '}
+          {naturalSize
+            ? `${naturalSize.width} × ${naturalSize.height}`
+            : 'null'}
+        </div>
         <div>Attempt count: {attemptCount}</div>
       </div>
       <Spin spinning={loading}>

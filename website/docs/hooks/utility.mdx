@@ -29,9 +29,13 @@ const mergedRef = useMergedRef(forwardedRef, internalRef);
 <ImageDemo />
 
 ```tsx
-const { loading, error, loaded, retry, attemptCount } = useImage(src, {
-  retryCount: 1,
-});
+const { loading, error, loaded, naturalSize, retry, attemptCount } = useImage(
+  src,
+  { retryCount: 1 },
+);
+
+// naturalSize: { width, height } once loaded, otherwise null
+const aspectRatio = naturalSize && naturalSize.width / naturalSize.height;
 ```
 
 ## useMediaQuery {/* #use-media-query */}
