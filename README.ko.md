@@ -138,7 +138,7 @@ src/
 ├── hooks/                      # 개별 훅 구현 (훅 1개 = 파일 1개)
 │   ├── use-body-scroll-lock.ts
 │   ├── use-click-outside.ts
-│   ├── use-debounce.ts
+│   ├── use-debounced-value.ts
 │   ├── use-element-position.ts
 │   ├── use-element-scroll.ts
 │   ├── use-history-state.ts
@@ -149,7 +149,7 @@ src/
 │   ├── use-recursive-timeout.ts
 │   ├── use-responsive-size.ts
 │   ├── use-scroll-to-elements.ts
-│   ├── use-throttle.ts
+│   ├── use-throttled-value.ts
 │   ├── use-viewport.ts
 │   ├── use-window-scroll.ts
 │   └── index.ts                # 배럴 익스포트
