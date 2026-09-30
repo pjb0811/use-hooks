@@ -5,12 +5,18 @@ interface Options {
   retryDelay?: number;
 }
 
+interface NaturalSize {
+  width: number;
+  height: number;
+}
+
 const useImage = (src: string, options: Options = {}) => {
   const { retryCount = 0, retryDelay = 1000 } = options;
 
   const [loading, setLoading] = useState(() => Boolean(src));
   const [error, setError] = useState<Error | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const [naturalSize, setNaturalSize] = useState<NaturalSize | null>(null);
   const [attemptCount, setAttemptCount] = useState(0);
   const [reloadToken, setReloadToken] = useState(0);
   const [prevTrigger, setPrevTrigger] = useState({
@@ -34,6 +40,9 @@ const useImage = (src: string, options: Options = {}) => {
 
   if (triggerChanged) {
     setPrevTrigger({ src, attemptCount, retryCount, retryDelay, reloadToken });
+    // Cleared on every reload, not only when `src` changes, so the previous
+    // image's size is never reported while the next load is in flight.
+    setNaturalSize(null);
 
     if (src) {
       setLoading(true);
@@ -62,6 +71,8 @@ const useImage = (src: string, options: Options = {}) => {
       setLoading(false);
       setLoaded(true);
       setError(null);
+      // Readable for cross-origin images too — only pixel access needs CORS.
+      setNaturalSize({ width: img.naturalWidth, height: img.naturalHeight });
     };
 
     img.onerror = event => {
@@ -105,6 +116,7 @@ const useImage = (src: string, options: Options = {}) => {
     loading,
     error,
     loaded,
+    naturalSize,
     retry,
     attemptCount,
   };
