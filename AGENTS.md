@@ -30,6 +30,6 @@
 
 ## 참고
 
-- 훅 구현 예시: `src/hooks/use-debounce.ts`
+- 훅 구현 예시: `src/hooks/use-debounced-value.ts`
 - 훅 export 목록: `src/hooks/index.ts`
 - 데모는 문서 사이트 안(`website/src/demo/`)에 살고, 훅은 `../../../src/hooks`에서 소스로 직접 가져옵니다. 라이브러리와 사이트가 별도 pnpm 프로젝트라 데모를 라이브러리 쪽에 두면 `@jbpark/ui-kit`이 두 벌 설치돼 context가 갈립니다 (#195, #196). 데모에서 쓰는 패키지는 `website/package.json`에만 추가합니다.
