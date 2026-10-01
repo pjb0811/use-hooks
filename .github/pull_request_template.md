@@ -1,16 +1,22 @@
 ## Summary
 
-<!-- Briefly describe the purpose and outcome in 1-3 lines -->
+<!-- What this changes and why. For a bug: what triggers it, and the behavior before and after. For a feature: what was missing. -->
+
+<!-- Closes #123 (or Part of #123 when the issue stays open) -->
 
 ## Changes
 
-<!-- List the key changes -->
+<!-- What the final branch actually changes, by behavior rather than by file: public API or behavior changes, docs, and the changeset. -->
 
 -
 
-## Related Issues
+## How to test
 
-<!-- Example: closes #123, relates #456 -->
+<!-- Checks that actually ran, and how a reviewer can confirm the change. Say what wasn't checked. -->
+
+## Notes for reviewers
+
+<!-- Optional: design choices, differences from the issue's proposal, limitations, remaining scope. Delete if empty. -->
 
 ## Type of Change
 
@@ -29,10 +35,6 @@
 - [ ] Yes (describe impact and migration steps below)
 
 <!-- Breaking change details -->
-
-## Notes (Optional)
-
-<!-- Extra reviewer context, trade-offs, or follow-ups -->
 
 ## Checklist
 
