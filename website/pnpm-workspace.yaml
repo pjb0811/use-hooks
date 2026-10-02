@@ -1,0 +1,8 @@
+# Makes website/ its own pnpm root. Without this file, pnpm finds the root
+# pnpm-workspace.yaml and `pnpm --dir website install` installs the library
+# instead of the docs site.
+
+# Dependencies allowed to run install scripts.
+onlyBuiltDependencies:
+  - '@swc/core'
+  - core-js
