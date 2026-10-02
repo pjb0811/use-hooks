@@ -1,0 +1,9 @@
+# pnpm settings live here rather than in .npmrc: npm warns about pnpm-only
+# keys it finds there, and pnpm 11+ reads only auth and registry settings
+# from .npmrc (#216).
+#
+# shamefullyHoist is carried over from .npmrc so the root node_modules layout
+# stays the same. Nothing found so far needs it: lint, `tsc -b`, the library
+# build, prettier and the docs site typecheck/build all pass without it.
+shamefullyHoist: true
+strictPeerDependencies: false
