@@ -129,7 +129,12 @@ pnpm --dir website install
 
 두 `package.json` 모두 `packageManager`에 같은 pnpm 버전을 핀하고 있어,
 `website/` 안에서 pnpm을 실행해도 `PATH`에 깔린 버전이 아니라 핀된 버전이
-쓰입니다. 버전을 올릴 때는 두 곳을 함께 올립니다.
+쓰입니다. 버전을 올릴 때는 두 곳을 함께 올립니다. pnpm 11 이상은 Node.js 22
+이상이 필요합니다(저장소의 `.nvmrc`는 Node 24를 고정합니다).
+
+pnpm 설정은 `.npmrc`가 아니라 `pnpm-workspace.yaml`에 둡니다. 라이브러리는
+루트 파일을, 문서 사이트는 `website/pnpm-workspace.yaml`을 씁니다. website 쪽
+파일은 `website/`를 별도의 pnpm 루트로 유지하는 역할도 하므로 지우지 않습니다.
 
 ## 프로젝트 구조
 

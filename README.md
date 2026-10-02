@@ -129,7 +129,12 @@ pnpm --dir website install
 
 Both `package.json` files pin `packageManager` to the same pnpm version, so
 running pnpm inside `website/` picks up that version rather than whatever is
-on `PATH`. Bump the two together.
+on `PATH`. Bump the two together. pnpm 11 and later need Node.js 22 or newer
+(the repo's `.nvmrc` pins Node 24).
+
+pnpm settings live in `pnpm-workspace.yaml`, not `.npmrc`: the root file for
+the library and `website/pnpm-workspace.yaml` for the docs site. The website
+file also keeps `website/` its own pnpm root, so don't remove it.
 
 ## Project Structure
 
