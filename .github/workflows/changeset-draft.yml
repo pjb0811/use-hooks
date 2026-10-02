@@ -16,9 +16,15 @@ jobs:
     # changesets bot's own Version Packages PR (nothing to draft a
     # changeset for — and drafting one would just describe its own version
     # bump).
+    #
+    # Also skip Renovate's update PRs: Renovate stops rebasing and updating a
+    # branch once anyone else commits to it, so a drafted changeset would
+    # freeze the PR. An update that should ship in a release gets its
+    # changeset by hand.
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository &&
-      !startsWith(github.event.pull_request.head.ref, 'changeset-release/')
+      !startsWith(github.event.pull_request.head.ref, 'changeset-release/') &&
+      !startsWith(github.event.pull_request.head.ref, 'renovate/')
     runs-on: ubuntu-latest
 
     steps:
