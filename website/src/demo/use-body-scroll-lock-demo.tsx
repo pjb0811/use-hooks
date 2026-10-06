@@ -5,7 +5,7 @@ import { Button } from '@jbpark/ui-kit';
 import { useBodyScrollLock, useKeyPress } from '../../../src/hooks';
 import Section from './section';
 
-// NOTE: ui-kit's Modal (Radix Dialog) locks body scroll on its own, which
+// NOTE: ui-kit's Modal (Base UI Dialog) locks body scroll on its own, which
 // would mask what this hook does — the demo deliberately uses a plain
 // overlay so the lock visibly comes from useBodyScrollLock.
 const BodyScrollLockDemo = () => {
