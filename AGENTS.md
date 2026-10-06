@@ -28,6 +28,17 @@
 - 기존 훅과 동일한 파일/코드 스타일을 유지합니다.
 - 불필요한 전역 부작용(side-effects)을 만들지 않습니다.
 
+## 주석
+
+주석은 지금 코드를 처음 읽는 사람을 위해 씁니다. 무엇을 하는지 먼저 쓰고, 이유는 지켜야 할 제약일 때만 현재형으로 쓰며, 과거 이야기는 이슈 번호(`(#N)`)로 대신합니다. 자세한 규칙과 예시는 `.claude/skills/coding-style/SKILL.md`의 "E. 주석 작성"을 따릅니다.
+
+## Changeset
+
+- PR에 `.changeset/*.md`가 없으면 `changeset-draft.yml`이 PR 브랜치에 초안 changeset 커밋을 push합니다. 모델이 쓴 문구와 bump라 실제 변경과 맞지 않을 수 있습니다.
+- 일부러 changeset을 넣지 않는 PR(문서·CI·리팩터링만 바꾸는 PR, 아직 배포되지 않은 변경을 다듬는 PR 등)에는 `pnpm changeset --empty`로 빈 changeset을 넣습니다. bump와 CHANGELOG 항목 없이 draft만 건너뜁니다. 빈 changeset만 쌓인 Version PR은 그 파일을 지우기만 하고 버전은 그대로입니다.
+- 머지를 확인할 때 PR head SHA가 로컬 tip과 다르면 추가된 커밋(`git log <local>..<head>`)을 확인합니다. 봇이 넣은 changeset은 다음 Version PR의 CHANGELOG와 GitHub Release로 그대로 나갑니다(live-editor 4.5.0에서 실제로 발생).
+- 버전·배포 흐름 전체는 `.claude/skills/version-management/SKILL.md`를 참고합니다.
+
 ## 참고
 
 - 훅 구현 예시: `src/hooks/use-debounced-value.ts`
