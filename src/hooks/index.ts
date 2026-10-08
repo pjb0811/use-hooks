@@ -27,6 +27,7 @@ export { default as usePrevious } from './use-previous';
 export { default as useRecursiveTimeout } from './use-recursive-timeout';
 export { default as useResizeObserver } from './use-resize-observer';
 export { default as useScrollToElements } from './use-scroll-to-elements';
+export { default as useSessionStorage } from './use-session-storage';
 export { default as useThrottledValue } from './use-throttled-value';
 // Deprecated alias — prefer `useThrottledValue` for a symmetric
 // `{action}{Value|Callback}` naming across the debounce/throttle family.

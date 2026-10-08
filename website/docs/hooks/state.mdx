@@ -9,6 +9,7 @@ import HistoryStateDemo from '@site/src/demo/use-history-state-demo';
 import LocalStorageDemo from '@site/src/demo/use-local-storage-demo';
 import MultiSelectDemo from '@site/src/demo/use-multi-select-demo';
 import PreviousDemo from '@site/src/demo/use-previous-demo';
+import SessionStorageDemo from '@site/src/demo/use-session-storage-demo';
 import ToggleDemo from '@site/src/demo/use-toggle-demo';
 
 # State
@@ -24,6 +25,14 @@ controlled/uncontrolled, or just a boolean.
 
 ```tsx
 const [count, setCount] = useLocalStorage('demo-count', 0);
+```
+
+## useSessionStorage {/* #use-session-storage */}
+
+<SessionStorageDemo />
+
+```tsx
+const [count, setCount] = useSessionStorage('demo-count', 0);
 ```
 
 ## useHistoryState {/* #use-history-state */}
