@@ -15,6 +15,7 @@ export { default as useEventListener } from './use-event-listener';
 export { default as useFileDrop } from './use-file-drop';
 export { default as useFileToDataUrl } from './use-file-to-data-url';
 export { default as useHistoryState } from './use-history-state';
+export { default as useHoverOrFocusWithin } from './use-hover-or-focus-within';
 export { default as useIntersectionObserver } from './use-intersection-observer';
 export { default as useInterval } from './use-interval';
 export { default as useResponsiveSize } from './use-responsive-size';
