@@ -1,4 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+
+import useLatest from './use-latest';
 
 interface Options {
   // Whether a rejected callback should stop the loop instead of scheduling
@@ -12,13 +14,8 @@ const useRecursiveTimeout = <T>(
   delay: number | null,
   options: Options = {},
 ) => {
-  const savedCallback = useRef(callback);
-  const savedStopOnError = useRef(options.stopOnError ?? false);
-
-  useEffect(() => {
-    savedCallback.current = callback;
-    savedStopOnError.current = options.stopOnError ?? false;
-  });
+  const savedCallback = useLatest(callback);
+  const savedStopOnError = useLatest(options.stopOnError ?? false);
 
   useEffect(() => {
     if (delay === null) {
@@ -55,7 +52,7 @@ const useRecursiveTimeout = <T>(
       cancelled = true;
       clearTimeout(id);
     };
-  }, [delay]);
+  }, [delay, savedCallback, savedStopOnError]);
 };
 
 export default useRecursiveTimeout;

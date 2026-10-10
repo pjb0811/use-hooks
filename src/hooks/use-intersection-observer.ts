@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import useLatest from './use-latest';
+
 interface Options extends IntersectionObserverInit {
   // Disconnects for good the first time the target becomes intersecting
   // — the common "seen once, that's enough" case (lazy loading, entrance
@@ -29,13 +31,8 @@ const useIntersectionObserver = <T extends Element = Element>(
   // render (the previous version didn't reconnect on options changes at
   // all, so threshold/rootMargin could never be updated at runtime).
   const observerInitKey = JSON.stringify(observerInit);
-  const observerInitRef = useRef(observerInit);
-  const freezeRef = useRef(freezeOnceVisible);
-
-  useEffect(() => {
-    observerInitRef.current = observerInit;
-    freezeRef.current = freezeOnceVisible;
-  });
+  const observerInitRef = useLatest(observerInit);
+  const freezeRef = useLatest(freezeOnceVisible);
 
   const connect = useCallback(() => {
     if (observerRef.current) {
@@ -68,7 +65,7 @@ const useIntersectionObserver = <T extends Element = Element>(
 
     observer.observe(node);
     observerRef.current = observer;
-  }, []);
+  }, [freezeRef, observerInitRef]);
 
   const ref = useCallback((node: T | null) => {
     nodeRef.current = node;

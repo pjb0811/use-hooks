@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import useLatest from './use-latest';
+
 interface Size {
   width: number;
   height: number;
@@ -28,11 +30,7 @@ const useResizeObserver = <T extends Element = Element>(
   // tearing the observer down on every render. The previous version pinned
   // whatever `box` was current when the node first attached and never
   // reacted to changes — the same bug #118 fixed in useIntersectionObserver.
-  const boxRef = useRef(box);
-
-  useEffect(() => {
-    boxRef.current = box;
-  });
+  const boxRef = useLatest(box);
 
   const connect = useCallback(() => {
     if (observerRef.current) {
@@ -80,7 +78,7 @@ const useResizeObserver = <T extends Element = Element>(
 
     observer.observe(node, { box: currentBox });
     observerRef.current = observer;
-  }, []);
+  }, [boxRef]);
 
   const ref = useCallback((node: T | null) => {
     nodeRef.current = node;

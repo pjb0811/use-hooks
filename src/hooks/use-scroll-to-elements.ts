@@ -1,4 +1,6 @@
-import { type RefObject, useCallback, useEffect, useRef } from 'react';
+import { type RefObject, useCallback, useRef } from 'react';
+
+import useLatest from './use-latest';
 
 type ElementKey = string;
 
@@ -67,11 +69,7 @@ const useScrollToElements = (defaultOptions?: Options) => {
   // `defaultOptions` is almost always an inline object literal at the call
   // site, so depending on it directly would recreate `scrollTo` on every
   // render — read the latest value from a ref instead.
-  const defaultOptionsRef = useRef(defaultOptions);
-
-  useEffect(() => {
-    defaultOptionsRef.current = defaultOptions;
-  });
+  const defaultOptionsRef = useLatest(defaultOptions);
 
   // Returns a stable callback per key so React doesn't detach/reattach the
   // ref (and thrash the Map) on every render — only a genuine unmount
@@ -93,58 +91,63 @@ const useScrollToElements = (defaultOptions?: Options) => {
     return callback;
   }, []);
 
-  const scrollTo = useCallback((key: ElementKey, options?: Options) => {
-    const element = elementsRef.current.get(key);
+  const scrollTo = useCallback(
+    (key: ElementKey, options?: Options) => {
+      const element = elementsRef.current.get(key);
 
-    if (!element) {
-      return;
-    }
+      if (!element) {
+        return;
+      }
 
-    const { offset, container, ...scrollIntoViewOptions } = {
-      ...defaultOptionsRef.current,
-      ...options,
-    };
+      const { offset, container, ...scrollIntoViewOptions } = {
+        ...defaultOptionsRef.current,
+        ...options,
+      };
 
-    // With an offset, `scrollIntoView` and `scrollTo` would both animate
-    // the same scroll, fighting each other and settling in the wrong
-    // place — use `scrollTo` alone, computed from the element's position
-    // before any scrolling starts (not after `scrollIntoView`, where the
-    // rect would reflect a mid-animation position).
-    if (offset != null) {
-      const containerElement =
-        resolveContainer(container ?? null) ?? findScrollableAncestor(element);
+      // With an offset, `scrollIntoView` and `scrollTo` would both animate
+      // the same scroll, fighting each other and settling in the wrong
+      // place — use `scrollTo` alone, computed from the element's position
+      // before any scrolling starts (not after `scrollIntoView`, where the
+      // rect would reflect a mid-animation position).
+      if (offset != null) {
+        const containerElement =
+          resolveContainer(container ?? null) ??
+          findScrollableAncestor(element);
 
-      if (containerElement) {
-        const containerRect = containerElement.getBoundingClientRect();
-        const elementRect = element.getBoundingClientRect();
+        if (containerElement) {
+          const containerRect = containerElement.getBoundingClientRect();
+          const elementRect = element.getBoundingClientRect();
+          const top =
+            containerElement.scrollTop +
+            (elementRect.top - containerRect.top) -
+            offset;
+
+          containerElement.scrollTo({
+            top,
+            behavior: scrollIntoViewOptions.behavior || 'smooth',
+          });
+          return;
+        }
+
         const top =
-          containerElement.scrollTop +
-          (elementRect.top - containerRect.top) -
-          offset;
+          element.getBoundingClientRect().top + window.scrollY - offset;
 
-        containerElement.scrollTo({
+        window.scrollTo({
           top,
           behavior: scrollIntoViewOptions.behavior || 'smooth',
         });
         return;
       }
 
-      const top = element.getBoundingClientRect().top + window.scrollY - offset;
-
-      window.scrollTo({
-        top,
-        behavior: scrollIntoViewOptions.behavior || 'smooth',
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'start',
+        ...scrollIntoViewOptions,
       });
-      return;
-    }
-
-    element.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-      inline: 'start',
-      ...scrollIntoViewOptions,
-    });
-  }, []);
+    },
+    [defaultOptionsRef],
+  );
 
   return { register, scrollTo };
 };

@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import useLatest from './use-latest';
+
 interface Options {
   onDrop?: (files: File[]) => void;
   // Comma-separated list, same format as the native <input accept>
@@ -53,17 +55,10 @@ const useFileDrop = <T extends HTMLElement = HTMLElement>(
   // as the pointer crosses child element boundaries.
   const dragCounterRef = useRef(0);
 
-  const onDropRef = useRef(onDrop);
-  const acceptRef = useRef(accept);
-  const multipleRef = useRef(multiple);
-  const disabledRef = useRef(disabled);
-
-  useEffect(() => {
-    onDropRef.current = onDrop;
-    acceptRef.current = accept;
-    multipleRef.current = multiple;
-    disabledRef.current = disabled;
-  });
+  const onDropRef = useLatest(onDrop);
+  const acceptRef = useLatest(accept);
+  const multipleRef = useLatest(multiple);
+  const disabledRef = useLatest(disabled);
 
   const [prevDisabled, setPrevDisabled] = useState(disabled);
 
@@ -88,85 +83,88 @@ const useFileDrop = <T extends HTMLElement = HTMLElement>(
 
   const cleanupRef = useRef<(() => void) | null>(null);
 
-  const dropRef = useCallback((node: T | null) => {
-    cleanupRef.current?.();
-    cleanupRef.current = null;
+  const dropRef = useCallback(
+    (node: T | null) => {
+      cleanupRef.current?.();
+      cleanupRef.current = null;
 
-    if (!node) {
-      return;
-    }
-
-    const onDragEnter = (event: DragEvent) => {
-      if (disabledRef.current) {
+      if (!node) {
         return;
       }
-      event.preventDefault();
-      dragCounterRef.current += 1;
-      if (dragCounterRef.current === 1) {
-        setIsDragging(true);
-      }
-    };
 
-    const onDragLeave = (event: DragEvent) => {
-      if (disabledRef.current) {
-        return;
-      }
-      event.preventDefault();
-      dragCounterRef.current = Math.max(0, dragCounterRef.current - 1);
-      if (dragCounterRef.current === 0) {
+      const onDragEnter = (event: DragEvent) => {
+        if (disabledRef.current) {
+          return;
+        }
+        event.preventDefault();
+        dragCounterRef.current += 1;
+        if (dragCounterRef.current === 1) {
+          setIsDragging(true);
+        }
+      };
+
+      const onDragLeave = (event: DragEvent) => {
+        if (disabledRef.current) {
+          return;
+        }
+        event.preventDefault();
+        dragCounterRef.current = Math.max(0, dragCounterRef.current - 1);
+        if (dragCounterRef.current === 0) {
+          setIsDragging(false);
+        }
+      };
+
+      // `preventDefault` here is what tells the browser this is a valid
+      // drop target at all — without it, `drop` never fires.
+      const onDragOver = (event: DragEvent) => {
+        if (disabledRef.current) {
+          return;
+        }
+        event.preventDefault();
+      };
+
+      const onDrop = (event: DragEvent) => {
+        if (disabledRef.current) {
+          return;
+        }
+        event.preventDefault();
+        dragCounterRef.current = 0;
         setIsDragging(false);
-      }
-    };
 
-    // `preventDefault` here is what tells the browser this is a valid
-    // drop target at all — without it, `drop` never fires.
-    const onDragOver = (event: DragEvent) => {
-      if (disabledRef.current) {
-        return;
-      }
-      event.preventDefault();
-    };
+        const fileList = event.dataTransfer?.files;
 
-    const onDrop = (event: DragEvent) => {
-      if (disabledRef.current) {
-        return;
-      }
-      event.preventDefault();
-      dragCounterRef.current = 0;
-      setIsDragging(false);
+        if (!fileList || fileList.length === 0) {
+          return;
+        }
 
-      const fileList = event.dataTransfer?.files;
+        let files = Array.from(fileList).filter(file =>
+          matchesAccept(file, acceptRef.current),
+        );
 
-      if (!fileList || fileList.length === 0) {
-        return;
-      }
+        if (!multipleRef.current) {
+          files = files.slice(0, 1);
+        }
 
-      let files = Array.from(fileList).filter(file =>
-        matchesAccept(file, acceptRef.current),
-      );
+        if (files.length > 0) {
+          onDropRef.current?.(files);
+        }
+      };
 
-      if (!multipleRef.current) {
-        files = files.slice(0, 1);
-      }
+      node.addEventListener('dragenter', onDragEnter);
+      node.addEventListener('dragleave', onDragLeave);
+      node.addEventListener('dragover', onDragOver);
+      node.addEventListener('drop', onDrop);
 
-      if (files.length > 0) {
-        onDropRef.current?.(files);
-      }
-    };
-
-    node.addEventListener('dragenter', onDragEnter);
-    node.addEventListener('dragleave', onDragLeave);
-    node.addEventListener('dragover', onDragOver);
-    node.addEventListener('drop', onDrop);
-
-    cleanupRef.current = () => {
-      node.removeEventListener('dragenter', onDragEnter);
-      node.removeEventListener('dragleave', onDragLeave);
-      node.removeEventListener('dragover', onDragOver);
-      node.removeEventListener('drop', onDrop);
-      dragCounterRef.current = 0;
-    };
-  }, []);
+      cleanupRef.current = () => {
+        node.removeEventListener('dragenter', onDragEnter);
+        node.removeEventListener('dragleave', onDragLeave);
+        node.removeEventListener('dragover', onDragOver);
+        node.removeEventListener('drop', onDrop);
+        dragCounterRef.current = 0;
+      };
+    },
+    [acceptRef, disabledRef, multipleRef, onDropRef],
+  );
 
   return { dropRef, isDragging };
 };

@@ -1,4 +1,6 @@
-import { type RefObject, useEffect, useRef } from 'react';
+import { type RefObject, useEffect } from 'react';
+
+import useLatest from './use-latest';
 
 interface Options {
   capture?: boolean;
@@ -41,11 +43,7 @@ function useEventListener(
 ) {
   const { target, capture, passive, once, enabled = true } = options;
 
-  const handlerRef = useRef(handler);
-
-  useEffect(() => {
-    handlerRef.current = handler;
-  });
+  const handlerRef = useLatest(handler);
 
   useEffect(() => {
     if (!enabled) {
@@ -99,7 +97,7 @@ function useEventListener(
       }
       resolvedTarget?.removeEventListener(type, listener, { capture });
     };
-  }, [type, target, capture, passive, once, enabled]);
+  }, [type, target, capture, passive, once, enabled, handlerRef]);
 }
 
 export default useEventListener;
