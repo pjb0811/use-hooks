@@ -4,6 +4,7 @@ title: Timing
 ---
 
 import DemoTheme from '@site/src/components/DemoTheme';
+import AnimationFrameCallbackDemo from '@site/src/demo/use-animation-frame-callback-demo';
 import DebouncedCallbackDemo from '@site/src/demo/use-debounced-callback-demo';
 import DebouncedValueDemo from '@site/src/demo/use-debounced-value-demo';
 import IntervalDemo from '@site/src/demo/use-interval-demo';
@@ -14,8 +15,8 @@ import TimeoutDemo from '@site/src/demo/use-timeout-demo';
 
 # Timing
 
-Debounce, throttle, and interval/timeout scheduling, with proper cleanup on
-unmount.
+Debounce, throttle, animation-frame, and interval/timeout scheduling, with
+proper cleanup on unmount.
 
 <DemoTheme>
 
@@ -116,5 +117,27 @@ useRecursiveTimeout(
   running ? 1000 : null,
 );
 ```
+
+## useAnimationFrameCallback {/* #use-animation-frame-callback */}
+
+<AnimationFrameCallbackDemo />
+
+```tsx
+const [schedule, cancel] = useAnimationFrameCallback(
+  (x: number, y: number) => setPosition({ x, y }),
+  { window: targetWindow }, // optional, defaults to the global window
+);
+
+window.addEventListener('scroll', () =>
+  schedule(window.scrollX, window.scrollY),
+);
+```
+
+`schedule(...args)` requests a frame if none is pending. More calls before it
+fires replace the arguments, so the callback runs once per frame with the latest
+ones. `cancel()` drops the pending frame, and unmounting cancels it too.
+`schedule` and `cancel` keep their identity across renders, and the callback may
+call `schedule` again to repeat on every frame. The `window` option uses another
+window's `requestAnimationFrame`, for elements that live in an iframe.
 
 </DemoTheme>

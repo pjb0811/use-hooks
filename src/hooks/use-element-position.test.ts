@@ -81,6 +81,60 @@ describe('useElementPosition', () => {
     expect(result.current?.top).toBe(40);
   });
 
+  it('measures once per frame however many events arrive', () => {
+    const ref = { current: element };
+
+    renderHook(() => useElementPosition(ref));
+
+    const getRect = vi.mocked(element.getBoundingClientRect);
+    const before = getRect.mock.calls.length;
+
+    act(() => {
+      window.dispatchEvent(new Event('scroll'));
+      window.dispatchEvent(new Event('scroll'));
+      window.dispatchEvent(new Event('resize'));
+      element.dispatchEvent(new Event('scroll'));
+      vi.advanceTimersByTime(20);
+    });
+
+    expect(getRect.mock.calls.length - before).toBe(1);
+  });
+
+  it('measures again on the next frame after a burst', () => {
+    const ref = { current: element };
+    const { result } = renderHook(() => useElementPosition(ref));
+
+    act(() => {
+      window.dispatchEvent(new Event('scroll'));
+      vi.advanceTimersByTime(20);
+    });
+    act(() => {
+      current = rect(90);
+      window.dispatchEvent(new Event('scroll'));
+      vi.advanceTimersByTime(20);
+    });
+
+    expect(result.current?.top).toBe(90);
+  });
+
+  it('drops a pending measurement on unmount', () => {
+    const ref = { current: element };
+    const { unmount } = renderHook(() => useElementPosition(ref));
+    const getRect = vi.mocked(element.getBoundingClientRect);
+
+    act(() => {
+      window.dispatchEvent(new Event('scroll'));
+    });
+    const before = getRect.mock.calls.length;
+
+    unmount();
+    act(() => {
+      vi.advanceTimersByTime(20);
+    });
+
+    expect(getRect.mock.calls.length).toBe(before);
+  });
+
   it('also catches the scroll of an ancestor container', () => {
     const ref = { current: element };
     const { result } = renderHook(() => useElementPosition(ref));
