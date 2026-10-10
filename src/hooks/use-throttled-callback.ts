@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
+import useLatest from './use-latest';
+
 interface Options {
   leading?: boolean;
   trailing?: boolean;
@@ -16,17 +18,10 @@ const useThrottledCallback = <Args extends unknown[]>(
   delay = 100,
   { leading = true, trailing = true }: Options = {},
 ) => {
-  const callbackRef = useRef(callback);
-  const delayRef = useRef(delay);
-  const leadingRef = useRef(leading);
-  const trailingRef = useRef(trailing);
-
-  useEffect(() => {
-    callbackRef.current = callback;
-    delayRef.current = delay;
-    leadingRef.current = leading;
-    trailingRef.current = trailing;
-  });
+  const callbackRef = useLatest(callback);
+  const delayRef = useLatest(delay);
+  const leadingRef = useLatest(leading);
+  const trailingRef = useLatest(trailing);
 
   const lastExecutedRef = useRef<number | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);

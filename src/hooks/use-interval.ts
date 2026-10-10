@@ -1,4 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+
+import useLatest from './use-latest';
 
 // Dan Abramov's useInterval pattern: the callback lives in a ref so a
 // fresh function every render doesn't reset the interval — only `delay`
@@ -6,11 +8,7 @@ import { useEffect, useRef } from 'react';
 // useTimeout/useRecursiveTimeout); toggling back to a number resumes on
 // a fresh interval rather than trying to pick up mid-tick.
 const useInterval = (callback: () => void, delay: number | null) => {
-  const callbackRef = useRef(callback);
-
-  useEffect(() => {
-    callbackRef.current = callback;
-  });
+  const callbackRef = useLatest(callback);
 
   useEffect(() => {
     if (delay === null) {
@@ -22,7 +20,7 @@ const useInterval = (callback: () => void, delay: number | null) => {
     }, delay);
 
     return () => clearInterval(id);
-  }, [delay]);
+  }, [delay, callbackRef]);
 };
 
 export default useInterval;

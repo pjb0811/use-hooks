@@ -1,4 +1,6 @@
-import { type RefObject, useEffect, useRef } from 'react';
+import { type RefObject, useEffect } from 'react';
+
+import useLatest from './use-latest';
 
 type Target<T extends Node> = RefObject<T | null> | T | null | undefined;
 
@@ -25,11 +27,7 @@ const useMutationObserver = <T extends Node>(
 ) => {
   const { enabled = true, ...mutationOptions } = options;
 
-  const callbackRef = useRef(callback);
-
-  useEffect(() => {
-    callbackRef.current = callback;
-  });
+  const callbackRef = useLatest(callback);
 
   // `mutationOptions` is typically a fresh object literal at the call
   // site — serialize it into a stable key instead of depending on the

@@ -1,4 +1,6 @@
-import { type RefObject, useEffect, useRef } from 'react';
+import { type RefObject, useEffect } from 'react';
+
+import useLatest from './use-latest';
 
 type ClickOutsideRef = RefObject<HTMLElement | null> | null | undefined;
 
@@ -25,21 +27,13 @@ const useClickOutside = (
   // nested UI (a dropdown inside a modal). Turn it on where you want it.
   const { enabled = true, events = ['pointerdown'], escape = false } = options;
 
-  const handlerRef = useRef(handler);
-
-  useEffect(() => {
-    handlerRef.current = handler;
-  });
+  const handlerRef = useLatest(handler);
 
   const refList = Array.isArray(refs) ? refs : [refs];
   // `refs` is almost always an inline array literal at the call site, so
   // depending on it directly would tear down/rebuild the listeners on
   // every render — read the latest value from a ref instead.
-  const refListRef = useRef(refList);
-
-  useEffect(() => {
-    refListRef.current = refList;
-  });
+  const refListRef = useLatest(refList);
 
   const eventsKey = events.join(',');
 

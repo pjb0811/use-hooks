@@ -1,4 +1,6 @@
-import { type RefObject, useEffect, useRef } from 'react';
+import { type RefObject, useEffect } from 'react';
+
+import useLatest from './use-latest';
 
 type KeyPressTarget =
   | RefObject<HTMLElement | null>
@@ -104,11 +106,7 @@ const useKeyPress = (
 ) => {
   const { target, enabled = true, preventDefault = false, ignore } = options;
 
-  const handlerRef = useRef(handler);
-
-  useEffect(() => {
-    handlerRef.current = handler;
-  });
+  const handlerRef = useLatest(handler);
 
   const combos = Array.isArray(combo) ? combo : [combo];
   const parsedCombos = combos.map(parseCombo);

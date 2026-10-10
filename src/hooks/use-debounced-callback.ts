@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
+import useLatest from './use-latest';
+
 interface Options {
   delay?: number;
   autoInvoke?: boolean;
@@ -36,19 +38,13 @@ const useDebouncedCallback = (
   deps: React.DependencyList = [],
 ): DebouncedCallback => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const callbackRef = useRef(callback);
+  const callbackRef = useLatest(callback);
   // Read the latest `delay` when the timeout actually fires, instead of
   // baking in whatever `delay` was on the render that created the stable
   // debounced function (which otherwise never updates again).
-  const delayRef = useRef(delay);
-  const flushOnUnmountRef = useRef(flushOnUnmount);
+  const delayRef = useLatest(delay);
+  const flushOnUnmountRef = useLatest(flushOnUnmount);
   const prevDeps = useRef<React.DependencyList | undefined>(undefined);
-
-  useEffect(() => {
-    callbackRef.current = callback;
-    delayRef.current = delay;
-    flushOnUnmountRef.current = flushOnUnmount;
-  });
 
   // Built once via useState's lazy initializer (runs only on mount) rather
   // than the ref-guarded-by-if pattern this used to use — same "create
@@ -121,13 +117,15 @@ const useDebouncedCallback = (
 
   useEffect(() => {
     return () => {
+      // Reads the latest value at unmount on purpose.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       if (flushOnUnmountRef.current) {
         stableDebouncedCallback.flush();
       } else {
         stableDebouncedCallback.cancel();
       }
     };
-  }, [stableDebouncedCallback]);
+  }, [stableDebouncedCallback, flushOnUnmountRef]);
 
   return stableDebouncedCallback;
 };

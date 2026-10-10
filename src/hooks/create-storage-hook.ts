@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useRef, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useSyncExternalStore } from 'react';
+
+import useLatest from './use-latest';
 
 interface CacheEntry<T> {
   raw: string | null;
@@ -79,11 +81,7 @@ const createStorageHook = (getStorage: () => Storage, name: string) => {
   }
 
   return <T>(key: string, initialValue: T) => {
-    const initialValueRef = useRef(initialValue);
-
-    useEffect(() => {
-      initialValueRef.current = initialValue;
-    });
+    const initialValueRef = useLatest(initialValue);
 
     // Seed the key with the initial value if it isn't set yet. This runs in an
     // effect, not in the setter below, so it is a one-shot side effect that
@@ -104,7 +102,7 @@ const createStorageHook = (getStorage: () => Storage, name: string) => {
       } catch (e) {
         console.error(`Error seeding ${name} key "${key}":`, e);
       }
-    }, [key]);
+    }, [key, initialValueRef]);
 
     const subscribeForKey = useCallback(
       (callback: () => void) => subscribe(key, callback),
@@ -113,10 +111,13 @@ const createStorageHook = (getStorage: () => Storage, name: string) => {
 
     const getSnapshotForKey = useCallback(
       () => getSnapshot(key, initialValueRef.current),
-      [key],
+      [key, initialValueRef],
     );
 
-    const getServerSnapshot = useCallback(() => initialValueRef.current, []);
+    const getServerSnapshot = useCallback(
+      () => initialValueRef.current,
+      [initialValueRef],
+    );
 
     const storedValue = useSyncExternalStore(
       subscribeForKey,
@@ -138,7 +139,7 @@ const createStorageHook = (getStorage: () => Storage, name: string) => {
           console.error(`Error setting ${name} key "${key}":`, e);
         }
       },
-      [key],
+      [key, initialValueRef],
     );
 
     return [storedValue, setValue] as const;
