@@ -4,7 +4,7 @@
 
 이 문서는 `use-hooks` 저장소에서 에이전트(자동화 도구/코딩 어시스턴트)가 새 훅을 추가할 때 따라야 할 최소 기준을 정의합니다.
 
-**이 저장소는 재사용 가능한 React 훅의 정본(canonical home)이다.** `live-editor` 같은 앱 저장소에서 새 훅이 필요할 때, 그게 특정 앱 도메인에 묶이지 않은 범용 훅이라면 그 앱 저장소에 바로 구현하지 말고 여기 먼저 구현하고 배포한 뒤 의존성으로 가져다 쓰게 한다. 자세한 판단 기준과 절차는 `.claude/skills/coding-style/SKILL.md`의 "D. 재사용 가능한 UI/훅은 공유 라이브러리에 먼저 구현" 참고.
+**이 저장소는 재사용 가능한 React 훅의 정본(canonical home)이다.** `live-editor` 같은 앱 저장소에서 새 훅이 필요할 때, 그게 특정 앱 도메인에 묶이지 않은 범용 훅이라면 그 앱 저장소에 바로 구현하지 말고 여기 먼저 구현하고 배포한 뒤 의존성으로 가져다 쓰게 한다. 자세한 판단 기준과 절차는 공유 `shared-library-first` 스킬 참고.
 
 ## 훅 추가 기준
 
@@ -31,7 +31,7 @@
 
 ## 주석
 
-주석은 지금 코드를 처음 읽는 사람을 위해 씁니다. 무엇을 하는지 먼저 쓰고, 이유는 지켜야 할 제약일 때만 현재형으로 쓰며, 과거 이야기는 이슈 번호(`(#N)`)로 대신합니다. 자세한 규칙과 예시는 `.claude/skills/coding-style/SKILL.md`의 "E. 주석 작성"을 따릅니다.
+주석은 지금 코드를 처음 읽는 사람을 위해 씁니다. 무엇을 하는지 먼저 쓰고, 이유는 지켜야 할 제약일 때만 현재형으로 쓰며, 과거 이야기는 이슈 번호(`(#N)`)로 대신합니다. 자세한 규칙과 예시는 공유 `coding-style` 스킬의 "C. 주석 작성"을 따릅니다.
 
 ## Changeset
 
@@ -39,6 +39,40 @@
 - 일부러 changeset을 넣지 않는 PR(문서·CI·리팩터링만 바꾸는 PR, 아직 배포되지 않은 변경을 다듬는 PR 등)에는 `pnpm changeset --empty`로 빈 changeset을 넣습니다. bump와 CHANGELOG 항목 없이 draft만 건너뜁니다. 빈 changeset만 쌓인 Version PR은 그 파일을 지우기만 하고 버전은 그대로입니다.
 - 머지를 확인할 때 PR head SHA가 로컬 tip과 다르면 추가된 커밋(`git log <local>..<head>`)을 확인합니다. 봇이 넣은 changeset은 다음 Version PR의 CHANGELOG와 GitHub Release로 그대로 나갑니다(live-editor 4.5.0에서 실제로 발생).
 - 버전·배포 흐름 전체는 `.claude/skills/version-management/SKILL.md`를 참고합니다.
+
+## 공유 스킬
+
+모든 pjb0811 저장소가 함께 쓰는 절차는 비공개 저장소 `pjb0811/skills`의 전역 Claude Code 스킬입니다. 그 스킬을 읽을 수 없는 에이전트는 이 파일의 요약을 따릅니다.
+
+| 스킬                                  | 용도                                                                           |
+| ------------------------------------- | ------------------------------------------------------------------------------ |
+| `commit`, `pr`, `issue`               | 커밋 메시지, PR·이슈 본문                                                      |
+| `coding-style`                        | 컨벤션, 일괄 리네임, 주석(C), boolean 이름(D), 중괄호(E), 서브컴포넌트 구조(F) |
+| `changesets-release`, `publish-check` | 릴리스 흐름과 배포 전 점검                                                     |
+| `shared-library-first`                | 재사용 UI는 ui-kit, 훅은 use-hooks에 먼저 구현                                 |
+| `ref-verification`                    | 저장소 상태를 작업 트리가 아니라 git ref 기준으로 확인                         |
+
+### 커밋 메시지
+
+- `type(scope): summary`: 영어 명령문, 소문자로 시작, 마침표 없음, gitmoji 없음.
+- 스코프는 변경이 한 영역에 한정될 때만 붙입니다. 브랜치 이름은 쓰지 않습니다.
+- 호환성을 깨는 변경은 타입이나 스코프 뒤에 `!`를 붙입니다(`refactor(api)!: …`).
+- 본문은 무엇을 바꿨는지 구체적으로 쓴 `-` 불릿입니다. 호환성을 깨는 변경이면 무엇이 깨지고 무엇으로 대체하는지 씁니다.
+- `Co-Authored-By` 같은 트레일러는 붙이지 않습니다.
+
+### 저장소 스킬
+
+| 스킬                    | 경로                                    | 설명                                  |
+| ----------------------- | --------------------------------------- | ------------------------------------- |
+| `add-hook`              | `.github/skills/add-hook/`              | 새 훅 추가 (위 "훅 추가 기준"을 따름) |
+| `version-management`    | `.claude/skills/version-management/`    | 이 저장소의 패키지·배포 세부 사항     |
+| `react-best-practices`  | `.claude/skills/react-best-practices/`  | Vercel, React 성능 규칙               |
+| `composition-patterns`  | `.claude/skills/composition-patterns/`  | Vercel, 컴포넌트 합성 패턴            |
+| `web-design-guidelines` | `.claude/skills/web-design-guidelines/` | Vercel, UI·접근성 리뷰                |
+| `writing-guidelines`    | `.claude/skills/writing-guidelines/`    | Vercel, 문서 문체 리뷰                |
+| `deploy-to-vercel`      | `.claude/skills/deploy-to-vercel/`      | Vercel, 문서 사이트 배포              |
+
+Vercel 스킬은 [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) `063bee9`에서 수정 없이 가져왔습니다(패키징 파일 `Archive.zip` 제외). `.prettierignore`에 있어 포매터가 바꾸지 않습니다. 갱신할 때는 새 커밋에서 디렉터리를 다시 복사하고 이 커밋을 바꿉니다.
 
 ## 참고
 
