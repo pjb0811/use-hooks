@@ -4,6 +4,7 @@ title: Utility
 ---
 
 import DemoTheme from '@site/src/components/DemoTheme';
+import CopyToClipboardDemo from '@site/src/demo/use-copy-to-clipboard-demo';
 import ImageDemo from '@site/src/demo/use-image-demo';
 import LatestDemo from '@site/src/demo/use-latest-demo';
 import MediaQueryDemo from '@site/src/demo/use-media-query-demo';
@@ -53,6 +54,21 @@ const isWide = useMediaQuery('(min-width: 768px)', {
   defaultValue: true,
 });
 ```
+
+## useCopyToClipboard {/* #use-copy-to-clipboard */}
+
+<CopyToClipboardDemo />
+
+```tsx
+const { copy, copied, error } = useCopyToClipboard({ resetDelay: 1500 });
+
+const ok = await copy('pnpm add @jbpark/use-hooks'); // true on success, false on failure
+```
+
+`copied` is `true` for `resetDelay` ms after a successful copy (default 1500),
+and each copy restarts that time. Pass `resetDelay: null` to keep it `true`
+until the next copy. `error` holds the last failure, such as a missing
+Clipboard API or a denied permission, until the next successful copy.
 
 ## useLatest {/* #use-latest */}
 

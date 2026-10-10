@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import type { ReactNode } from 'react';
 
 import { useHistory } from '@docusaurus/router';
@@ -17,6 +16,8 @@ import {
 } from 'lucide-react';
 
 import styles from './index.module.css';
+
+import { useCopyToClipboard } from '../../../src/hooks';
 
 const NPM_PACKAGE = '@jbpark/use-hooks';
 const NPM_BADGE_URL = `https://img.shields.io/npm/v/${NPM_PACKAGE}.svg?style=flat-square&color=black&labelColor=eeeeee`;
@@ -45,22 +46,12 @@ const FEATURES = [
 ] as const;
 
 function InstallCommand() {
-  const [copied, setCopied] = useState(false);
-
-  const onCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(INSTALL_COMMAND);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {
-      // clipboard API unavailable, ignore
-    }
-  };
+  const { copy, copied } = useCopyToClipboard({ resetDelay: 1500 });
 
   return (
     <button
       type="button"
-      onClick={onCopy}
+      onClick={() => copy(INSTALL_COMMAND)}
       aria-label="Copy install command"
       className={styles.installCommand}
     >

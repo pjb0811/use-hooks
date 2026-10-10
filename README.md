@@ -104,6 +104,7 @@ function MyComponent() {
 | `useMergedRef`            | Merge multiple object/callback refs into one callback ref                                                                             |
 | `useImage`                | Preload an image and expose `loading`/`error` (an `Error`)/`loaded`/`naturalSize`/`attemptCount`/`retry`                              |
 | `useMediaQuery`           | Track a CSS media query via `matchMedia` (SSR-safe, optional `target` for iframe/portal windows)                                      |
+| `useCopyToClipboard`      | Copy text with `navigator.clipboard`; returns `{ copy, copied, error }` and resets `copied` after `resetDelay`                        |
 | `useLatest`               | Return a ref that always holds the value from the latest render                                                                       |
 
 ## Migrating from v2
