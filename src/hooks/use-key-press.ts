@@ -128,9 +128,13 @@ const useKeyPress = (
 
     const onKeyDown = (event: Event) => {
       const keyboardEvent = event as KeyboardEvent;
-      const eventTarget = keyboardEvent.target as HTMLElement | null;
+      const eventTarget = keyboardEvent.target as Partial<Element> | null;
 
-      if (ignore && eventTarget?.closest(ignore)) {
+      // `window` and `document` can be the target of a dispatched event and
+      // have no `closest`; they are never inside an ignored element. The
+      // method is checked instead of `instanceof Element` so an element from
+      // another window (an iframe) still counts.
+      if (ignore && eventTarget?.closest?.(ignore)) {
         return;
       }
 

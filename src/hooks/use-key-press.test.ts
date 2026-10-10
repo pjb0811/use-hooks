@@ -139,6 +139,43 @@ describe('useKeyPress', () => {
     editor.remove();
   });
 
+  it('calls the handler for an event dispatched on window or document with `ignore` set', () => {
+    const handler = vi.fn();
+
+    renderHook(() => useKeyPress('a', handler, { ignore: '.editor' }));
+    press({ key: 'a' });
+    press({ key: 'a' }, document);
+
+    expect(handler).toHaveBeenCalledTimes(2);
+  });
+
+  it('ignores keys pressed inside an element from another window', () => {
+    const handler = vi.fn();
+    const frame = document.createElement('iframe');
+
+    document.body.appendChild(frame);
+
+    const frameDocument = frame.contentDocument as Document;
+    const editor = frameDocument.createElement('div');
+
+    editor.className = 'editor';
+    frameDocument.body.appendChild(editor);
+
+    renderHook(() =>
+      useKeyPress('a', handler, {
+        target: frame.contentWindow as Window,
+        ignore: '.editor',
+      }),
+    );
+    press({ key: 'a' }, editor);
+    expect(handler).not.toHaveBeenCalled();
+
+    press({ key: 'a' }, frameDocument.body);
+    expect(handler).toHaveBeenCalledTimes(1);
+
+    frame.remove();
+  });
+
   it('does not listen when disabled', () => {
     const handler = vi.fn();
 
