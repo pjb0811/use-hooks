@@ -5,6 +5,7 @@ title: Events & Interaction
 
 import DemoTheme from '@site/src/components/DemoTheme';
 import ClickOutsideDemo from '@site/src/demo/use-click-outside-demo';
+import DocumentVisibilityDemo from '@site/src/demo/use-document-visibility-demo';
 import EventListenerDemo from '@site/src/demo/use-event-listener-demo';
 import FileDropDemo from '@site/src/demo/use-file-drop-demo';
 import FileToDataUrlDemo from '@site/src/demo/use-file-to-data-url-demo';
@@ -12,8 +13,8 @@ import KeyPressDemo from '@site/src/demo/use-key-press-demo';
 
 # Events & Interaction
 
-Hooks for DOM events, keyboard shortcuts, click-outside detection, and
-drag-and-drop file handling.
+Hooks for DOM events, page visibility, keyboard shortcuts, click-outside
+detection, and drag-and-drop file handling.
 
 <DemoTheme>
 
@@ -25,6 +26,17 @@ drag-and-drop file handling.
 const [width, setWidth] = useState(window.innerWidth);
 
 useEventListener('resize', () => setWidth(window.innerWidth));
+```
+
+## useDocumentVisibility {/* #use-document-visibility */}
+
+<DocumentVisibilityDemo />
+
+```tsx
+const visible = useDocumentVisibility();
+
+// Pause polling while the tab is hidden.
+useInterval(refresh, visible ? 5000 : null);
 ```
 
 ## useClickOutside {/* #use-click-outside */}

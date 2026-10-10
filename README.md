@@ -89,6 +89,7 @@ function MyComponent() {
 | `useResizeObserver`       | Track an element's own width/height via a callback ref (content-box or border-box)                                                    |
 | `useMutationObserver`     | Observe DOM mutations on a ref or a raw node (e.g. `document.head`)                                                                   |
 | `useEventListener`        | Add/remove an event listener on `window`, a ref, or a raw target                                                                      |
+| `useDocumentVisibility`   | Track whether the page is visible (`document.visibilityState`), for pausing work in a background tab                                  |
 | `useClickOutside`         | Run a callback when a click/touch (or `Escape`, opt-in via `escape`) happens outside the referenced element(s); accepts multiple refs |
 | `useKeyPress`             | Run a callback on key combos with `mod`/`ctrl`/`meta`/`shift`/`alt` and aliases like `space`/`esc`                                    |
 | `useFileDrop`             | Drag-and-drop file zone with `accept`/`multiple` filtering; returns `{ dropRef, isDragging }`                                         |
