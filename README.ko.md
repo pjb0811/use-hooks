@@ -72,6 +72,7 @@ function MyComponent() {
 | 훅                        | 설명                                                                                             |
 | ------------------------- | ------------------------------------------------------------------------------------------------ |
 | `useLocalStorage`         | 에러 핸들링이 포함된 JSON 기반 영속 상태 (SSR 안전)                                              |
+| `useSessionStorage`       | `sessionStorage` 기반 영속 상태 (`useLocalStorage`와 같은 API, 탭을 닫으면 삭제)                 |
 | `useHistoryState`         | 히스토리 개수 제한을 설정할 수 있는 실행 취소/다시 실행 상태 관리                                |
 | `useControllableState`    | value/defaultValue/onChange prop 조합을 훅 하나로 제어/비제어 상태 관리                          |
 | `usePrevious`             | 이전 렌더 시점의 값을 반환                                                                       |
@@ -102,6 +103,7 @@ function MyComponent() {
 | `useMergedRef`            | 여러 객체/콜백 ref를 하나의 콜백 ref로 병합                                                      |
 | `useImage`                | 이미지 사전로드 및 `loading`/`error`(`Error`)/`loaded`/`naturalSize`/`attemptCount`/`retry` 노출 |
 | `useMediaQuery`           | `matchMedia`로 CSS 미디어 쿼리 추적 (SSR 안전, iframe/포털 창을 위한 `target` 옵션)              |
+| `useLatest`               | 최신 렌더의 값을 항상 담고 있는 ref를 반환                                                       |
 
 ## v2에서 마이그레이션
 
