@@ -1,51 +1,39 @@
 ---
 name: version-management
-description: "changesets 기반 버전 관리/릴리스 흐름(Version Packages PR → npm publish)과, PR 머지 시 changeset 봇 커밋 때문에 발생하는 GitHub Actions 'action_required' 승인 이슈 대응법. Use when 새 changeset을 추가할 때, 'Version Packages' PR을 머지해야 할 때, PR이 CI는 다 통과한 것 같은데 mergeStateStatus가 BLOCKED로 안 풀릴 때, 또는 '버전 올려줘', 'release 진행', 'npm 배포' 같은 요청이 있을 때."
+description: "use-hooks specifics for releases: `@jbpark/use-hooks` is public on npm, so merging the 'Version Packages' PR publishes it; what publish.yml does here (npm via OIDC, NVIDIA-polished release notes), the required checks, and the manual release backfill. The common changesets flow, the `action_required` approval and branch naming are in the shared `changesets-release` skill, and pre-release checks in `publish-check`. Use with those when adding a changeset, merging a 'Version Packages' PR, or when the user says '버전 올려줘', 'release 진행', 'npm 배포'."
 ---
 
 # Version Management (use-hooks)
 
-`@jbpark/use-hooks`는 changesets로 버전을 관리하고 npm에 공개 배포된다(`private: false`).
+공통 흐름(changeset → Version Packages PR → 머지 시 `publish.yml`), `action_required` 실행 승인, 브랜치 이름 규칙은 공유 `changesets-release` 스킬을, 배포 전 점검은 공유 `publish-check` 스킬을 따른다. 이 문서는 이 저장소에만 있는 내용이다.
 
-## 릴리스 흐름
+## 패키지와 배포 상태
 
-1. **changeset 추가**: 사용자 대상 변경(기능/버그 수정)이 있는 PR에는 `.changeset/*.md`가 필요하다. `pnpm changeset`으로 수동 생성하거나, `changeset-draft.yml` 워크플로우(필수 상태 체크 `draft`)가 PR별로 초안을 자동 생성/갱신해준다.
-   - 봇 초안은 **최대 `minor`까지만** 작성한다(`.github/scripts/draft-bump.mjs`). 모델이 `major`를 고르면 `minor`로 낮춰 쓰고, 봇 커밋 메시지 끝에 `(model suggested major; capped at minor)`가 붙는다. 정말 호환성을 깨는 변경이면 초안 파일을 직접 `major`로 고친다 — major 릴리스는 사람이 판단한다(pjb0811/live-editor#457에서 동작 변화 없는 리팩터링이 `major`로 초안 작성돼 머지된 사고가 계기).
-   - Renovate의 의존성 업데이트 PR(`renovate/*` 브랜치)은 봇이 **건너뛴다**. Renovate는 다른 누군가가 커밋한 브랜치를 더 이상 rebase·갱신하지 않기 때문이다. 릴리스에 포함돼야 하는 업데이트(예: `peerDependencies` 범위 변경)라면 changeset을 직접 추가한다.
-2. **Version Packages PR**: main에 push될 때마다 `version.yml`이 돌면서, 누적된 changeset들로 `changeset-release/main` 브랜치에 "chore: version packages" PR을 열고 최신 상태로 유지한다. 이 PR은 `package.json` 버전을 bump하고 `CHANGELOG.md`를 갱신한다.
-3. **머지 시 자동 배포**: 이 PR을 머지하면 그 자체가 main에 대한 push이므로 `publish.yml`이 실행된다 — 현재 `package.json` 버전이 이미 `vX.Y.Z` 태그로 존재하는지 확인하고, 없으면: build → `npm publish`(OIDC Trusted Publishing이라 `NPM_TOKEN` 불필요) → git 태그 push → GitHub Release 생성(가능하면 GH Models로 릴리즈 노트 다듬기, 실패 시 원본 CHANGELOG 텍스트로 폴백).
+- 배포 대상은 저장소 루트의 `@jbpark/use-hooks` 하나다. `private: false`이고 npm에 공개 배포된다.
+- **Version Packages PR 머지 = npm 공개 배포**다. 머지 전에 매번 사용자 확인을 받는다.
+- 상태는 문서가 아니라 직접 확인한다. 결과가 이 문서와 다르면 문서를 고친다.
 
-⚠️ **npm publish는 공개적이고 되돌리기 어려운 배포다.** "Version Packages" PR(`changeset-release/main`)을 머지하기 전에는, 그게 다른 일반 기능 PR 머지와 다르다는 것 — 즉 "이 머지 = 실제 npm에 새 버전 배포"라는 것 — 을 사용자에게 명확히 알리고 별도로 확인받는다. 사용자가 먼저 "머지해줘"라고 명시적으로 말했더라도, 이 저장소에서는 매번 "지금 머지하면 npm에 vX.Y.Z가 배포됩니다"라고 재확인하는 게 안전하다.
+  ```bash
+  git show origin/main:package.json | node -p "const p=JSON.parse(require('fs').readFileSync(0));({private:p.private,version:p.version,publishConfig:p.publishConfig})"
+  npm view @jbpark/use-hooks version
+  ```
 
-## 필수 상태 체크와 "action_required" 함정
+## 이 저장소의 `publish.yml`
 
-이 저장소의 브랜치 룰셋은 `lint-and-build (Node v24.x)`와 `draft` 두 체크를 필수로 요구한다 (`gh api repos/pjb0811/use-hooks/rulesets`로 확인 가능).
+`already_tagged`(현재 버전의 `vX.Y.Z` 태그가 이미 있으면 아무것도 하지 않음)를 통과하면 다음 순서로 돈다.
 
-PR을 열면 `changeset-draft.yml`의 봇이 그 PR 브랜치에 커밋을 하나 더 push해서(예: draft changeset 파일 추가/갱신) `synchronize` 이벤트가 발생하는 경우가 있다. 이 새 커밋에 대해 CI/Changeset Draft 워크플로우가 재트리거되는데, 이 재트리거된 실행이 **`conclusion: action_required`, job 0개**인 채로 끝나버리는 경우가 있다 — 실제로는 아무 문제 없는 정상적인 재실행인데도 GitHub이 승인을 요구하며 멈춘 상태다. 이러면 필수 체크가 "완료"로 안 잡혀서 PR의 `mergeStateStatus`가 계속 `BLOCKED`로 남는다.
+1. install → build
+2. `npm publish`. OIDC Trusted Publishing이라 `NPM_TOKEN`이 필요 없다. live-editor와 달리 `is_private` 확인 스텝은 없다.
+3. `v<version>` 태그 push
+4. `CHANGELOG.md`에서 해당 버전 절을 뽑아 GitHub Release를 만든다. 릴리스 노트는 NVIDIA API(`NVIDIA_API_KEY`)로 다듬고, 실패하면 원본 changelog로 폴백한다. 릴리스를 막지 않는다.
 
-**해결 절차:**
+태그는 있는데 Release가 없으면 `release.yml`("Release (manual backfill)")을 `workflow_dispatch`로 실행한다(`tag` 입력값 필요).
 
-```bash
-# 1. 해당 브랜치의 실행 목록에서 action_required인 run을 찾는다
-gh run list --branch <branch> --json databaseId,name,status,conclusion,headSha,event
+## 필수 상태 체크
 
-# 2. 그 run을 API로 직접 승인한다 (CI/Changeset Draft 각각)
-gh api -X POST repos/pjb0811/use-hooks/actions/runs/<run_id>/approve
+브랜치 룰셋은 `lint-and-build`와 `draft`를 요구한다(`gh api repos/pjb0811/use-hooks/rulesets`로 확인).
 
-# 3. 정상 완료를 지켜본다
-gh run watch <run_id> --exit-status
+## 워크플로
 
-# 4. 필수 체크가 다 통과했는지 확인
-gh pr view <n> --json mergeable,mergeStateStatus   # CLEAN이면 머지 가능
-```
-
-## 브랜치 네이밍
-
-Conventional Commits 접두어를 브랜치명에도 쓴다: `feat/*`, `fix/*`, `refactor/*`, `chore/*`.
-
-⚠️ **함정**: git은 `feat`이라는 이름의 브랜치와 `feat/foo`라는 이름의 브랜치를 동시에 가질 수 없다 (`refs/heads/feat` vs `refs/heads/feat/foo` 경로 충돌). 새 브랜치를 만들기 전에 `git branch -a`로 접두어와 겹치는 bare 브랜치(`feat`, `fix` 등)가 남아있는지 확인한다. 있으면 대체 이름(`feature/*`)을 임시로 쓰거나, 사용자에게 그 낡은 브랜치를 지워도 되는지 먼저 물어본다 — 임의로 삭제하지 않는다.
-
-## 참고
-
-- 관련 워크플로우: `.github/workflows/changeset-draft.yml`, `.github/workflows/version.yml`, `.github/workflows/publish.yml`, `.github/workflows/ci.yml`
-- 수동 릴리스 노트 재생성(태그는 있는데 Release가 없을 때): `.github/workflows/release.yml`을 `workflow_dispatch`로 실행 (`tag` 입력값 필요)
+- `.github/workflows/changeset-draft.yml`, `version.yml`, `publish.yml`, `release.yml`, `ci.yml`
+- 문서 사이트는 GitHub Actions가 아니라 Vercel이 배포한다(`vercel.json`: `pnpm --dir website build` → `website/build`). 버전 릴리스와 무관하다.
