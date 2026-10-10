@@ -9,6 +9,7 @@ import DocumentVisibilityDemo from '@site/src/demo/use-document-visibility-demo'
 import EventListenerDemo from '@site/src/demo/use-event-listener-demo';
 import FileDropDemo from '@site/src/demo/use-file-drop-demo';
 import FileToDataUrlDemo from '@site/src/demo/use-file-to-data-url-demo';
+import HoverOrFocusWithinDemo from '@site/src/demo/use-hover-or-focus-within-demo';
 import KeyPressDemo from '@site/src/demo/use-key-press-demo';
 
 # Events & Interaction
@@ -38,6 +39,25 @@ const visible = useDocumentVisibility();
 // Pause polling while the tab is hidden.
 useInterval(refresh, visible ? 5000 : null);
 ```
+
+## useHoverOrFocusWithin {/* #use-hover-or-focus-within */}
+
+<HoverOrFocusWithinDemo />
+
+```tsx
+const { active, hovered, focusWithin, handlers } = useHoverOrFocusWithin({
+  enabled: pauseOnHover,
+  onActiveChange: active => (active ? clear() : reset()),
+});
+
+<div {...handlers}>{children}</div>;
+```
+
+`hovered` follows `onMouseEnter` and `onMouseLeave`, and `focusWithin` follows
+`onFocus` and `onBlur`. A `blur` whose `relatedTarget` is still inside the
+container is ignored, so moving focus between two children does not change
+anything. `active` is `hovered || focusWithin`. With `enabled: false`,
+`handlers` is empty and every flag is `false`.
 
 ## useClickOutside {/* #use-click-outside */}
 
