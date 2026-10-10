@@ -89,6 +89,7 @@ function MyComponent() {
 | `useResizeObserver`       | 콜백 ref로 요소 자체의 너비/높이 추적 (content-box/border-box)                                   |
 | `useMutationObserver`     | ref 또는 raw 노드(예: `document.head`)의 DOM 변경 관측                                           |
 | `useEventListener`        | `window`, ref, raw 타겟에 이벤트 리스너 등록/해제                                                |
+| `useDocumentVisibility`   | 페이지가 보이는지(`document.visibilityState`) 추적, 백그라운드 탭에서 작업을 멈출 때 사용        |
 | `useClickOutside`         | 참조한 요소(들) 바깥 클릭/터치(또는 opt-in `escape`로 `Escape`) 시 콜백 실행, 다중 ref 지원      |
 | `useKeyPress`             | `mod`/`ctrl`/`meta`/`shift`/`alt` 조합과 `space`/`esc` 별칭으로 키 콜백 실행                     |
 | `useFileDrop`             | `accept`/`multiple` 필터링을 갖춘 드래그앤드롭 존, `{ dropRef, isDragging }` 반환                |
