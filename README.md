@@ -72,6 +72,7 @@ function MyComponent() {
 | Hook                      | Description                                                                                                                           |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | `useLocalStorage`         | JSON-based persistent state with error handling (SSR-safe)                                                                            |
+| `useSessionStorage`       | Persistent state in `sessionStorage` (same API as `useLocalStorage`; cleared when the tab closes)                                     |
 | `useHistoryState`         | Undo/redo state management with a configurable history limit                                                                          |
 | `useControllableState`    | Back a value/defaultValue/onChange prop pair with one controlled/uncontrolled state hook                                              |
 | `usePrevious`             | Return a value as it was on the previous render                                                                                       |
@@ -102,6 +103,7 @@ function MyComponent() {
 | `useMergedRef`            | Merge multiple object/callback refs into one callback ref                                                                             |
 | `useImage`                | Preload an image and expose `loading`/`error` (an `Error`)/`loaded`/`naturalSize`/`attemptCount`/`retry`                              |
 | `useMediaQuery`           | Track a CSS media query via `matchMedia` (SSR-safe, optional `target` for iframe/portal windows)                                      |
+| `useLatest`               | Return a ref that always holds the value from the latest render                                                                       |
 
 ## Migrating from v2
 

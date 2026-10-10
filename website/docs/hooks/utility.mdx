@@ -5,6 +5,7 @@ title: Utility
 
 import DemoTheme from '@site/src/components/DemoTheme';
 import ImageDemo from '@site/src/demo/use-image-demo';
+import LatestDemo from '@site/src/demo/use-latest-demo';
 import MediaQueryDemo from '@site/src/demo/use-media-query-demo';
 import MergedRefDemo from '@site/src/demo/use-merged-ref-demo';
 
@@ -52,5 +53,24 @@ const isWide = useMediaQuery('(min-width: 768px)', {
   defaultValue: true,
 });
 ```
+
+## useLatest {/* #use-latest */}
+
+<LatestDemo />
+
+```tsx
+const onTickRef = useLatest(onTick);
+
+useEffect(() => {
+  const id = setInterval(() => onTickRef.current(), 1000);
+
+  return () => clearInterval(id);
+}, [onTickRef]);
+```
+
+`current` is updated in an effect after each render, so read it from event
+handlers, timers and effects, not during render. An effect that runs earlier in
+the same commit can still see the previous value. The returned ref keeps one
+identity, so it is safe in a dependency array.
 
 </DemoTheme>

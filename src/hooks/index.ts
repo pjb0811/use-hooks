@@ -18,6 +18,7 @@ export { default as useInterval } from './use-interval';
 export { default as useResponsiveSize } from './use-responsive-size';
 export { default as useImage } from './use-image';
 export { default as useKeyPress } from './use-key-press';
+export { default as useLatest } from './use-latest';
 export { default as useLocalStorage } from './use-local-storage';
 export { default as useMediaQuery } from './use-media-query';
 export { default as useMergedRef } from './use-merged-ref';
