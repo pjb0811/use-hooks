@@ -40,7 +40,7 @@ const BREAKPOINTS = {
 } as const;
 
 const getBreakpointInfo = (width: number): BreakpointInfo => {
-  let current: Breakpoint = 'xs';
+  let current: Breakpoint;
 
   if (width >= BREAKPOINTS['2xl']) {
     current = '2xl';

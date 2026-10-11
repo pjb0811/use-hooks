@@ -54,8 +54,9 @@ const useMergedRef = <T>(...refs: MergeableRef<T>[]) => {
     };
     // The number of refs passed at a given call site is stable across
     // renders even though this array literal isn't — same pattern every
-    // ref-merging hook of this shape relies on.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // ref-merging hook of this shape relies on. The lint rules want an array
+    // literal, which can't list a variable number of refs.
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/use-memo
   }, refs);
 };
 
