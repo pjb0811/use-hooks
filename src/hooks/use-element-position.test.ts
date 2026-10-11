@@ -223,4 +223,167 @@ describe('useElementPosition', () => {
     );
     expect(observer.disconnected).toBe(true);
   });
+
+  describe('with a getter', () => {
+    it('reads the rect of the element the getter returns', () => {
+      const { result } = renderHook(() => useElementPosition(() => element));
+
+      expect(result.current).toMatchObject({ top: 10, width: 100 });
+    });
+
+    it('is null while the getter returns null', () => {
+      const { result } = renderHook(() => useElementPosition(() => null));
+
+      expect(result.current).toBeNull();
+    });
+
+    it('follows a getter that returns a different element later', () => {
+      const other = document.createElement('div');
+
+      document.body.appendChild(other);
+      vi.spyOn(other, 'getBoundingClientRect').mockReturnValue(rect(200));
+
+      let target: HTMLElement = element;
+      const { result } = renderHook(() => useElementPosition(() => target));
+
+      expect(result.current?.top).toBe(10);
+
+      act(() => {
+        target = other;
+        window.dispatchEvent(new Event('scroll'));
+        vi.advanceTimersByTime(20);
+      });
+
+      expect(result.current?.top).toBe(200);
+      expect(lastOf(Observer.instances).observed.has(other)).toBe(true);
+      expect(lastOf(Observer.instances).observed.has(element)).toBe(false);
+
+      other.remove();
+    });
+
+    it('measures on the frame after a render when the getter inputs change', () => {
+      const other = document.createElement('div');
+
+      document.body.appendChild(other);
+      vi.spyOn(other, 'getBoundingClientRect').mockReturnValue(rect(300));
+
+      const { result, rerender } = renderHook(
+        ({ useOther }) =>
+          useElementPosition(() => (useOther ? other : element)),
+        { initialProps: { useOther: false } },
+      );
+
+      expect(result.current?.top).toBe(10);
+
+      rerender({ useOther: true });
+      act(() => {
+        vi.advanceTimersByTime(20);
+      });
+
+      expect(result.current?.top).toBe(300);
+
+      other.remove();
+    });
+
+    it('measures once per frame however many renders happen', () => {
+      const { rerender } = renderHook(() => useElementPosition(() => element));
+      const getRect = vi.mocked(element.getBoundingClientRect);
+
+      act(() => {
+        vi.advanceTimersByTime(20);
+      });
+      const before = getRect.mock.calls.length;
+
+      rerender();
+      rerender();
+      rerender();
+      act(() => {
+        vi.advanceTimersByTime(20);
+      });
+
+      expect(getRect.mock.calls.length - before).toBe(1);
+    });
+
+    it('does not re-attach listeners when an inline getter is re-created', () => {
+      const add = vi.spyOn(window, 'addEventListener');
+      const { rerender } = renderHook(() => useElementPosition(() => element));
+      const attached = add.mock.calls.length;
+      const observer = lastOf(Observer.instances);
+
+      rerender();
+      rerender();
+
+      expect(add.mock.calls.length).toBe(attached);
+      expect(observer.disconnected).toBe(false);
+      expect(Observer.instances).toHaveLength(1);
+    });
+
+    it('picks up a getter target that is added later', async () => {
+      vi.useRealTimers();
+
+      let target: HTMLElement | null = null;
+      const { result } = renderHook(() => useElementPosition(() => target));
+
+      // Let the frame scheduled after the first render pass first.
+      await act(async () => {
+        await new Promise(resolve => setTimeout(resolve, 50));
+      });
+      expect(result.current).toBeNull();
+
+      await act(async () => {
+        target = element;
+        document.body.appendChild(document.createElement('i'));
+        await new Promise(resolve => setTimeout(resolve, 50));
+      });
+
+      expect(result.current).toMatchObject({ top: 10 });
+    });
+  });
+
+  describe('with a measure option', () => {
+    it('uses the measured rect instead of getBoundingClientRect', () => {
+      const measure = vi.fn(() => rect(5, 6, 7, 8));
+      const ref = { current: element };
+      const { result } = renderHook(() => useElementPosition(ref, { measure }));
+
+      expect(measure).toHaveBeenCalledWith(element);
+      expect(result.current).toMatchObject({
+        top: 5,
+        left: 6,
+        width: 7,
+        height: 8,
+      });
+      expect(element.getBoundingClientRect).not.toHaveBeenCalled();
+    });
+
+    it('uses the latest measure without re-attaching listeners', () => {
+      const add = vi.spyOn(window, 'addEventListener');
+      const ref = { current: element };
+      const { result, rerender } = renderHook(
+        ({ offset }) =>
+          useElementPosition(ref, { measure: () => rect(offset) }),
+        { initialProps: { offset: 1 } },
+      );
+      const attached = add.mock.calls.length;
+
+      expect(result.current).toMatchObject({ top: 1 });
+
+      rerender({ offset: 2 });
+      act(() => {
+        window.dispatchEvent(new Event('scroll'));
+        vi.advanceTimersByTime(20);
+      });
+
+      expect(result.current).toMatchObject({ top: 2 });
+      expect(add.mock.calls.length - attached).toBe(0);
+    });
+
+    it('works together with a getter', () => {
+      const { result } = renderHook(() =>
+        useElementPosition(() => element, { measure: () => rect(42) }),
+      );
+
+      expect(result.current).toMatchObject({ top: 42 });
+    });
+  });
 });

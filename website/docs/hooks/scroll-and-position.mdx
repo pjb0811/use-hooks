@@ -44,6 +44,13 @@ const { setRef, scrollPercentage, isAtTop, isAtBottom } = useElementScroll();
 ```tsx
 const ref = useRef<HTMLDivElement>(null);
 const rect = useElementPosition(ref);
+
+// A selector or a getter instead of a ref. The getter is called on every
+// measurement and after every render, so it can return a different element.
+const fieldRect = useElementPosition(() => document.getElementById(activeId), {
+  // optional, defaults to el => el.getBoundingClientRect()
+  measure: el => toTopLevelRect(el),
+});
 ```
 
 ## useResponsiveSize {/* #use-responsive-size */}

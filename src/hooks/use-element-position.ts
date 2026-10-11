@@ -1,8 +1,15 @@
 import { type RefObject, useEffect, useRef, useState } from 'react';
 
 import useAnimationFrameCallback from './use-animation-frame-callback';
+import useLatest from './use-latest';
 
-type ElementReference<T> = string | RefObject<T>;
+type ElementReference<T> = string | RefObject<T> | (() => T | null);
+
+interface Options<T> {
+  // Returns the rect to track for the element. Defaults to the element's
+  // `getBoundingClientRect()`.
+  measure?: (element: T) => DOMRect | null;
+}
 
 const rectsEqual = (a: DOMRect | null, b: DOMRect | null) => {
   if (a === b) {
@@ -21,8 +28,24 @@ const rectsEqual = (a: DOMRect | null, b: DOMRect | null) => {
   );
 };
 
-const useElementPosition = <T>(elementRef: ElementReference<T>) => {
+// Tracks the rect of an element given as a ref, a CSS selector, or a getter.
+// A selector or getter is evaluated on every measurement, so the target can
+// change. A getter is also measured on the frame after every render, so
+// changes to its inputs are picked up without a scroll or resize. `measure` replaces
+// `getBoundingClientRect()`, for rects in another coordinate space. The latest
+// getter and `measure` are read through refs, so inline functions don't
+// re-attach the listeners.
+const useElementPosition = <T>(
+  elementRef: ElementReference<T>,
+  options: Options<T> = {},
+) => {
   const [rect, setRect] = useState<DOMRect | null>(null);
+  const elementRefLatest = useLatest(elementRef);
+  const measureOptionRef = useLatest(options.measure);
+  const isGetter = typeof elementRef === 'function';
+  // A getter is read through `elementRefLatest`; only a ref or selector
+  // identifies the target to re-subscribe for.
+  const target = isGetter ? null : elementRef;
   const rectRef = useRef<DOMRect | null>(null);
   const measureRef = useRef<() => void>(() => {});
 
@@ -32,9 +55,14 @@ const useElementPosition = <T>(elementRef: ElementReference<T>) => {
   );
 
   useEffect(() => {
-    const getElement = (ref: ElementReference<T>): T | null => {
+    const getElement = (): T | null => {
+      const ref = elementRefLatest.current;
+
       if (typeof ref === 'string') {
         return document.querySelector(ref) as T | null;
+      }
+      if (typeof ref === 'function') {
+        return ref();
       }
       return ref.current;
     };
@@ -59,19 +87,28 @@ const useElementPosition = <T>(elementRef: ElementReference<T>) => {
         : undefined;
 
     function updateRect() {
-      const element = getElement(elementRef) as HTMLElement | null;
+      const element = getElement();
+      const node = element as HTMLElement | null;
 
-      if (element !== currentElement) {
+      if (node !== currentElement) {
         if (currentElement) {
           resizeObserver?.unobserve(currentElement);
         }
-        if (element) {
-          resizeObserver?.observe(element);
+        if (node) {
+          resizeObserver?.observe(node);
         }
-        currentElement = element;
+        currentElement = node;
       }
 
-      commitRect(element ? element.getBoundingClientRect() : null);
+      if (!element || !node) {
+        commitRect(null);
+
+        return;
+      }
+
+      const measure = measureOptionRef.current;
+
+      commitRect(measure ? measure(element) : node.getBoundingClientRect());
     }
 
     measureRef.current = updateRect;
@@ -91,11 +128,12 @@ const useElementPosition = <T>(elementRef: ElementReference<T>) => {
     });
     window.addEventListener('resize', onUpdate, { passive: true });
 
-    // A string selector's target may not exist yet when this effect first
-    // runs — watch the DOM for it instead of leaving `rect` permanently
+    // A selector's or getter's target may not exist yet when this effect
+    // first runs — watch the DOM for it instead of leaving `rect` permanently
     // null once it does mount.
     const mutationObserver =
-      typeof elementRef === 'string' && typeof MutationObserver !== 'undefined'
+      (typeof target === 'string' || isGetter) &&
+      typeof MutationObserver !== 'undefined'
         ? new MutationObserver(onUpdate)
         : undefined;
     mutationObserver?.observe(document.body, {
@@ -111,7 +149,23 @@ const useElementPosition = <T>(elementRef: ElementReference<T>) => {
       resizeObserver?.disconnect();
       mutationObserver?.disconnect();
     };
-  }, [elementRef, scheduleUpdate, cancelUpdate]);
+  }, [
+    target,
+    isGetter,
+    elementRefLatest,
+    measureOptionRef,
+    scheduleUpdate,
+    cancelUpdate,
+  ]);
+
+  // A getter's inputs can change without any scroll or resize, so a getter
+  // is measured on the frame after each render. Going through the frame keeps
+  // it to one measurement per frame, and `commitRect` drops unchanged rects.
+  useEffect(() => {
+    if (isGetter) {
+      scheduleUpdate();
+    }
+  });
 
   return rect;
 };
