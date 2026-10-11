@@ -4,6 +4,7 @@ export type { DebouncedCallback } from './use-debounced-callback';
 // `{action}{Value|Callback}` naming across the debounce/throttle family.
 export { default as useDebounce } from './use-debounced-callback';
 export { default as useDebouncedValue } from './use-debounced-value';
+export { default as useAnimationFrameCallback } from './use-animation-frame-callback';
 export { default as useBodyScrollLock } from './use-body-scroll-lock';
 export { default as useClickOutside } from './use-click-outside';
 export { default as useControllableState } from './use-controllable-state';

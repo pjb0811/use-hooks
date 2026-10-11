@@ -1,5 +1,7 @@
 import { type RefObject, useEffect, useRef, useState } from 'react';
 
+import useAnimationFrameCallback from './use-animation-frame-callback';
+
 type ElementReference<T> = string | RefObject<T>;
 
 const rectsEqual = (a: DOMRect | null, b: DOMRect | null) => {
@@ -22,6 +24,12 @@ const rectsEqual = (a: DOMRect | null, b: DOMRect | null) => {
 const useElementPosition = <T>(elementRef: ElementReference<T>) => {
   const [rect, setRect] = useState<DOMRect | null>(null);
   const rectRef = useRef<DOMRect | null>(null);
+  const measureRef = useRef<() => void>(() => {});
+
+  // A burst of scroll, resize and DOM events measures once per frame.
+  const [scheduleUpdate, cancelUpdate] = useAnimationFrameCallback(() =>
+    measureRef.current(),
+  );
 
   useEffect(() => {
     const getElement = (ref: ElementReference<T>): T | null => {
@@ -31,7 +39,6 @@ const useElementPosition = <T>(elementRef: ElementReference<T>) => {
       return ref.current;
     };
 
-    let rafId: number | undefined;
     let currentElement: HTMLElement | null = null;
 
     const commitRect = (next: DOMRect | null) => {
@@ -67,8 +74,10 @@ const useElementPosition = <T>(elementRef: ElementReference<T>) => {
       commitRect(element ? element.getBoundingClientRect() : null);
     }
 
+    measureRef.current = updateRect;
+
     const onUpdate = () => {
-      rafId = requestAnimationFrame(updateRect);
+      scheduleUpdate();
     };
 
     updateRect();
@@ -95,15 +104,14 @@ const useElementPosition = <T>(elementRef: ElementReference<T>) => {
     });
 
     return () => {
-      if (rafId !== undefined) {
-        cancelAnimationFrame(rafId);
-      }
+      cancelUpdate();
+      measureRef.current = () => {};
       window.removeEventListener('scroll', onUpdate, { capture: true });
       window.removeEventListener('resize', onUpdate);
       resizeObserver?.disconnect();
       mutationObserver?.disconnect();
     };
-  }, [elementRef]);
+  }, [elementRef, scheduleUpdate, cancelUpdate]);
 
   return rect;
 };
