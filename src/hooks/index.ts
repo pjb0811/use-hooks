@@ -28,6 +28,8 @@ export { default as useMediaQuery } from './use-media-query';
 export { default as useMergedRef } from './use-merged-ref';
 export { default as useMultiSelect } from './use-multi-select';
 export { default as useMutationObserver } from './use-mutation-observer';
+export { default as usePendingCommit } from './use-pending-commit';
+export type { PendingCommit } from './use-pending-commit';
 export { default as usePrevious } from './use-previous';
 export { default as useRecursiveTimeout } from './use-recursive-timeout';
 export { default as useResizeObserver } from './use-resize-observer';
