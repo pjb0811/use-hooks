@@ -46,6 +46,14 @@ const ref = useRef<HTMLDivElement>(null);
 const rect = useElementPosition(ref);
 ```
 
+Pass a CSS selector or a getter instead of a ref when there is no ref to the element. A getter is called on every measurement and after every render, so it can return a different element over time. `measure` replaces `getBoundingClientRect()`, for rects in another coordinate space such as an element inside an iframe.
+
+```tsx
+const rect = useElementPosition(() => findElementById(section, fieldId), {
+  measure: viewportRect,
+});
+```
+
 ## useResponsiveSize {/* #use-responsive-size */}
 
 <ResponsiveSizeDemo />
