@@ -1,5 +1,21 @@
 # Changelog
 
+## 4.3.0
+
+### Minor Changes
+
+- efaae3d: Add `useAnimationFrameCallback`, which runs a callback once per animation frame with the arguments of the last call and returns `[schedule, cancel]`. `useElementPosition` now uses it, so a burst of scroll, resize and DOM events measures the element once per frame instead of once per event.
+- 44892b5: Add `useCopyToClipboard`, which copies text with `navigator.clipboard.writeText` and returns `{ copy, copied, error }`. `copied` resets after `resetDelay` ms, each copy restarts that time, and the timer is cleared on unmount.
+- 4c62e7d: Add `useDocumentVisibility`, which returns whether the page is visible, for pausing timers and polling while a tab is in the background.
+- 55b720c: Add `useHoverOrFocusWithin`, which tracks hover and focus-within as separate flags and returns `{ active, hovered, focusWithin, handlers }`. `active` stays true while either one is, and moving focus between two children of the container does not toggle it.
+- 375f4b3: Add `useLatest`, which returns a ref that always holds the value from the latest committed render, for callbacks set up once (timers, listeners, observers) that must read the newest props.
+- 0e0a397: Add `useSessionStorage`, the `sessionStorage` counterpart of `useLocalStorage`. Both hooks now share one internal factory, with a separate cache and subscriber list per storage area.
+- ade2254: `useElementPosition` now accepts a getter function in addition to a ref or a CSS selector, and a `measure` option that replaces `getBoundingClientRect()`. A getter is called on every measurement and after every render, so it can return a different element over time. Existing ref and selector calls behave as before.
+
+### Patch Changes
+
+- 91de8ff: Fix `useKeyPress` throwing `closest is not a function` when the `ignore` option is set and the `keydown` event target is `window` or `document`. Such an event is now never treated as inside an ignored element.
+
 ## 4.2.0
 
 ### Minor Changes
