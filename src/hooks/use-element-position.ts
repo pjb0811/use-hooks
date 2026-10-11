@@ -30,8 +30,8 @@ const rectsEqual = (a: DOMRect | null, b: DOMRect | null) => {
 
 // Tracks the rect of an element given as a ref, a CSS selector, or a getter.
 // A selector or getter is evaluated on every measurement, so the target can
-// change; a getter is also measured after every render, so changes to its
-// inputs are picked up without a scroll or resize. `measure` replaces
+// change. A getter is also measured on the frame after every render, so
+// changes to its inputs are picked up without a scroll or resize. `measure` replaces
 // `getBoundingClientRect()`, for rects in another coordinate space. The latest
 // getter and `measure` are read through refs, so inline functions don't
 // re-attach the listeners.
@@ -88,19 +88,19 @@ const useElementPosition = <T>(
 
     function updateRect() {
       const element = getElement();
-      const observed = element as HTMLElement | null;
+      const node = element as HTMLElement | null;
 
-      if (observed !== currentElement) {
+      if (node !== currentElement) {
         if (currentElement) {
           resizeObserver?.unobserve(currentElement);
         }
-        if (observed) {
-          resizeObserver?.observe(observed);
+        if (node) {
+          resizeObserver?.observe(node);
         }
-        currentElement = observed;
+        currentElement = node;
       }
 
-      if (!element) {
+      if (!element || !node) {
         commitRect(null);
 
         return;
@@ -108,11 +108,7 @@ const useElementPosition = <T>(
 
       const measure = measureOptionRef.current;
 
-      commitRect(
-        measure
-          ? measure(element)
-          : (observed as HTMLElement).getBoundingClientRect(),
-      );
+      commitRect(measure ? measure(element) : node.getBoundingClientRect());
     }
 
     measureRef.current = updateRect;
@@ -162,11 +158,12 @@ const useElementPosition = <T>(
     cancelUpdate,
   ]);
 
-  // A getter's inputs can change without any scroll or resize, so measure
-  // after each render; unchanged rects are dropped by `commitRect`.
+  // A getter's inputs can change without any scroll or resize, so a getter
+  // is measured on the frame after each render. Going through the frame keeps
+  // it to one measurement per frame, and `commitRect` drops unchanged rects.
   useEffect(() => {
     if (isGetter) {
-      measureRef.current();
+      scheduleUpdate();
     }
   });
 

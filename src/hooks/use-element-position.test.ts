@@ -261,7 +261,7 @@ describe('useElementPosition', () => {
       other.remove();
     });
 
-    it('measures again after a render when the getter inputs change', () => {
+    it('measures on the frame after a render when the getter inputs change', () => {
       const other = document.createElement('div');
 
       document.body.appendChild(other);
@@ -276,10 +276,32 @@ describe('useElementPosition', () => {
       expect(result.current?.top).toBe(10);
 
       rerender({ useOther: true });
+      act(() => {
+        vi.advanceTimersByTime(20);
+      });
 
       expect(result.current?.top).toBe(300);
 
       other.remove();
+    });
+
+    it('measures once per frame however many renders happen', () => {
+      const { rerender } = renderHook(() => useElementPosition(() => element));
+      const getRect = vi.mocked(element.getBoundingClientRect);
+
+      act(() => {
+        vi.advanceTimersByTime(20);
+      });
+      const before = getRect.mock.calls.length;
+
+      rerender();
+      rerender();
+      rerender();
+      act(() => {
+        vi.advanceTimersByTime(20);
+      });
+
+      expect(getRect.mock.calls.length - before).toBe(1);
     });
 
     it('does not re-attach listeners when an inline getter is re-created', () => {
@@ -302,6 +324,10 @@ describe('useElementPosition', () => {
       let target: HTMLElement | null = null;
       const { result } = renderHook(() => useElementPosition(() => target));
 
+      // Let the frame scheduled after the first render pass first.
+      await act(async () => {
+        await new Promise(resolve => setTimeout(resolve, 50));
+      });
       expect(result.current).toBeNull();
 
       await act(async () => {
