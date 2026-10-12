@@ -8,8 +8,10 @@ export { default as useAnimationFrameCallback } from './use-animation-frame-call
 export { default as useBodyScrollLock } from './use-body-scroll-lock';
 export { default as useClickOutside } from './use-click-outside';
 export { default as useControllableState } from './use-controllable-state';
+export { default as useHash } from './use-hash';
 export { default as useCopyToClipboard } from './use-copy-to-clipboard';
 export { default as useDocumentVisibility } from './use-document-visibility';
+export { default as useOnlineStatus } from './use-online-status';
 export { default as useElementPosition } from './use-element-position';
 export { default as useElementScroll } from './use-element-scroll';
 export { default as useEventListener } from './use-event-listener';
@@ -24,6 +26,7 @@ export { default as useImage } from './use-image';
 export { default as useKeyPress } from './use-key-press';
 export { default as useLongPress } from './use-long-press';
 export { default as useLatest } from './use-latest';
+export { default as useStableValue } from './use-stable-value';
 export { default as useLocalStorage } from './use-local-storage';
 export { default as useMediaQuery } from './use-media-query';
 export { default as useMergedRef } from './use-merged-ref';
