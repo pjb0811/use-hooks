@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.4.0
+
+### Minor Changes
+
+- 48b119a: Add `useHash`, which returns the URL hash without the `#` and a setter for it (`{ replace: true }` replaces the history entry), shared by every component through `useSyncExternalStore`.
+- cf209b5: Add `useIdle`, which returns whether the user has done nothing for `timeout` ms, counting pointer, key, wheel and touch events on `window` (or custom `events`) and the page becoming visible as activity, without re-rendering on activity while already active.
+- 3b71781: Add `useLongPress`, which calls a callback once a pointer press (or, with `keyboard: true`, holding Enter or Space) lasts `threshold` ms, cancels on release, leave or movement past `moveTolerance`, and reports `isLongPressed()` so a click handler can skip the click that ends a long press.
+- 8cafdf1: Add `useOnlineStatus`, which returns whether the browser has a network connection (`navigator.onLine`) and follows the `online` and `offline` events.
+- f85aa23: Add `usePendingCommit`, which keeps a controlled component's last commit until the parent renders again so two commits in the same tick build on each other.
+- a10f319: Add `useStableValue`, which keeps an object or array's previous reference while the new value is shallowly equal (or equal by a custom `isEqual`), so an inline prop keeps one identity until its contents change.
+
 ## 4.3.0
 
 ### Minor Changes
