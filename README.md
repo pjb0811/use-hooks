@@ -75,6 +75,7 @@ function MyComponent() {
 | `useSessionStorage`         | Persistent state in `sessionStorage` (same API as `useLocalStorage`; cleared when the tab closes)                                     |
 | `useHistoryState`           | Undo/redo state management with a configurable history limit                                                                          |
 | `useControllableState`      | Back a value/defaultValue/onChange prop pair with one controlled/uncontrolled state hook                                              |
+| `useHash`                   | Read and write the URL hash as state, shared by every component using it                                                              |
 | `usePendingCommit`          | Keep a controlled component's last commit until the parent renders again, so same-tick commits build on each other                    |
 | `usePrevious`               | Return a value as it was on the previous render                                                                                       |
 | `useToggle`                 | Boolean state with a toggle and an explicit setter                                                                                    |
@@ -92,9 +93,11 @@ function MyComponent() {
 | `useEventListener`          | Add/remove an event listener on `window`, a ref, or a raw target                                                                      |
 | `useDocumentVisibility`     | Track whether the page is visible (`document.visibilityState`), for pausing work in a background tab                                  |
 | `useIdle`                   | Detect when the user has stopped interacting for a given time                                                                         |
+| `useOnlineStatus`           | Track whether the browser has a network connection                                                                                    |
 | `useHoverOrFocusWithin`     | Track hover and focus-within as separate flags; returns `{ active, hovered, focusWithin, handlers }` to spread on a container         |
 | `useClickOutside`           | Run a callback when a click/touch (or `Escape`, opt-in via `escape`) happens outside the referenced element(s); accepts multiple refs |
 | `useKeyPress`               | Run a callback on key combos with `mod`/`ctrl`/`meta`/`shift`/`alt` and aliases like `space`/`esc`                                    |
+| `useLongPress`              | Call a callback when a press lasts long enough (mouse, touch, pen and optional keyboard)                                              |
 | `useFileDrop`               | Drag-and-drop file zone with `accept`/`multiple` filtering; returns `{ dropRef, isDragging }`                                         |
 | `useFileToDataUrl`          | Read a `File`/`Blob` into a data URL                                                                                                  |
 | `useDebouncedCallback`      | Auto-invoke a debounced callback when deps change (`leading`/`autoInvoke` options); alias: `useDebounce`                              |
@@ -110,6 +113,7 @@ function MyComponent() {
 | `useMediaQuery`             | Track a CSS media query via `matchMedia` (SSR-safe, optional `target` for iframe/portal windows)                                      |
 | `useCopyToClipboard`        | Copy text with `navigator.clipboard`; returns `{ copy, copied, error }` and resets `copied` after `resetDelay`                        |
 | `useLatest`                 | Return a ref that always holds the value from the latest render                                                                       |
+| `useStableValue`            | Keep an object or array's previous reference while it is shallowly equal                                                              |
 
 ## Migrating from v2
 

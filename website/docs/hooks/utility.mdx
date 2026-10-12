@@ -9,6 +9,7 @@ import ImageDemo from '@site/src/demo/use-image-demo';
 import LatestDemo from '@site/src/demo/use-latest-demo';
 import MediaQueryDemo from '@site/src/demo/use-media-query-demo';
 import MergedRefDemo from '@site/src/demo/use-merged-ref-demo';
+import StableValueDemo from '@site/src/demo/use-stable-value-demo';
 
 # Utility
 
@@ -88,5 +89,22 @@ useEffect(() => {
 handlers, timers and effects, not during render. An effect that runs earlier in
 the same commit can still see the previous value. The returned ref keeps one
 identity, so it is safe in a dependency array.
+
+## useStableValue {/* #use-stable-value */}
+
+<StableValueDemo />
+
+```tsx
+const modules = useStableValue(props.modules);
+
+// A custom comparison in place of the default shallow one.
+const options = useStableValue(props.options, (a, b) => a.id === b.id);
+```
+
+The default comparison checks the same own keys (or the same items of an
+array) with `Object.is`, never deeply, so a nested object with a new identity
+counts as a change. Objects that aren't plain, such as a `Date` or a `Map`,
+are compared by identity. A changed value is returned in the same render, not
+one render late.
 
 </DemoTheme>

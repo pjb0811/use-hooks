@@ -12,6 +12,8 @@ import FileToDataUrlDemo from '@site/src/demo/use-file-to-data-url-demo';
 import HoverOrFocusWithinDemo from '@site/src/demo/use-hover-or-focus-within-demo';
 import IdleDemo from '@site/src/demo/use-idle-demo';
 import KeyPressDemo from '@site/src/demo/use-key-press-demo';
+import LongPressDemo from '@site/src/demo/use-long-press-demo';
+import OnlineStatusDemo from '@site/src/demo/use-online-status-demo';
 
 # Events & Interaction
 
@@ -59,6 +61,19 @@ Activity is `pointermove`, `pointerdown`, `keydown`, `wheel` or `touchstart`
 on `window` (change it with `events`), or the page becoming visible again.
 Activity only restarts the timer while the user is active, so it doesn't
 render the component again. Pass `initialState: true` to start as idle.
+
+## useOnlineStatus {/* #use-online-status */}
+
+<OnlineStatusDemo />
+
+```tsx
+const online = useOnlineStatus();
+
+<Button disabled={!online}>Save</Button>;
+```
+
+`true` means the browser is connected to a network, not that a given server
+is reachable. On the server it is `true`.
 
 ## useHoverOrFocusWithin {/* #use-hover-or-focus-within */}
 
@@ -112,6 +127,28 @@ const { value, setValue, undo, redo } = useHistoryState(0);
 useKeyPress('mod+z', undo, { preventDefault: true });
 useKeyPress('mod+shift+z', redo, { preventDefault: true });
 ```
+
+## useLongPress {/* #use-long-press */}
+
+<LongPressDemo />
+
+```tsx
+const { handlers, isLongPressed } = useLongPress(() => openMenu(), {
+  threshold: 500,
+  keyboard: true,
+});
+
+<button {...handlers} onClick={() => !isLongPressed() && select()} />;
+```
+
+Pointer events cover mouse, touch and pen, and only the primary button starts
+a press. Releasing, leaving, a `pointercancel` or moving more than
+`moveTolerance` px (default 10) cancels it, and `onCancel` is called.
+`isLongPressed()` stays `true` from the long press until the next press
+starts, so a click handler can skip the click that ends it. On a `<button>`,
+Enter fires `click` on keydown, before the long press, so only Space can be
+told apart that way. `handlers` keeps its identity while `enabled` and
+`keyboard` stay the same.
 
 ## useFileDrop {/* #use-file-drop */}
 
