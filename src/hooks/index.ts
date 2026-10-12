@@ -46,6 +46,8 @@ export { default as useThrottledValue } from './use-throttled-value';
 export { default as useThrottle } from './use-throttled-value';
 export { default as useThrottledCallback } from './use-throttled-callback';
 export { default as useTimeout } from './use-timeout';
+export { default as useSet } from './use-set';
+export type { SetActions } from './use-set';
 export { default as useToggle } from './use-toggle';
 export { default as useWindowScroll } from './use-window-scroll';
 export { default as useViewport } from './use-viewport';
