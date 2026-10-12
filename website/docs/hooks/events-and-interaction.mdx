@@ -11,6 +11,7 @@ import FileDropDemo from '@site/src/demo/use-file-drop-demo';
 import FileToDataUrlDemo from '@site/src/demo/use-file-to-data-url-demo';
 import HoverOrFocusWithinDemo from '@site/src/demo/use-hover-or-focus-within-demo';
 import KeyPressDemo from '@site/src/demo/use-key-press-demo';
+import OnlineStatusDemo from '@site/src/demo/use-online-status-demo';
 
 # Events & Interaction
 
@@ -39,6 +40,19 @@ const visible = useDocumentVisibility();
 // Pause polling while the tab is hidden.
 useInterval(refresh, visible ? 5000 : null);
 ```
+
+## useOnlineStatus {/* #use-online-status */}
+
+<OnlineStatusDemo />
+
+```tsx
+const online = useOnlineStatus();
+
+<Button disabled={!online}>Save</Button>;
+```
+
+`true` means the browser is connected to a network, not that a given server
+is reachable. On the server it is `true`.
 
 ## useHoverOrFocusWithin {/* #use-hover-or-focus-within */}
 
