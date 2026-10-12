@@ -79,6 +79,7 @@ function MyComponent() {
 | `usePendingCommit`          | Keep a controlled component's last commit until the parent renders again, so same-tick commits build on each other                    |
 | `usePrevious`               | Return a value as it was on the previous render                                                                                       |
 | `useToggle`                 | Boolean state with a toggle and an explicit setter                                                                                    |
+| `useSet`                    | A `Set` of keys in state with `add`/`delete`/`toggle`/`set`/`clear`; a new `Set` on every change                                      |
 | `useMultiSelect`            | Checkbox-style multi-select for a list, with shift-click range selection                                                              |
 | `useWindowScroll`           | Track window scroll position and percentage (iOS visualViewport compatible)                                                           |
 | `useElementScroll`          | Monitor scroll state of specific elements using ResizeObserver                                                                        |

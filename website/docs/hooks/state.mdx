@@ -12,6 +12,7 @@ import MultiSelectDemo from '@site/src/demo/use-multi-select-demo';
 import PendingCommitDemo from '@site/src/demo/use-pending-commit-demo';
 import PreviousDemo from '@site/src/demo/use-previous-demo';
 import SessionStorageDemo from '@site/src/demo/use-session-storage-demo';
+import SetDemo from '@site/src/demo/use-set-demo';
 import ToggleDemo from '@site/src/demo/use-toggle-demo';
 
 # State
@@ -114,6 +115,29 @@ const previous = usePrevious(count);
 ```tsx
 const [open, toggle, setOpen] = useToggle(false);
 ```
+
+## useSet {/* #use-set */}
+
+<SetDemo />
+
+```tsx
+const [collapsed, { toggle, set, clear }] = useSet<string>();
+
+const isExpanded = (id: string) => !collapsed.has(id);
+
+<button onClick={() => toggle(id)} />;
+<button onClick={() => clear()}>Expand all</button>;
+<button onClick={() => set(ids)}>Collapse all</button>;
+
+// `delete` is a reserved word, so rename it when destructuring.
+const [, { delete: remove }] = useSet<string>();
+```
+
+Every change produces a new `Set`, so the value works as a dependency and
+with `memo`. An action that changes nothing, including `set` with the same
+values, keeps the current `Set`. `toggle(value, true)` only adds and
+`toggle(value, false)` only removes. The initial value is read on the first
+render only, and the actions keep one identity for the life of the component.
 
 ## useMultiSelect {/* #use-multi-select */}
 
