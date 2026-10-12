@@ -10,6 +10,7 @@ export { default as useClickOutside } from './use-click-outside';
 export { default as useControllableState } from './use-controllable-state';
 export { default as useCopyToClipboard } from './use-copy-to-clipboard';
 export { default as useDocumentVisibility } from './use-document-visibility';
+export { default as useOnlineStatus } from './use-online-status';
 export { default as useElementPosition } from './use-element-position';
 export { default as useElementScroll } from './use-element-scroll';
 export { default as useEventListener } from './use-event-listener';
