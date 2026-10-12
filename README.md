@@ -75,6 +75,7 @@ function MyComponent() {
 | `useSessionStorage`         | Persistent state in `sessionStorage` (same API as `useLocalStorage`; cleared when the tab closes)                                     |
 | `useHistoryState`           | Undo/redo state management with a configurable history limit                                                                          |
 | `useControllableState`      | Back a value/defaultValue/onChange prop pair with one controlled/uncontrolled state hook                                              |
+| `useHash`                   | Read and write the URL hash as state, shared by every component using it                                                              |
 | `usePendingCommit`          | Keep a controlled component's last commit until the parent renders again, so same-tick commits build on each other                    |
 | `usePrevious`               | Return a value as it was on the previous render                                                                                       |
 | `useToggle`                 | Boolean state with a toggle and an explicit setter                                                                                    |

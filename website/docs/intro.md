@@ -57,7 +57,7 @@ Each page below has a live, interactive demo for every hook in that group.
 
 | Page                                                       | Hooks                                                                                                                                                                     |
 | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [State](./hooks/state.mdx)                                 | `useLocalStorage`, `useSessionStorage`, `useHistoryState`, `useControllableState`, `usePendingCommit`, `usePrevious`, `useToggle`, `useMultiSelect`                       |
+| [State](./hooks/state.mdx)                                 | `useLocalStorage`, `useSessionStorage`, `useHistoryState`, `useControllableState`, `useHash`, `usePendingCommit`, `usePrevious`, `useToggle`, `useMultiSelect`            |
 | [Scroll & Position](./hooks/scroll-and-position.mdx)       | `useWindowScroll`, `useElementScroll`, `useElementPosition`, `useResponsiveSize`, `useViewport`, `useScrollToElements`, `useBodyScrollLock`                               |
 | [Observers](./hooks/observers.mdx)                         | `useIntersectionObserver`, `useResizeObserver`, `useMutationObserver`                                                                                                     |
 | [Events & Interaction](./hooks/events-and-interaction.mdx) | `useEventListener`, `useDocumentVisibility`, `useHoverOrFocusWithin`, `useClickOutside`, `useKeyPress`, `useFileDrop`, `useFileToDataUrl`                                 |

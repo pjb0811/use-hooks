@@ -5,6 +5,7 @@ title: State
 
 import DemoTheme from '@site/src/components/DemoTheme';
 import ControllableStateDemo from '@site/src/demo/use-controllable-state-demo';
+import HashDemo from '@site/src/demo/use-hash-demo';
 import HistoryStateDemo from '@site/src/demo/use-history-state-demo';
 import LocalStorageDemo from '@site/src/demo/use-local-storage-demo';
 import MultiSelectDemo from '@site/src/demo/use-multi-select-demo';
@@ -55,6 +56,23 @@ const [checked, setChecked] = useControllableState({
   onChange: value => console.log('checked:', value),
 });
 ```
+
+## useHash {/* #use-hash */}
+
+<HashDemo />
+
+```tsx
+const [hash, setHash] = useHash();
+
+const page = PAGES.some(p => p.key === hash) ? hash : PAGES[0].key;
+
+setHash('settings'); // adds a history entry
+setHash('settings', { replace: true }); // replaces the current one
+```
+
+`hash` is `location.hash` without the `#`, decoded, and `''` when there is
+none (also on the server). Every component using the hook reads the same
+value, including after back/forward.
 
 ## usePendingCommit {/* #use-pending-commit */}
 

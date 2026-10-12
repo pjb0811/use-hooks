@@ -8,6 +8,7 @@ export { default as useAnimationFrameCallback } from './use-animation-frame-call
 export { default as useBodyScrollLock } from './use-body-scroll-lock';
 export { default as useClickOutside } from './use-click-outside';
 export { default as useControllableState } from './use-controllable-state';
+export { default as useHash } from './use-hash';
 export { default as useCopyToClipboard } from './use-copy-to-clipboard';
 export { default as useDocumentVisibility } from './use-document-visibility';
 export { default as useElementPosition } from './use-element-position';
