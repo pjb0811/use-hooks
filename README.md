@@ -96,6 +96,7 @@ function MyComponent() {
 | `useHoverOrFocusWithin`     | Track hover and focus-within as separate flags; returns `{ active, hovered, focusWithin, handlers }` to spread on a container         |
 | `useClickOutside`           | Run a callback when a click/touch (or `Escape`, opt-in via `escape`) happens outside the referenced element(s); accepts multiple refs |
 | `useKeyPress`               | Run a callback on key combos with `mod`/`ctrl`/`meta`/`shift`/`alt` and aliases like `space`/`esc`                                    |
+| `useLongPress`              | Call a callback when a press lasts long enough (mouse, touch, pen and optional keyboard)                                              |
 | `useFileDrop`               | Drag-and-drop file zone with `accept`/`multiple` filtering; returns `{ dropRef, isDragging }`                                         |
 | `useFileToDataUrl`          | Read a `File`/`Blob` into a data URL                                                                                                  |
 | `useDebouncedCallback`      | Auto-invoke a debounced callback when deps change (`leading`/`autoInvoke` options); alias: `useDebounce`                              |

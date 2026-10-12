@@ -11,6 +11,7 @@ import FileDropDemo from '@site/src/demo/use-file-drop-demo';
 import FileToDataUrlDemo from '@site/src/demo/use-file-to-data-url-demo';
 import HoverOrFocusWithinDemo from '@site/src/demo/use-hover-or-focus-within-demo';
 import KeyPressDemo from '@site/src/demo/use-key-press-demo';
+import LongPressDemo from '@site/src/demo/use-long-press-demo';
 import OnlineStatusDemo from '@site/src/demo/use-online-status-demo';
 
 # Events & Interaction
@@ -106,6 +107,28 @@ const { value, setValue, undo, redo } = useHistoryState(0);
 useKeyPress('mod+z', undo, { preventDefault: true });
 useKeyPress('mod+shift+z', redo, { preventDefault: true });
 ```
+
+## useLongPress {/* #use-long-press */}
+
+<LongPressDemo />
+
+```tsx
+const { handlers, isLongPressed } = useLongPress(() => openMenu(), {
+  threshold: 500,
+  keyboard: true,
+});
+
+<button {...handlers} onClick={() => !isLongPressed() && select()} />;
+```
+
+Pointer events cover mouse, touch and pen, and only the primary button starts
+a press. Releasing, leaving, a `pointercancel` or moving more than
+`moveTolerance` px (default 10) cancels it, and `onCancel` is called.
+`isLongPressed()` stays `true` from the long press until the next press
+starts, so a click handler can skip the click that ends it. On a `<button>`,
+Enter fires `click` on keydown, before the long press, so only Space can be
+told apart that way. `handlers` keeps its identity while `enabled` and
+`keyboard` stay the same.
 
 ## useFileDrop {/* #use-file-drop */}
 

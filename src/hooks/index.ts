@@ -24,6 +24,7 @@ export { default as useInterval } from './use-interval';
 export { default as useResponsiveSize } from './use-responsive-size';
 export { default as useImage } from './use-image';
 export { default as useKeyPress } from './use-key-press';
+export { default as useLongPress } from './use-long-press';
 export { default as useLatest } from './use-latest';
 export { default as useStableValue } from './use-stable-value';
 export { default as useLocalStorage } from './use-local-storage';
