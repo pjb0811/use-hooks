@@ -62,7 +62,7 @@ Each page below has a live, interactive demo for every hook in that group.
 | [Observers](./hooks/observers.mdx)                         | `useIntersectionObserver`, `useResizeObserver`, `useMutationObserver`                                                                                                     |
 | [Events & Interaction](./hooks/events-and-interaction.mdx) | `useEventListener`, `useDocumentVisibility`, `useHoverOrFocusWithin`, `useClickOutside`, `useKeyPress`, `useFileDrop`, `useFileToDataUrl`                                 |
 | [Timing](./hooks/timing.mdx)                               | `useDebouncedCallback`, `useDebouncedValue`, `useThrottledValue`, `useThrottledCallback`, `useAnimationFrameCallback`, `useTimeout`, `useInterval`, `useRecursiveTimeout` |
-| [Utility](./hooks/utility.mdx)                             | `useMergedRef`, `useImage`, `useMediaQuery`, `useCopyToClipboard`, `useLatest`                                                                                            |
+| [Utility](./hooks/utility.mdx)                             | `useMergedRef`, `useImage`, `useMediaQuery`, `useCopyToClipboard`, `useLatest`, `useStableValue`                                                                          |
 
 ## Links
 

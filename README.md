@@ -109,6 +109,7 @@ function MyComponent() {
 | `useMediaQuery`             | Track a CSS media query via `matchMedia` (SSR-safe, optional `target` for iframe/portal windows)                                      |
 | `useCopyToClipboard`        | Copy text with `navigator.clipboard`; returns `{ copy, copied, error }` and resets `copied` after `resetDelay`                        |
 | `useLatest`                 | Return a ref that always holds the value from the latest render                                                                       |
+| `useStableValue`            | Keep an object or array's previous reference while it is shallowly equal                                                              |
 
 ## Migrating from v2
 
