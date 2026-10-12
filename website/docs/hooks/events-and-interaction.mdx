@@ -10,6 +10,7 @@ import EventListenerDemo from '@site/src/demo/use-event-listener-demo';
 import FileDropDemo from '@site/src/demo/use-file-drop-demo';
 import FileToDataUrlDemo from '@site/src/demo/use-file-to-data-url-demo';
 import HoverOrFocusWithinDemo from '@site/src/demo/use-hover-or-focus-within-demo';
+import IdleDemo from '@site/src/demo/use-idle-demo';
 import KeyPressDemo from '@site/src/demo/use-key-press-demo';
 import LongPressDemo from '@site/src/demo/use-long-press-demo';
 import OnlineStatusDemo from '@site/src/demo/use-online-status-demo';
@@ -41,6 +42,25 @@ const visible = useDocumentVisibility();
 // Pause polling while the tab is hidden.
 useInterval(refresh, visible ? 5000 : null);
 ```
+
+## useIdle {/* #use-idle */}
+
+<IdleDemo />
+
+```tsx
+const idle = useIdle(60_000);
+
+useEffect(() => {
+  if (idle) {
+    saveDraft();
+  }
+}, [idle]);
+```
+
+Activity is `pointermove`, `pointerdown`, `keydown`, `wheel` or `touchstart`
+on `window` (change it with `events`), or the page becoming visible again.
+Activity only restarts the timer while the user is active, so it doesn't
+render the component again. Pass `initialState: true` to start as idle.
 
 ## useOnlineStatus {/* #use-online-status */}
 
