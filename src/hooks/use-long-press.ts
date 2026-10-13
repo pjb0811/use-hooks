@@ -44,9 +44,9 @@ const isPressKey = (key: string) => key === 'Enter' || key === ' ';
 // only the primary button starts a press. Releasing, leaving, a
 // `pointercancel` or moving past `moveTolerance` before then cancels it.
 //
-// `isLongPressed()` is true from the moment `callback` fires until the next
-// press starts, so a click handler can skip the click that ends a long
-// press. On a `<button>`, Enter fires `click` on keydown, before any long
+// `isLongPressed()` is true from the moment `callback` fires until the task
+// after the press is released, so a click handler can skip the click that
+// ends a long press and no other. On a `<button>`, Enter fires `click` on keydown, before any long
 // press, so only Space can be told apart that way.
 const useLongPress = (
   callback: () => void,
@@ -62,6 +62,8 @@ const useLongPress = (
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const startPointRef = useRef<{ x: number; y: number } | null>(null);
   const isLongPressedRef = useRef(false);
+  // Clears `isLongPressedRef` in the task after a long press is released.
+  const resetTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const callbackRef = useLatest(callback);
   const thresholdRef = useLatest(threshold);
@@ -75,6 +77,11 @@ const useLongPress = (
         clearTimeout(timeoutRef.current);
       }
 
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
+        resetTimeoutRef.current = null;
+      }
+
       isLongPressedRef.current = false;
       startPointRef.current = point;
       onStartRef.current?.();
@@ -86,15 +93,25 @@ const useLongPress = (
       }, thresholdRef.current);
     };
 
-    // Only a press that is still waiting is cancelled.
-    const cancel = () => {
-      if (!timeoutRef.current) {
+    // Ends a press. One that is still waiting is cancelled. After a long
+    // press, `isLongPressed()` stays true for the rest of this task, which
+    // includes the `click` that follows `pointerup`, and turns false after
+    // it, so a later click isn't taken for the end of a long press (#272).
+    const end = () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+        onCancelRef.current?.();
+
         return;
       }
 
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-      onCancelRef.current?.();
+      if (isLongPressedRef.current && !resetTimeoutRef.current) {
+        resetTimeoutRef.current = setTimeout(() => {
+          resetTimeoutRef.current = null;
+          isLongPressedRef.current = false;
+        }, 0);
+      }
     };
 
     const pointerHandlers = {
@@ -118,12 +135,12 @@ const useLongPress = (
         );
 
         if (distance > moveToleranceRef.current) {
-          cancel();
+          end();
         }
       },
-      onPointerUp: cancel,
-      onPointerLeave: cancel,
-      onPointerCancel: cancel,
+      onPointerUp: end,
+      onPointerLeave: end,
+      onPointerCancel: end,
     };
 
     const keyboardHandlers = {
@@ -134,10 +151,10 @@ const useLongPress = (
       },
       onKeyUp: (event: KeyboardEvent<HTMLElement>) => {
         if (isPressKey(event.key)) {
-          cancel();
+          end();
         }
       },
-      onBlur: cancel,
+      onBlur: end,
     };
 
     const handlers: Partial<Handlers> = !enabled
@@ -160,7 +177,7 @@ const useLongPress = (
     onCancelRef,
   ]);
 
-  // Drops a waiting press when the hook is disabled or unmounts.
+  // Drops a waiting press when the hook is disabled.
   useEffect(() => {
     if (enabled) {
       return;
@@ -176,6 +193,10 @@ const useLongPress = (
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
+      }
+
+      if (resetTimeoutRef.current) {
+        clearTimeout(resetTimeoutRef.current);
       }
     };
   }, []);
