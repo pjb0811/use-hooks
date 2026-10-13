@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { act, renderHook } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import usePendingCommit from './use-pending-commit';
 
@@ -91,6 +91,63 @@ describe('usePendingCommit', () => {
     rerender({ base: 'normalized' });
 
     expect(seen).toEqual([undefined, undefined]);
+  });
+
+  describe('without a re-render', () => {
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    const renderIgnoredEditor = () => {
+      const sent: string[] = [];
+      const { result, unmount } = renderHook(() => {
+        // The parent never applies the change, so nothing re-renders.
+        const [document] = useState('a');
+        const pending = usePendingCommit<string, Payload>(document);
+
+        return (text: string) => {
+          const next = (pending.read()?.code ?? document) + text;
+
+          pending.write({ code: next });
+          sent.push(next);
+        };
+      });
+
+      return { append: (text: string) => result.current(text), sent, unmount };
+    };
+
+    it('starts the next event from base after a rejected change', () => {
+      vi.useFakeTimers();
+      const { append, sent } = renderIgnoredEditor();
+
+      act(() => append('b'));
+      act(() => vi.advanceTimersByTime(0));
+      act(() => append('c'));
+
+      expect(sent).toEqual(['ab', 'ac']);
+    });
+
+    it('still builds on a write from the same task', () => {
+      vi.useFakeTimers();
+      const { append, sent } = renderIgnoredEditor();
+
+      act(() => {
+        append('b');
+        append('c');
+      });
+
+      expect(sent).toEqual(['ab', 'abc']);
+    });
+
+    it('leaves no timer after unmount', () => {
+      vi.useFakeTimers();
+      const { append, unmount } = renderIgnoredEditor();
+
+      act(() => append('b'));
+      unmount();
+
+      expect(vi.getTimerCount()).toBe(0);
+    });
   });
 
   it('keeps the same object while the base stays the same', () => {

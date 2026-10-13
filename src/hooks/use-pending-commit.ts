@@ -7,17 +7,32 @@ export interface PendingCommit<P> {
   write: (next: P) => void;
 }
 
+// Holds the last write and drops it at the end of the task it was made in.
+// Writes in the same task share one timer, so they still build on each
+// other.
 const createRecordStore = <B, P>() => {
   let record: { from: B; payload: P } | undefined;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  const clear = () => {
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+      timeoutId = undefined;
+    }
+
+    record = undefined;
+  };
 
   return {
     get: () => record,
     set: (next: { from: B; payload: P }) => {
       record = next;
+
+      if (timeoutId === undefined) {
+        timeoutId = setTimeout(clear, 0);
+      }
     },
-    clear: () => {
-      record = undefined;
-    },
+    clear,
   };
 };
 
@@ -26,13 +41,15 @@ const createRecordStore = <B, P>() => {
 // tick builds on the first instead of on the old prop. Pass the value this
 // render was built from (the prop the parent controls) as `base`.
 //
-// A write lasts until the effects of the next commit run. It is also
-// ignored as soon as a render's `base` differs from the one it was written
-// on (`Object.is`), so a render that already received the new value never
-// sees it. A rerender with the same `base` clears it too, which is how a
-// parent that rejects the change is handled. The hook can't tell that apart
-// from a parent that applies the change later (`startTransition`, a
-// debounce): if the component renders in between, the write is dropped.
+// A write lasts until the end of the task it was made in, or until the
+// effects of the next commit run if that comes first. It is also ignored as
+// soon as a render's `base` differs from the one it was written on
+// (`Object.is`), so a render that already received the new value never sees
+// it. A parent that rejects the change, by rendering with the same `base` or
+// by not rendering at all, leaves the next event to start from `base` again
+// (#273). A parent that applies the change later (`startTransition`, a
+// debounce) can't be told apart from that, so the write is dropped for it
+// too.
 //
 // The returned object keeps its identity while `base` stays the same. The
 // record lives in `useState`, not a ref, so `read` may be called from code
@@ -44,6 +61,9 @@ const usePendingCommit = <B, P>(base: B): PendingCommit<P> => {
   useEffect(() => {
     store.clear();
   });
+
+  // Drops a pending write and its timer on unmount.
+  useEffect(() => store.clear, [store]);
 
   return useMemo(
     () => ({
