@@ -73,7 +73,10 @@ setHash('settings', { replace: true }); // replaces the current one
 
 `hash` is `location.hash` without the `#`, decoded, and `''` when there is
 none (also on the server). Every component using the hook reads the same
-value, including after back/forward.
+value, including after back/forward. `setHash('')` removes the `#` from the
+URL in both modes. A hash changed elsewhere with `history.pushState` or
+`replaceState` (some routers do this) fires no `hashchange`, so the hook
+doesn't see it until the next `hashchange`.
 
 ## usePendingCommit {/* #use-pending-commit */}
 
