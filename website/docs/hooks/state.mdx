@@ -90,14 +90,16 @@ const commit = (nextCode: string) => {
 };
 ```
 
-A write lasts until the effects of the next commit run. `read()` also
-returns `undefined` as soon as a render's `base` differs from the one the
-write was built on (`Object.is`), so the render that receives the new value
-never reads a stale write, and a rerender with the same `base` (the parent
-rejected the change) clears it too. It can't tell a rejection from a parent
-that applies the change later (`startTransition`, a debounce): a render in
-between drops the write. The returned object keeps its identity while
-`base` stays the same.
+A write lasts until the end of the task it was made in (the event handler
+and anything else in the same tick), or until the effects of the next commit
+run if that comes first. `read()` also returns `undefined` as soon as a
+render's `base` differs from the one the write was built on (`Object.is`),
+so the render that receives the new value never reads a stale write. If the
+parent rejects the change, by rendering with the same `base` or by not
+rendering at all, the next event starts from `base` again. It can't tell a
+rejection from a parent that applies the change later (`startTransition`, a
+debounce), so the write is dropped for that too. The returned object keeps
+its identity while `base` stays the same.
 
 ## usePrevious {/* #use-previous */}
 
