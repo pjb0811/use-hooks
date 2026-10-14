@@ -16,6 +16,22 @@ const ElementPositionDemo = () => {
     document.getElementById(`position-target-${target}`),
   );
 
+  // Box C is shown and hidden through its `hidden` attribute, which only the
+  // `mutation` option makes the hook notice. `measure` returns `null` while
+  // it's hidden, so `element` is `null` too.
+  const [isCHidden, setIsCHidden] = useState(true);
+  const boxC = useElementPosition(
+    () => document.getElementById('position-target-c'),
+    {
+      withElement: true,
+      measure: element =>
+        element.getClientRects().length > 0
+          ? element.getBoundingClientRect()
+          : null,
+      mutation: { attributes: true, attributeFilter: ['hidden'] },
+    },
+  );
+
   return (
     <Section description="Tracks an element's getBoundingClientRect in real time as you scroll or resize.">
       <div ref={ref} className="demo-box">
@@ -59,6 +75,20 @@ const ElementPositionDemo = () => {
       <div className="demo-output">
         <div>
           Box {target.toUpperCase()} left: {targetRect?.left.toFixed(0) ?? '-'}
+        </div>
+      </div>
+      <div className="demo-actions">
+        <Button onClick={() => setIsCHidden(hidden => !hidden)}>
+          {isCHidden ? 'Show' : 'Hide'} box C
+        </Button>
+        <div id="position-target-c" className="demo-box" hidden={isCHidden}>
+          Box C
+        </div>
+      </div>
+      <div className="demo-output">
+        <div>
+          Box C element: {boxC.element ? `#${boxC.element.id}` : 'null'} / top:{' '}
+          {boxC.rect?.top.toFixed(0) ?? '-'}
         </div>
       </div>
     </Section>

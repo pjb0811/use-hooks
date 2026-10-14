@@ -51,7 +51,27 @@ const fieldRect = useElementPosition(() => document.getElementById(activeId), {
   // optional, defaults to el => el.getBoundingClientRect()
   measure: el => toTopLevelRect(el),
 });
+
+// The resolved element too, and a target revealed by an attribute change.
+const { rect: stepRect, element: stepTarget } = useElementPosition(
+  () => step.target(),
+  {
+    withElement: true,
+    measure: el => (isVisible(el) ? el.getBoundingClientRect() : null),
+    mutation: {
+      attributes: true,
+      attributeFilter: ['hidden', 'style', 'class'],
+    },
+  },
+);
 ```
+
+With `withElement: true` the hook returns `{ rect, element }`, where
+`element` is the target the last measurement used, or `null` when `measure`
+returned `null`. Without it the hook returns the rect alone, as before. A
+selector or getter target is watched for DOM changes under `document.body`
+(`childList` and `subtree`); `mutation` adds options to that watch, such as
+attribute changes that show or hide the target.
 
 ## useResponsiveSize {/* #use-responsive-size */}
 

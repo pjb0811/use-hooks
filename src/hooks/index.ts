@@ -14,6 +14,7 @@ export { default as useDocumentVisibility } from './use-document-visibility';
 export { default as useIdle } from './use-idle';
 export { default as useOnlineStatus } from './use-online-status';
 export { default as useElementPosition } from './use-element-position';
+export type { ElementPosition } from './use-element-position';
 export { default as useElementScroll } from './use-element-scroll';
 export { default as useEventListener } from './use-event-listener';
 export { default as useFileDrop } from './use-file-drop';

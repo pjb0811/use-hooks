@@ -9,7 +9,25 @@ interface Options<T> {
   // Returns the rect to track for the element. Defaults to the element's
   // `getBoundingClientRect()`.
   measure?: (element: T) => DOMRect | null;
+  // Return `{ rect, element }` instead of the rect alone.
+  withElement?: boolean;
+  // Extra `MutationObserver` options for the DOM watch a selector or getter
+  // target gets, such as `{ attributes: true, attributeFilter: ['hidden'] }`
+  // for a target revealed by an attribute. `childList` and `subtree` stay on.
+  mutation?: Pick<
+    MutationObserverInit,
+    'attributes' | 'attributeFilter' | 'characterData'
+  >;
 }
+
+// The rect and, with `withElement`, the element it was measured from. The
+// element is `null` whenever the rect is.
+export interface ElementPosition<T> {
+  rect: DOMRect | null;
+  element: T | null;
+}
+
+const EMPTY_POSITION: ElementPosition<never> = { rect: null, element: null };
 
 const rectsEqual = (a: DOMRect | null, b: DOMRect | null) => {
   if (a === b) {
@@ -28,6 +46,15 @@ const rectsEqual = (a: DOMRect | null, b: DOMRect | null) => {
   );
 };
 
+function useElementPosition<T>(
+  elementRef: ElementReference<T>,
+  options: Options<T> & { withElement: true },
+): ElementPosition<T>;
+function useElementPosition<T>(
+  elementRef: ElementReference<T>,
+  options?: Options<T> & { withElement?: false },
+): DOMRect | null;
+
 // Tracks the rect of an element given as a ref, a CSS selector, or a getter.
 // A selector or getter is evaluated on every measurement, so the target can
 // change. A getter is also measured on the frame after every render, so
@@ -35,18 +62,26 @@ const rectsEqual = (a: DOMRect | null, b: DOMRect | null) => {
 // `getBoundingClientRect()`, for rects in another coordinate space. The latest
 // getter and `measure` are read through refs, so inline functions don't
 // re-attach the listeners.
-const useElementPosition = <T>(
+//
+// With `withElement: true` it returns `{ rect, element }`, one object per
+// change, for callers that also need the resolved target. `element` is
+// `null` when `measure` returns `null`.
+function useElementPosition<T>(
   elementRef: ElementReference<T>,
   options: Options<T> = {},
-) => {
-  const [rect, setRect] = useState<DOMRect | null>(null);
+): ElementPosition<T> | DOMRect | null {
+  const [position, setPosition] = useState<ElementPosition<T>>(EMPTY_POSITION);
   const elementRefLatest = useLatest(elementRef);
   const measureOptionRef = useLatest(options.measure);
+  const withElementRef = useLatest(options.withElement === true);
+  // A string, so an inline `mutation` object doesn't re-attach the observers
+  // on every render.
+  const mutationKey = JSON.stringify(options.mutation ?? {});
   const isGetter = typeof elementRef === 'function';
   // A getter is read through `elementRefLatest`; only a ref or selector
   // identifies the target to re-subscribe for.
   const target = isGetter ? null : elementRef;
-  const rectRef = useRef<DOMRect | null>(null);
+  const positionRef = useRef<ElementPosition<T>>(EMPTY_POSITION);
   const measureRef = useRef<() => void>(() => {});
 
   // A burst of scroll, resize and DOM events measures once per frame.
@@ -69,12 +104,23 @@ const useElementPosition = <T>(
 
     let currentElement: HTMLElement | null = null;
 
-    const commitRect = (next: DOMRect | null) => {
-      if (rectsEqual(rectRef.current, next)) {
+    // Keeps the previous rect object when the values are equal, and tracks
+    // the element only for `withElement`, so a plain caller re-renders only
+    // when the rect changes.
+    const commit = (rect: DOMRect | null, element: T | null) => {
+      const previous = positionRef.current;
+      const nextElement = rect && withElementRef.current ? element : null;
+      const isSameRect = rectsEqual(previous.rect, rect);
+
+      if (isSameRect && previous.element === nextElement) {
         return;
       }
-      rectRef.current = next;
-      setRect(next);
+
+      positionRef.current = {
+        rect: isSameRect ? previous.rect : rect,
+        element: nextElement,
+      };
+      setPosition(positionRef.current);
     };
 
     // ResizeObserver only fires for the observed element's own size/layout
@@ -101,14 +147,17 @@ const useElementPosition = <T>(
       }
 
       if (!element || !node) {
-        commitRect(null);
+        commit(null, null);
 
         return;
       }
 
       const measure = measureOptionRef.current;
 
-      commitRect(measure ? measure(element) : node.getBoundingClientRect());
+      commit(
+        measure ? measure(element) : node.getBoundingClientRect(),
+        element,
+      );
     }
 
     measureRef.current = updateRect;
@@ -137,6 +186,7 @@ const useElementPosition = <T>(
         ? new MutationObserver(onUpdate)
         : undefined;
     mutationObserver?.observe(document.body, {
+      ...(JSON.parse(mutationKey) as Options<T>['mutation']),
       childList: true,
       subtree: true,
     });
@@ -154,20 +204,22 @@ const useElementPosition = <T>(
     isGetter,
     elementRefLatest,
     measureOptionRef,
+    withElementRef,
+    mutationKey,
     scheduleUpdate,
     cancelUpdate,
   ]);
 
   // A getter's inputs can change without any scroll or resize, so a getter
   // is measured on the frame after each render. Going through the frame keeps
-  // it to one measurement per frame, and `commitRect` drops unchanged rects.
+  // it to one measurement per frame, and `commit` drops unchanged rects.
   useEffect(() => {
     if (isGetter) {
       scheduleUpdate();
     }
   });
 
-  return rect;
-};
+  return options.withElement === true ? position : position.rect;
+}
 
 export default useElementPosition;
