@@ -168,7 +168,67 @@ describe('useLongPress', () => {
     expect(result.current.handlers.onKeyDown).toBeUndefined();
   });
 
-  it('reports isLongPressed until the next press starts', () => {
+  it.each(['onPointerUp', 'onPointerLeave', 'onPointerCancel'] as const)(
+    'clears isLongPressed in the task after %s ends a long press',
+    handler => {
+      const { result } = renderHook(() => useLongPress(vi.fn()));
+
+      act(() => result.current.handlers.onPointerDown!(pointer()));
+      act(() => vi.advanceTimersByTime(500));
+      act(() => result.current.handlers[handler]!());
+
+      expect(result.current.isLongPressed()).toBe(true);
+
+      act(() => vi.advanceTimersByTime(0));
+
+      expect(result.current.isLongPressed()).toBe(false);
+    },
+  );
+
+  it('clears isLongPressed in the task after keyup and blur end a long press', () => {
+    const { result } = renderHook(() =>
+      useLongPress(vi.fn(), { keyboard: true }),
+    );
+
+    act(() => result.current.handlers.onKeyDown!(key({ key: ' ' })));
+    act(() => vi.advanceTimersByTime(500));
+    act(() => result.current.handlers.onKeyUp!(key({ key: ' ' })));
+
+    expect(result.current.isLongPressed()).toBe(true);
+
+    act(() => vi.advanceTimersByTime(0));
+
+    expect(result.current.isLongPressed()).toBe(false);
+
+    act(() => result.current.handlers.onKeyDown!(key({ key: ' ' })));
+    act(() => vi.advanceTimersByTime(500));
+    act(() => result.current.handlers.onBlur!());
+    act(() => vi.advanceTimersByTime(0));
+
+    expect(result.current.isLongPressed()).toBe(false);
+  });
+
+  it('keeps isLongPressed false for a short press', () => {
+    const { result } = renderHook(() => useLongPress(vi.fn()));
+
+    act(() => result.current.handlers.onPointerDown!(pointer()));
+    act(() => result.current.handlers.onPointerUp!());
+
+    expect(result.current.isLongPressed()).toBe(false);
+  });
+
+  it('clears the reset timer on unmount', () => {
+    const { result, unmount } = renderHook(() => useLongPress(vi.fn()));
+
+    act(() => result.current.handlers.onPointerDown!(pointer()));
+    act(() => vi.advanceTimersByTime(500));
+    act(() => result.current.handlers.onPointerUp!());
+    unmount();
+
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it('resets isLongPressed when the next press starts', () => {
     const { result } = renderHook(() => useLongPress(vi.fn()));
 
     expect(result.current.isLongPressed()).toBe(false);

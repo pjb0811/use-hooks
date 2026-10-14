@@ -144,8 +144,9 @@ const { handlers, isLongPressed } = useLongPress(() => openMenu(), {
 Pointer events cover mouse, touch and pen, and only the primary button starts
 a press. Releasing, leaving, a `pointercancel` or moving more than
 `moveTolerance` px (default 10) cancels it, and `onCancel` is called.
-`isLongPressed()` stays `true` from the long press until the next press
-starts, so a click handler can skip the click that ends it. On a `<button>`,
+`isLongPressed()` stays `true` from the long press until the task after the
+release, so a click handler can skip the click that ends it, and a later click
+(from the keyboard, for example) reads `false`. On a `<button>`,
 Enter fires `click` on keydown, before the long press, so only Space can be
 told apart that way. `handlers` keeps its identity while `enabled` and
 `keyboard` stay the same.
