@@ -386,4 +386,131 @@ describe('useElementPosition', () => {
       expect(result.current).toMatchObject({ top: 42 });
     });
   });
+  describe('withElement', () => {
+    it('returns the rect and the element it was measured from', () => {
+      const ref = { current: element };
+      const { result } = renderHook(() =>
+        useElementPosition(ref, { withElement: true }),
+      );
+
+      expect(result.current.rect).toMatchObject({ top: 10 });
+      expect(result.current.element).toBe(element);
+    });
+
+    it('follows a getter to a different element', () => {
+      const other = document.createElement('div');
+
+      document.body.appendChild(other);
+      vi.spyOn(other, 'getBoundingClientRect').mockReturnValue(rect(80));
+
+      let target = element;
+      const { result, rerender } = renderHook(() =>
+        useElementPosition(() => target, { withElement: true }),
+      );
+
+      target = other;
+      rerender();
+      act(() => {
+        vi.advanceTimersByTime(20);
+      });
+
+      expect(result.current.element).toBe(other);
+      expect(result.current.rect).toMatchObject({ top: 80 });
+
+      other.remove();
+    });
+
+    it('sets the element to null when measure returns null', () => {
+      const ref = { current: element };
+      const { result } = renderHook(() =>
+        useElementPosition(ref, { withElement: true, measure: () => null }),
+      );
+
+      expect(result.current).toEqual({ rect: null, element: null });
+    });
+
+    it('keeps the same object while nothing changes', () => {
+      const ref = { current: element };
+      const { result } = renderHook(() =>
+        useElementPosition(ref, { withElement: true }),
+      );
+      const first = result.current;
+
+      act(() => {
+        window.dispatchEvent(new Event('resize'));
+        vi.advanceTimersByTime(20);
+      });
+
+      expect(result.current).toBe(first);
+    });
+
+    it('still returns the rect alone without withElement', () => {
+      const ref = { current: element };
+      const { result } = renderHook(() => useElementPosition(ref));
+
+      expect(result.current).toMatchObject({ top: 10 });
+      expect(result.current).not.toHaveProperty('element');
+    });
+  });
+
+  describe('mutation', () => {
+    const wait = () => new Promise(resolve => setTimeout(resolve, 50));
+
+    // Lets the measurement scheduled after the render run first, so only the
+    // attribute change can pick up the new rect.
+    const toggleHidden = async () => {
+      await act(wait);
+      await act(async () => {
+        element.hidden = true;
+        current = rect(70);
+        await wait();
+      });
+    };
+
+    it('measures again on an attribute change when asked to', async () => {
+      vi.useRealTimers();
+
+      const { result } = renderHook(() =>
+        useElementPosition(() => element, {
+          mutation: { attributes: true, attributeFilter: ['hidden'] },
+        }),
+      );
+
+      await toggleHidden();
+
+      expect(result.current).toMatchObject({ top: 70 });
+    });
+
+    it('ignores attribute changes by default', async () => {
+      vi.useRealTimers();
+
+      const { result, rerender } = renderHook(() =>
+        useElementPosition('#watched'),
+      );
+
+      element.id = 'watched';
+      rerender();
+      await act(async () => {
+        document.body.appendChild(document.createElement('i'));
+        await wait();
+      });
+      expect(result.current).toMatchObject({ top: 10 });
+
+      await toggleHidden();
+
+      expect(result.current).toMatchObject({ top: 10 });
+    });
+
+    it('does not re-attach the observer for an inline mutation object', () => {
+      const observe = vi.spyOn(MutationObserver.prototype, 'observe');
+      const { rerender } = renderHook(() =>
+        useElementPosition(() => element, { mutation: { attributes: true } }),
+      );
+      const calls = observe.mock.calls.length;
+
+      rerender();
+
+      expect(observe.mock.calls.length).toBe(calls);
+    });
+  });
 });
