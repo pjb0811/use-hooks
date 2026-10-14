@@ -1,5 +1,17 @@
 # Changelog
 
+## 4.6.0
+
+### Minor Changes
+
+- 05f075d: Add two options to `useElementPosition`: `withElement: true` returns `{ rect, element }` with the target the last measurement used, and `mutation` adds `MutationObserver` options (such as attribute changes) to the DOM watch for selector and getter targets. Calls without them are unchanged.
+
+### Patch Changes
+
+- c7c5902: Fix `useHash` so `setHash('')` removes the `#` from the URL without `replace` too, as it already did with `{ replace: true }`. The docs now note that a hash changed elsewhere with `history.pushState` or `replaceState` isn't seen until the next `hashchange`.
+- 70412c2: Fix `useLongPress` so `isLongPressed()` turns false in the task after a long press is released. Only the click that ends the long press reads `true`; a later click, such as one from the keyboard, is no longer skipped.
+- 5a9601b: Fix `usePendingCommit` so a write lasts until the end of the task it was made in at most. A change the parent rejects without re-rendering no longer comes back on the next edit; commits in the same task still build on each other.
+
 ## 4.5.0
 
 ### Minor Changes
