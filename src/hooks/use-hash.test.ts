@@ -69,6 +69,41 @@ describe('useHash', () => {
     expect(result.current[0]).toBe('%E0%A4%A');
   });
 
+  it.each([false, true])(
+    'clears the hash without leaving a # (replace: %s)',
+    replace => {
+      const first = renderHook(() => useHash());
+      const second = renderHook(() => useHash());
+
+      act(() => first.result.current[1]('x', { replace: true }));
+      act(() => first.result.current[1]('', { replace }));
+
+      expect(window.location.href).toBe(`${window.location.origin}/`);
+      expect(first.result.current[0]).toBe('');
+      expect(second.result.current[0]).toBe('');
+    },
+  );
+
+  it('adds a history entry when clearing without replace', () => {
+    const { result } = renderHook(() => useHash());
+
+    act(() => result.current[1]('x', { replace: true }));
+    const length = window.history.length;
+
+    act(() => result.current[1](''));
+
+    expect(window.history.length).toBe(length + 1);
+  });
+
+  it('does not add a history entry when clearing an empty hash', () => {
+    const { result } = renderHook(() => useHash());
+    const length = window.history.length;
+
+    act(() => result.current[1](''));
+
+    expect(window.history.length).toBe(length);
+  });
+
   it('keeps setHash identity across rerenders', () => {
     const { result, rerender } = renderHook(() => useHash());
     const setHash = result.current[1];
