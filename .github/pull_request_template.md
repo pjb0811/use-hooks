@@ -38,7 +38,7 @@
 
 ## Checklist
 
-- [ ] Commit messages follow the shared commit rules (`global/CLAUDE.md` in pjb0811/skills)
+- [ ] Commit messages follow the shared commit rules ([`global/CLAUDE.md`](https://github.com/pjb0811/skills/blob/main/global/CLAUDE.md) in pjb0811/skills)
 - [ ] No lint/type errors (`pnpm lint`, `tsc -b`)
 - [ ] Build completes successfully (`pnpm build`)
 - [ ] Updated hook exports/docs if needed (`src/hooks/index.ts`, README)
