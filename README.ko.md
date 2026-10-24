@@ -7,18 +7,18 @@
 [![GitHub issues](https://img.shields.io/github/issues/pjb0811/use-hooks)](https://github.com/pjb0811/use-hooks/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-📖 **문서 및 라이브 데모:** https://use-hooks-lab.vercel.app
+**문서 및 라이브 데모:** https://use-hooks-lab.vercel.app
 
 일반적인 UI 및 상호작용 패턴을 위한 재사용 가능한 React 19 훅 모음입니다. TypeScript로 빌드되었으며, 서버 사이드 렌더링과 클라이언트 사이드 애플리케이션 모두에 최적화되어 있습니다.
 
 ## 기능
 
-- 📦 **30개 프로덕션 레디 훅** - 스크롤, 뷰포트, 스토리지, 옵저버, 이벤트, 타이밍 등 다양한 유틸리티
-- 🎯 **TypeScript 지원** - 완전한 타입 지원으로 더 나은 개발 경험
-- ⚡ **트리 셰이킹 지원** - 필요한 것만 임포트하세요
-- 🔒 **SSR 안전** - window/document 전역 변수에 대한 보호
-- 📱 **iOS 최적화** - 모바일 뷰포트 특성에 대한 특별 처리
-- 🧹 **완벽한 정리** - 모든 리스너와 옵저버가 정리됩니다
+- **30개 프로덕션 레디 훅** - 스크롤, 뷰포트, 스토리지, 옵저버, 이벤트, 타이밍 등 다양한 유틸리티
+- **TypeScript 지원** - 완전한 타입 지원으로 더 나은 개발 경험
+- **트리 셰이킹 지원** - 필요한 것만 임포트하세요
+- **SSR 안전** - window/document 전역 변수에 대한 보호
+- **iOS 최적화** - 모바일 뷰포트 특성에 대한 특별 처리
+- **완벽한 정리** - 모든 리스너와 옵저버가 정리됩니다
 
 ## 설치
 
@@ -209,9 +209,9 @@ Docusaurus 문서 사이트는 `website/`에서 빌드되어 Vercel로 배포됩
 
 버그 리포트, 기능 제안, 또는 코드 기여를 환영합니다!
 
-- 🐛 **버그 리포트**: [Issues](https://github.com/pjb0811/use-hooks/issues)에서 버그를 리포트해주세요
-- 💡 **기능 제안**: 새로운 기능 아이디어가 있으시면 [Issues](https://github.com/pjb0811/use-hooks/issues)에 제안해주세요
-- 🔧 **코드 기여**: Pull Request를 보내주시면 검토 후 반영하겠습니다
+- **버그 리포트**: [Issues](https://github.com/pjb0811/use-hooks/issues)에서 버그를 리포트해주세요
+- **기능 제안**: 새로운 기능 아이디어가 있으시면 [Issues](https://github.com/pjb0811/use-hooks/issues)에 제안해주세요
+- **코드 기여**: Pull Request를 보내주시면 검토 후 반영하겠습니다
 
 이슈를 생성하기 전에 기존 이슈를 확인해주시면 중복을 방지할 수 있습니다.
 

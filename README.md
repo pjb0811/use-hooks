@@ -7,18 +7,18 @@
 [![GitHub issues](https://img.shields.io/github/issues/pjb0811/use-hooks)](https://github.com/pjb0811/use-hooks/issues)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-📖 **Documentation & live demos:** https://use-hooks-lab.vercel.app
+**Documentation & live demos:** https://use-hooks-lab.vercel.app
 
 A collection of reusable React 19 hooks for common UI and interaction patterns. Built with TypeScript, optimized for both server-side rendering and client-side applications.
 
 ## Features
 
-- 📦 **30 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, observers, events, timing, and more
-- 🎯 **Full TypeScript Support** - Complete type definitions for better development experience
-- ⚡ **Tree-Shakeable** - Import only what you need
-- 🔒 **SSR-Safe** - Built-in protection for window/document globals
-- 📱 **iOS Optimized** - Special handling for mobile viewport characteristics
-- 🧹 **Proper Cleanup** - All listeners and observers are properly cleaned up
+- **30 Production-Ready Hooks** - Utilities for scrolling, viewport, storage, observers, events, timing, and more
+- **Full TypeScript Support** - Complete type definitions for better development experience
+- **Tree-Shakeable** - Import only what you need
+- **SSR-Safe** - Built-in protection for window/document globals
+- **iOS Optimized** - Special handling for mobile viewport characteristics
+- **Proper Cleanup** - All listeners and observers are properly cleaned up
 
 ## Installation
 
@@ -216,9 +216,9 @@ Vercel (see `vercel.json`).
 
 Bug reports, feature suggestions, and code contributions are welcome!
 
-- 🐛 **Bug Reports**: Report bugs in [Issues](https://github.com/pjb0811/use-hooks/issues)
-- 💡 **Feature Requests**: Suggest new features in [Issues](https://github.com/pjb0811/use-hooks/issues)
-- 🔧 **Code Contributions**: Send Pull Requests for review
+- **Bug Reports**: Report bugs in [Issues](https://github.com/pjb0811/use-hooks/issues)
+- **Feature Requests**: Suggest new features in [Issues](https://github.com/pjb0811/use-hooks/issues)
+- **Code Contributions**: Send Pull Requests for review
 
 Please check existing issues before creating a new one to avoid duplicates.
 
