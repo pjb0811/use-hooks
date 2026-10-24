@@ -30,7 +30,7 @@ jobs:
         run: pnpm run lint
 
       - name: Type check
-        run: tsc -b
+        run: pnpm exec tsc -b
 
       - name: Test
         run: pnpm run test
