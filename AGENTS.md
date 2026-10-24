@@ -42,7 +42,7 @@
 
 ## 공유 스킬
 
-모든 pjb0811 저장소가 함께 쓰는 결정과 절차는 비공개 저장소 `pjb0811/skills`에 있습니다. 결정(커밋 메시지와 이슈·PR의 언어·형식, 트레일러와 생성 도구 문구 금지, 코드 스타일 기본값)은 전역 지침 `global/CLAUDE.md`(`~/.claude/CLAUDE.md`로 링크)에, 절차는 아래 전역 Claude Code 스킬에 있습니다. 이 파일은 그 내용을 되풀이하지 않습니다.
+모든 pjb0811 저장소가 함께 쓰는 결정과 절차는 공개 저장소 [`pjb0811/skills`](https://github.com/pjb0811/skills)에 있습니다. 결정(커밋 메시지와 이슈·PR의 언어·형식, 트레일러와 생성 도구 문구 금지, 코드 스타일 기본값)은 전역 지침 [`global/CLAUDE.md`](https://github.com/pjb0811/skills/blob/main/global/CLAUDE.md)(`~/.claude/CLAUDE.md`로 링크)에, 절차는 아래 전역 Claude Code 스킬에 있습니다. 이 파일은 그 내용을 되풀이하지 않습니다.
 
 | 스킬                                  | 용도                                                                                                                                    |
 | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -51,6 +51,7 @@
 | `changesets-release`, `publish-check` | 릴리스 흐름과 배포 전 점검                                                                                                              |
 | `shared-library-first`                | 재사용 UI는 ui-kit, 훅은 use-hooks에 먼저 구현                                                                                          |
 | `ref-verification`                    | 저장소 상태를 작업 트리가 아니라 git ref 기준으로 확인                                                                                  |
+| `repo-settings`                       | 저장소 GitHub 설정(머지 방식, auto-merge, 기본 브랜치 ruleset)을 표준에 맞춤                                                            |
 
 ### 저장소 스킬
 
