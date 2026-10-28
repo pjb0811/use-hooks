@@ -14,6 +14,7 @@ import IdleDemo from '@site/src/demo/use-idle-demo';
 import KeyPressDemo from '@site/src/demo/use-key-press-demo';
 import LongPressDemo from '@site/src/demo/use-long-press-demo';
 import OnlineStatusDemo from '@site/src/demo/use-online-status-demo';
+import SplitResizeDemo from '@site/src/demo/use-split-resize-demo';
 
 # Events & Interaction
 
@@ -150,6 +151,41 @@ release, so a click handler can skip the click that ends it, and a later click
 Enter fires `click` on keydown, before the long press, so only Space can be
 told apart that way. `handlers` keeps its identity while `enabled` and
 `keyboard` stay the same.
+
+## useSplitResize {/* #use-split-resize */}
+
+<SplitResizeDemo />
+
+```tsx
+const { size, containerRef, separatorProps } = useSplitResize({
+  defaultSize: 20,
+  minSize: 15,
+  maxSize: 50,
+  onResizeEnd: size => localStorage.setItem('sidebar', String(size)),
+});
+
+<div ref={containerRef} style={{ display: 'flex' }}>
+  <aside id="sidebar" style={{ width: `${size}%` }} />
+  <div
+    {...separatorProps}
+    aria-label="Resize sidebar"
+    aria-controls="sidebar"
+    style={{ touchAction: 'none' }}
+  />
+  <main style={{ flex: 1 }} />
+</div>;
+```
+
+Sizes are percentages of the container, clamped to `minSize`–`maxSize` and
+rounded to 0.1. Pointer events cover mouse, touch and pen, and only the
+primary button starts a drag. Arrow keys move by `keyboardStep` (default 1),
+Left and Right side by side or Up and Down with `orientation: 'vertical'`, and
+Home and End jump to the limits. Side by side in a right-to-left container,
+the size is measured from the right edge and Left and Right swap. Pass `size`
+and `onSizeChange` to control it. `onSizeChange` runs on every change,
+`onResizeEnd` once per drag or key press that changed the size. Add
+`aria-label`, `aria-controls` and `touch-action: none` to the separator
+yourself. The handlers and `containerRef` keep their identity across renders.
 
 ## useFileDrop {/* #use-file-drop */}
 

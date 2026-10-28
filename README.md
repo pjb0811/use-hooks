@@ -99,6 +99,7 @@ function MyComponent() {
 | `useClickOutside`           | Run a callback when a click/touch (or `Escape`, opt-in via `escape`) happens outside the referenced element(s); accepts multiple refs |
 | `useKeyPress`               | Run a callback on key combos with `mod`/`ctrl`/`meta`/`shift`/`alt` and aliases like `space`/`esc`                                    |
 | `useLongPress`              | Call a callback when a press lasts long enough (mouse, touch, pen and optional keyboard)                                              |
+| `useSplitResize`            | Resize two panes with a separator by pointer or keyboard, in percent of the container (controlled mode, `onResizeEnd`)                |
 | `useFileDrop`               | Drag-and-drop file zone with `accept`/`multiple` filtering; returns `{ dropRef, isDragging }`                                         |
 | `useFileToDataUrl`          | Read a `File`/`Blob` into a data URL                                                                                                  |
 | `useDebouncedCallback`      | Auto-invoke a debounced callback when deps change (`leading`/`autoInvoke` options); alias: `useDebounce`                              |

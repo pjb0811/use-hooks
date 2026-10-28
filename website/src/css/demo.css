@@ -124,3 +124,41 @@
 .demo-scroll-target:last-child {
   margin-bottom: 0;
 }
+
+.demo-split {
+  display: flex;
+  height: 160px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.demo-split[data-orientation='vertical'] {
+  flex-direction: column;
+  height: 240px;
+}
+
+.demo-split > .demo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 0;
+}
+
+.demo-split-handle {
+  flex: 0 0 8px;
+  background: var(--border);
+  cursor: col-resize;
+}
+
+.demo-split[data-orientation='vertical'] > .demo-split-handle {
+  cursor: row-resize;
+}
+
+.demo-split-handle:hover,
+.demo-split-handle:focus-visible,
+.demo-split-handle[data-resizing] {
+  background: var(--primary);
+  outline: none;
+}
