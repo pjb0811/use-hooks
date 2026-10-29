@@ -114,6 +114,7 @@ function MyComponent() {
 | `useRecursiveTimeout`       | Recursively schedule async/sync callbacks                                                                                             |
 | `useMergedRef`              | Merge multiple object/callback refs into one callback ref                                                                             |
 | `useImage`                  | Preload an image and expose `loading`/`error` (an `Error`)/`loaded`/`naturalSize`/`attemptCount`/`retry`                              |
+| `useAsync`                  | Run an async task when deps change and keep `{ value, error, status }`; stale runs are aborted and ignored                            |
 | `useMediaQuery`             | Track a CSS media query via `matchMedia` (SSR-safe, optional `target` for iframe/portal windows)                                      |
 | `useFullscreen`             | Show an element full screen; returns `{ ref, isFullscreen, isSupported, enter, exit, toggle, error }` (SSR-safe)                      |
 | `useCopyToClipboard`        | Copy text with `navigator.clipboard`; returns `{ copy, copied, error }` and resets `copied` after `resetDelay`                        |

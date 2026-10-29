@@ -5,6 +5,8 @@ export type { DebouncedCallback } from './use-debounced-callback';
 export { default as useDebounce } from './use-debounced-callback';
 export { default as useDebouncedValue } from './use-debounced-value';
 export { default as useAnimationFrameCallback } from './use-animation-frame-callback';
+export { default as useAsync } from './use-async';
+export type { AsyncStatus } from './use-async';
 export { default as useBeforeUnload } from './use-before-unload';
 export { default as useBodyScrollLock } from './use-body-scroll-lock';
 export { default as useClickOutside } from './use-click-outside';
