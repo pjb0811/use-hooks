@@ -4,6 +4,7 @@ title: Utility
 ---
 
 import DemoTheme from '@site/src/components/DemoTheme';
+import AsyncDemo from '@site/src/demo/use-async-demo';
 import CopyToClipboardDemo from '@site/src/demo/use-copy-to-clipboard-demo';
 import ImageDemo from '@site/src/demo/use-image-demo';
 import LatestDemo from '@site/src/demo/use-latest-demo';
@@ -40,6 +41,35 @@ const { loading, error, loaded, naturalSize, retry, attemptCount } = useImage(
 // naturalSize: { width, height } once loaded, otherwise null
 const aspectRatio = naturalSize && naturalSize.width / naturalSize.height;
 ```
+
+## useAsync {/* #use-async */}
+
+<AsyncDemo />
+
+```tsx
+const { value, error, status } = useAsync(
+  signal => fetch(`/api/items/${id}`, { signal }).then(res => res.json()),
+  [id],
+  { enabled: id !== null },
+);
+```
+
+Reach for React's `use()` with Suspense first when the promise can be created
+outside render, by a cache or a loader. `useAsync` fits work that has to start
+after commit without suspending the tree, such as processing what the
+component just rendered.
+
+The task runs after commit and again whenever `deps` change. `status` is
+`'pending'`, `'success'` or `'error'`, and `'idle'` only while `enabled` is
+`false`, when the task doesn't run. When `deps` change, the component unmounts
+or `enabled` turns `false`, the running task's `signal` aborts and whatever it
+settles with is ignored, so only the latest run sets state. Pass the `signal`
+on to `fetch` or anything else that can stop early. `value` is the result of
+the last run that succeeded and stays while a new run is pending or fails, so
+the view doesn't flash empty. `error` holds the last rejection until the next
+run starts. `task` is read from the latest render, so an inline function
+doesn't run it again; only `deps` and `enabled` do. There is no cache, dedupe
+or retry; use a data-fetching library such as TanStack Query for those.
 
 ## useMediaQuery {/* #use-media-query */}
 

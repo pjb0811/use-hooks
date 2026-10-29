@@ -106,6 +106,7 @@ function MyComponent() {
 | `useRecursiveTimeout`       | 비동기/동기 콜백을 재귀적으로 스케줄링                                                                        |
 | `useMergedRef`              | 여러 객체/콜백 ref를 하나의 콜백 ref로 병합                                                                   |
 | `useImage`                  | 이미지 사전로드 및 `loading`/`error`(`Error`)/`loaded`/`naturalSize`/`attemptCount`/`retry` 노출              |
+| `useAsync`                  | deps가 바뀔 때 비동기 작업을 실행하고 `{ value, error, status }`를 유지, 지난 실행은 abort 후 무시            |
 | `useMediaQuery`             | `matchMedia`로 CSS 미디어 쿼리 추적 (SSR 안전, iframe/포털 창을 위한 `target` 옵션)                           |
 | `useCopyToClipboard`        | `navigator.clipboard`로 텍스트 복사, `{ copy, copied, error }`를 반환하고 `resetDelay` 뒤에 `copied`를 초기화 |
 | `useLatest`                 | 최신 렌더의 값을 항상 담고 있는 ref를 반환                                                                    |
