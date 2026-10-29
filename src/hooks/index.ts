@@ -50,6 +50,8 @@ export { default as useTimeout } from './use-timeout';
 export { default as useSplitResize } from './use-split-resize';
 export { default as useSet } from './use-set';
 export type { SetActions } from './use-set';
+export { default as useMap } from './use-map';
+export type { MapActions } from './use-map';
 export { default as useToggle } from './use-toggle';
 export { default as useWindowScroll } from './use-window-scroll';
 export { default as useViewport } from './use-viewport';

@@ -77,6 +77,7 @@ function MyComponent() {
 | `useControllableState`      | value/defaultValue/onChange prop 조합을 훅 하나로 제어/비제어 상태 관리                                       |
 | `usePrevious`               | 이전 렌더 시점의 값을 반환                                                                                    |
 | `useToggle`                 | 토글 함수와 명시적 setter를 제공하는 불리언 상태                                                              |
+| `useMap`                    | 키-값 쌍을 `Map` 상태로 관리 (`set`/`update`/`delete`/`setAll`/`clear`), 변경할 때마다 새 `Map`               |
 | `useMultiSelect`            | shift-클릭 범위 선택을 지원하는 체크박스 스타일 다중 선택                                                     |
 | `useWindowScroll`           | 윈도우 스크롤 위치 및 백분율 추적 (iOS visualViewport 대응)                                                   |
 | `useElementScroll`          | ResizeObserver를 사용한 특정 요소의 스크롤 상태 추적                                                          |
