@@ -77,6 +77,7 @@ function MyComponent() {
 | `useControllableState`      | value/defaultValue/onChange prop 조합을 훅 하나로 제어/비제어 상태 관리                                       |
 | `usePrevious`               | 이전 렌더 시점의 값을 반환                                                                                    |
 | `useToggle`                 | 토글 함수와 명시적 setter를 제공하는 불리언 상태                                                              |
+| `useMap`                    | 키-값 쌍을 `Map` 상태로 관리 (`set`/`update`/`delete`/`setAll`/`clear`), 변경할 때마다 새 `Map`               |
 | `useMultiSelect`            | shift-클릭 범위 선택을 지원하는 체크박스 스타일 다중 선택                                                     |
 | `useWindowScroll`           | 윈도우 스크롤 위치 및 백분율 추적 (iOS visualViewport 대응)                                                   |
 | `useElementScroll`          | ResizeObserver를 사용한 특정 요소의 스크롤 상태 추적                                                          |
@@ -90,6 +91,7 @@ function MyComponent() {
 | `useMutationObserver`       | ref 또는 raw 노드(예: `document.head`)의 DOM 변경 관측                                                        |
 | `useEventListener`          | `window`, ref, raw 타겟에 이벤트 리스너 등록/해제                                                             |
 | `useDocumentVisibility`     | 페이지가 보이는지(`document.visibilityState`) 추적, 백그라운드 탭에서 작업을 멈출 때 사용                     |
+| `useBeforeUnload`           | 저장하지 않은 변경이 있는 동안 페이지를 떠나기 전에 브라우저 확인 창 표시 (비활성 시 리스너 없음)             |
 | `useHoverOrFocusWithin`     | hover와 focus-within을 별도 상태로 추적, 컨테이너에 펼칠 `{ active, hovered, focusWithin, handlers }`를 반환  |
 | `useClickOutside`           | 참조한 요소(들) 바깥 클릭/터치(또는 opt-in `escape`로 `Escape`) 시 콜백 실행, 다중 ref 지원                   |
 | `useKeyPress`               | `mod`/`ctrl`/`meta`/`shift`/`alt` 조합과 `space`/`esc` 별칭으로 키 콜백 실행                                  |
@@ -108,6 +110,7 @@ function MyComponent() {
 | `useMergedRef`              | 여러 객체/콜백 ref를 하나의 콜백 ref로 병합                                                                   |
 | `useImage`                  | 이미지 사전로드 및 `loading`/`error`(`Error`)/`loaded`/`naturalSize`/`attemptCount`/`retry` 노출              |
 | `useMediaQuery`             | `matchMedia`로 CSS 미디어 쿼리 추적 (SSR 안전, iframe/포털 창을 위한 `target` 옵션)                           |
+| `useFullscreen`             | 요소를 전체 화면으로 표시, `{ ref, isFullscreen, isSupported, enter, exit, toggle, error }` 반환 (SSR 안전)   |
 | `useCopyToClipboard`        | `navigator.clipboard`로 텍스트 복사, `{ copy, copied, error }`를 반환하고 `resetDelay` 뒤에 `copied`를 초기화 |
 | `useLatest`                 | 최신 렌더의 값을 항상 담고 있는 ref를 반환                                                                    |
 

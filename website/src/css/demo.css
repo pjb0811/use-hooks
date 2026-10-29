@@ -163,6 +163,16 @@
   outline: none;
 }
 
+.demo-fullscreen {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
+.demo-fullscreen:fullscreen {
+  place-content: center;
+}
+
 .demo-roving {
   display: flex;
   gap: 4px;
