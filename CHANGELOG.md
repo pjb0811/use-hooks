@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.7.0
+
+### Minor Changes
+
+- b7cf67a: Add `useAsync` for running an async task after commit whenever its `deps` change and keeping `{ value, error, status }` in state. A run whose `deps` changed, that was disabled or whose component unmounted gets its `AbortSignal` aborted and its result ignored, and `value` stays while a new run is pending.
+- 50a3111: Add `useBeforeUnload` for asking the browser to confirm before the page unloads while `enabled` is true, e.g. while there are unsaved changes. No `beforeunload` listener is attached while it is false.
+- dae83c4: Add `useFullscreen` for showing an element full screen with the Fullscreen API. It returns `isFullscreen` (kept in sync with `fullscreenchange`, including Esc), `isSupported`, `enter`, `exit`, `toggle` and the last rejected request as `error`, and is SSR-safe.
+- 91b6504: Add `useMap` for key-value pairs held in state, the `useSet` counterpart: `set`, `update`, `delete`, `setAll` and `clear` produce a new `Map` on every change, keep the current one when nothing changes, and keep one identity for the life of the component.
+- 644049b: Add `useRovingFocus` for a roving tabindex: one Tab stop for a group of items, with the arrow keys for the orientation, Home and End moving focus between them. It remembers the item the user left, skips disabled items, wraps with `loop`, swaps Left and Right in a right-to-left container, and supports a controlled `activeIndex`.
+- 359fabb: Add `useSplitResize` for resizing two panes with a separator by pointer (mouse, touch, pen) or keyboard, in percent of the container. It supports side-by-side and stacked layouts, right-to-left containers, a controlled `size`, and `onResizeEnd` for persisting the size.
+
 ## 4.6.0
 
 ### Minor Changes
