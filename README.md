@@ -115,6 +115,7 @@ function MyComponent() {
 | `useMergedRef`              | Merge multiple object/callback refs into one callback ref                                                                             |
 | `useImage`                  | Preload an image and expose `loading`/`error` (an `Error`)/`loaded`/`naturalSize`/`attemptCount`/`retry`                              |
 | `useMediaQuery`             | Track a CSS media query via `matchMedia` (SSR-safe, optional `target` for iframe/portal windows)                                      |
+| `useFullscreen`             | Show an element full screen; returns `{ ref, isFullscreen, isSupported, enter, exit, toggle, error }` (SSR-safe)                      |
 | `useCopyToClipboard`        | Copy text with `navigator.clipboard`; returns `{ copy, copied, error }` and resets `copied` after `resetDelay`                        |
 | `useLatest`                 | Return a ref that always holds the value from the latest render                                                                       |
 | `useStableValue`            | Keep an object or array's previous reference while it is shallowly equal                                                              |
