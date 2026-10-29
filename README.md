@@ -80,6 +80,7 @@ function MyComponent() {
 | `usePrevious`               | Return a value as it was on the previous render                                                                                       |
 | `useToggle`                 | Boolean state with a toggle and an explicit setter                                                                                    |
 | `useSet`                    | A `Set` of keys in state with `add`/`delete`/`toggle`/`set`/`clear`; a new `Set` on every change                                      |
+| `useMap`                    | A `Map` of key-value pairs in state with `set`/`update`/`delete`/`setAll`/`clear`; a new `Map` on every change                        |
 | `useMultiSelect`            | Checkbox-style multi-select for a list, with shift-click range selection                                                              |
 | `useWindowScroll`           | Track window scroll position and percentage (iOS visualViewport compatible)                                                           |
 | `useElementScroll`          | Monitor scroll state of specific elements using ResizeObserver                                                                        |
@@ -95,6 +96,7 @@ function MyComponent() {
 | `useDocumentVisibility`     | Track whether the page is visible (`document.visibilityState`), for pausing work in a background tab                                  |
 | `useIdle`                   | Detect when the user has stopped interacting for a given time                                                                         |
 | `useOnlineStatus`           | Track whether the browser has a network connection                                                                                    |
+| `useBeforeUnload`           | Ask the browser to confirm before the page unloads while there are unsaved changes (no listener while disabled)                       |
 | `useHoverOrFocusWithin`     | Track hover and focus-within as separate flags; returns `{ active, hovered, focusWithin, handlers }` to spread on a container         |
 | `useClickOutside`           | Run a callback when a click/touch (or `Escape`, opt-in via `escape`) happens outside the referenced element(s); accepts multiple refs |
 | `useKeyPress`               | Run a callback on key combos with `mod`/`ctrl`/`meta`/`shift`/`alt` and aliases like `space`/`esc`                                    |
@@ -114,6 +116,7 @@ function MyComponent() {
 | `useImage`                  | Preload an image and expose `loading`/`error` (an `Error`)/`loaded`/`naturalSize`/`attemptCount`/`retry`                              |
 | `useAsync`                  | Run an async task when deps change and keep `{ value, error, status }`; stale runs are aborted and ignored                            |
 | `useMediaQuery`             | Track a CSS media query via `matchMedia` (SSR-safe, optional `target` for iframe/portal windows)                                      |
+| `useFullscreen`             | Show an element full screen; returns `{ ref, isFullscreen, isSupported, enter, exit, toggle, error }` (SSR-safe)                      |
 | `useCopyToClipboard`        | Copy text with `navigator.clipboard`; returns `{ copy, copied, error }` and resets `copied` after `resetDelay`                        |
 | `useLatest`                 | Return a ref that always holds the value from the latest render                                                                       |
 | `useStableValue`            | Keep an object or array's previous reference while it is shallowly equal                                                              |

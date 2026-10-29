@@ -6,6 +6,7 @@ title: Utility
 import DemoTheme from '@site/src/components/DemoTheme';
 import AsyncDemo from '@site/src/demo/use-async-demo';
 import CopyToClipboardDemo from '@site/src/demo/use-copy-to-clipboard-demo';
+import FullscreenDemo from '@site/src/demo/use-fullscreen-demo';
 import ImageDemo from '@site/src/demo/use-image-demo';
 import LatestDemo from '@site/src/demo/use-latest-demo';
 import MediaQueryDemo from '@site/src/demo/use-media-query-demo';
@@ -85,6 +86,32 @@ const isWide = useMediaQuery('(min-width: 768px)', {
   defaultValue: true,
 });
 ```
+
+## useFullscreen {/* #use-fullscreen */}
+
+<FullscreenDemo />
+
+```tsx
+const { ref, isFullscreen, isSupported, toggle, error } =
+  useFullscreen<HTMLDivElement>();
+
+<div ref={ref}>
+  <button onClick={toggle} disabled={!isSupported}>
+    {isFullscreen ? 'Exit full screen' : 'Full screen'}
+  </button>
+</div>;
+```
+
+`isFullscreen` is `true` only while the element behind `ref` is the full-screen
+element, and follows `fullscreenchange`, so leaving with Esc or another element
+going full screen updates it. `isSupported` is `document.fullscreenEnabled`:
+`false` on the server, in an iframe without `allow="fullscreen"`, and where
+element full screen isn't available, such as on iPhone. Only the unprefixed
+API is used. Call `enter` or `toggle` from a user gesture such as a click;
+browsers reject a request without one. `enter` and `exit` never throw: a
+rejected request is stored in `error` until the next one. `exit` and `toggle`
+act only on this element. `ref`, `enter`, `exit` and `toggle` keep their
+identity across renders.
 
 ## useCopyToClipboard {/* #use-copy-to-clipboard */}
 

@@ -162,3 +162,13 @@
   background: var(--primary);
   outline: none;
 }
+
+.demo-fullscreen {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
+.demo-fullscreen:fullscreen {
+  place-content: center;
+}
