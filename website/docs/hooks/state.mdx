@@ -8,6 +8,7 @@ import ControllableStateDemo from '@site/src/demo/use-controllable-state-demo';
 import HashDemo from '@site/src/demo/use-hash-demo';
 import HistoryStateDemo from '@site/src/demo/use-history-state-demo';
 import LocalStorageDemo from '@site/src/demo/use-local-storage-demo';
+import MapDemo from '@site/src/demo/use-map-demo';
 import MultiSelectDemo from '@site/src/demo/use-multi-select-demo';
 import PendingCommitDemo from '@site/src/demo/use-pending-commit-demo';
 import PreviousDemo from '@site/src/demo/use-previous-demo';
@@ -143,6 +144,30 @@ with `memo`. An action that changes nothing, including `set` with the same
 values, keeps the current `Set`. `toggle(value, true)` only adds and
 `toggle(value, false)` only removes. The initial value is read on the first
 render only, and the actions keep one identity for the life of the component.
+
+## useMap {/* #use-map */}
+
+<MapDemo />
+
+```tsx
+const [progress, actions] = useMap<string, number>();
+
+actions.set(file.id, 0);
+actions.update(file.id, previous => Math.min(100, (previous ?? 0) + 25));
+actions.delete(file.id);
+
+progress.get(file.id);
+```
+
+The `useSet` counterpart for key-value pairs. Every change produces a new
+`Map`, so the value works as a dependency and with `memo`. An action that
+changes nothing keeps the current `Map`: setting a key to the value it already
+has (compared with `Object.is`), deleting a missing key, `setAll` with the
+same entries, or `clear()` on an empty map. `update` passes the current value
+(`undefined` for a missing key), so several updates in one event build on each
+other. Keys keep their insertion order and can be any value, not only strings.
+The initial entries are read on the first render only, and the actions keep
+one identity for the life of the component.
 
 ## useMultiSelect {/* #use-multi-select */}
 
