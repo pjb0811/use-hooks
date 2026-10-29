@@ -14,6 +14,7 @@ import IdleDemo from '@site/src/demo/use-idle-demo';
 import KeyPressDemo from '@site/src/demo/use-key-press-demo';
 import LongPressDemo from '@site/src/demo/use-long-press-demo';
 import OnlineStatusDemo from '@site/src/demo/use-online-status-demo';
+import RovingFocusDemo from '@site/src/demo/use-roving-focus-demo';
 import SplitResizeDemo from '@site/src/demo/use-split-resize-demo';
 
 # Events & Interaction
@@ -128,6 +129,57 @@ const { value, setValue, undo, redo } = useHistoryState(0);
 useKeyPress('mod+z', undo, { preventDefault: true });
 useKeyPress('mod+shift+z', redo, { preventDefault: true });
 ```
+
+## useRovingFocus {/* #use-roving-focus */}
+
+<RovingFocusDemo />
+
+```tsx
+const { getItemProps } = useRovingFocus({
+  count: items.length,
+  orientation: 'vertical',
+  isDisabled: index => items[index].disabled,
+});
+
+<div role="menu">
+  {items.map((item, index) => {
+    const itemProps = getItemProps(index);
+
+    return (
+      <div
+        key={item.id}
+        role="menuitem"
+        {...itemProps}
+        onKeyDown={event => {
+          if (event.key === 'Enter') {
+            item.onSelect();
+
+            return;
+          }
+
+          itemProps.onKeyDown(event);
+        }}
+      >
+        {item.label}
+      </div>
+    );
+  })}
+</div>;
+```
+
+A roving tabindex, as in the WAI-ARIA menu, toolbar and tab patterns:
+`getItemProps(index)` gives the active item `tabIndex` 0 and the rest -1, so
+the group is one Tab stop and Tabbing back in returns to the item the user
+left. The arrow keys for `orientation` (Up and Down for `'vertical'`, the
+default; Left and Right for `'horizontal'`; all four for `'both'`) move focus
+to the previous or next item, and Home and End to the first and last. Disabled
+items are skipped. With `loop` (default `true`) moving past an end wraps
+around. Side by side in a right-to-left container, Left and Right swap.
+Focusing an item by click or from code also makes it the Tab stop. Pass
+`activeIndex` and `onActiveIndexChange` to control it. When `count` shrinks
+below the active index, the last item becomes active. Enter, Space, Escape
+and typeahead are yours to handle; compose them with the returned
+`onKeyDown` as above.
 
 ## useLongPress {/* #use-long-press */}
 

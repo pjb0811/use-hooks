@@ -162,3 +162,39 @@
   background: var(--primary);
   outline: none;
 }
+
+.demo-roving {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.demo-roving-menu {
+  flex-direction: column;
+  max-width: 240px;
+}
+
+.demo-roving > * {
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.demo-roving > [aria-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.demo-roving > :hover,
+.demo-roving > :focus-visible {
+  background: var(--secondary);
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}

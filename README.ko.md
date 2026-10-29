@@ -93,6 +93,7 @@ function MyComponent() {
 | `useHoverOrFocusWithin`     | hover와 focus-within을 별도 상태로 추적, 컨테이너에 펼칠 `{ active, hovered, focusWithin, handlers }`를 반환  |
 | `useClickOutside`           | 참조한 요소(들) 바깥 클릭/터치(또는 opt-in `escape`로 `Escape`) 시 콜백 실행, 다중 ref 지원                   |
 | `useKeyPress`               | `mod`/`ctrl`/`meta`/`shift`/`alt` 조합과 `space`/`esc` 별칭으로 키 콜백 실행                                  |
+| `useRovingFocus`            | 항목 그룹을 Tab 한 번으로 묶고 방향키·Home·End로 포커스 이동 (비활성 항목 건너뜀, RTL, controlled 모드)       |
 | `useSplitResize`            | 구분선으로 두 패널 크기를 포인터·키보드로 조절, 컨테이너 대비 퍼센트 (controlled 모드, `onResizeEnd`)         |
 | `useFileDrop`               | `accept`/`multiple` 필터링을 갖춘 드래그앤드롭 존, `{ dropRef, isDragging }` 반환                             |
 | `useFileToDataUrl`          | `File`/`Blob`을 data URL로 변환                                                                               |
