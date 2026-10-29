@@ -95,6 +95,7 @@ function MyComponent() {
 | `useDocumentVisibility`     | Track whether the page is visible (`document.visibilityState`), for pausing work in a background tab                                  |
 | `useIdle`                   | Detect when the user has stopped interacting for a given time                                                                         |
 | `useOnlineStatus`           | Track whether the browser has a network connection                                                                                    |
+| `useBeforeUnload`           | Ask the browser to confirm before the page unloads while there are unsaved changes (no listener while disabled)                       |
 | `useHoverOrFocusWithin`     | Track hover and focus-within as separate flags; returns `{ active, hovered, focusWithin, handlers }` to spread on a container         |
 | `useClickOutside`           | Run a callback when a click/touch (or `Escape`, opt-in via `escape`) happens outside the referenced element(s); accepts multiple refs |
 | `useKeyPress`               | Run a callback on key combos with `mod`/`ctrl`/`meta`/`shift`/`alt` and aliases like `space`/`esc`                                    |

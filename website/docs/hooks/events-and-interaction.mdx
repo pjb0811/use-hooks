@@ -4,6 +4,7 @@ title: Events & Interaction
 ---
 
 import DemoTheme from '@site/src/components/DemoTheme';
+import BeforeUnloadDemo from '@site/src/demo/use-before-unload-demo';
 import ClickOutsideDemo from '@site/src/demo/use-click-outside-demo';
 import DocumentVisibilityDemo from '@site/src/demo/use-document-visibility-demo';
 import EventListenerDemo from '@site/src/demo/use-event-listener-demo';
@@ -75,6 +76,24 @@ const online = useOnlineStatus();
 
 `true` means the browser is connected to a network, not that a given server
 is reachable. On the server it is `true`.
+
+## useBeforeUnload {/* #use-before-unload */}
+
+<BeforeUnloadDemo />
+
+```tsx
+const isDirty = draft !== saved;
+
+useBeforeUnload(isDirty);
+```
+
+While `enabled` is true, closing the tab, reloading or leaving the site asks
+for confirmation first. The browser shows its own message; current browsers
+ignore a custom one, so the hook takes none. Most browsers also show it only
+after the user has interacted with the page. While `enabled` is false no
+`beforeunload` listener is attached, since one can keep the page out of the
+back/forward cache. Navigation inside the app doesn't unload the page, so
+block it with your router instead.
 
 ## useHoverOrFocusWithin {/* #use-hover-or-focus-within */}
 

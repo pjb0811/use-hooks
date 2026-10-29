@@ -90,6 +90,7 @@ function MyComponent() {
 | `useMutationObserver`       | ref 또는 raw 노드(예: `document.head`)의 DOM 변경 관측                                                        |
 | `useEventListener`          | `window`, ref, raw 타겟에 이벤트 리스너 등록/해제                                                             |
 | `useDocumentVisibility`     | 페이지가 보이는지(`document.visibilityState`) 추적, 백그라운드 탭에서 작업을 멈출 때 사용                     |
+| `useBeforeUnload`           | 저장하지 않은 변경이 있는 동안 페이지를 떠나기 전에 브라우저 확인 창 표시 (비활성 시 리스너 없음)             |
 | `useHoverOrFocusWithin`     | hover와 focus-within을 별도 상태로 추적, 컨테이너에 펼칠 `{ active, hovered, focusWithin, handlers }`를 반환  |
 | `useClickOutside`           | 참조한 요소(들) 바깥 클릭/터치(또는 opt-in `escape`로 `Escape`) 시 콜백 실행, 다중 ref 지원                   |
 | `useKeyPress`               | `mod`/`ctrl`/`meta`/`shift`/`alt` 조합과 `space`/`esc` 별칭으로 키 콜백 실행                                  |
