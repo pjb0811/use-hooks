@@ -24,9 +24,10 @@
       "enabled": false
     },
     {
-      "description": "Our own packages (@jbpark/ui-kit in the docs site): one PR, as soon as they're published (website/pnpm-workspace.yaml exempts them from pnpm's one-day wait too).",
+      "description": "Our own packages (@jbpark/ui-kit in the docs site): one PR, as soon as they're published. The schedule here overrides the weekly one above, and website/pnpm-workspace.yaml exempts them from pnpm's one-day wait too.",
       "matchPackageNames": ["@jbpark/**"],
       "groupName": "@jbpark packages",
+      "schedule": ["at any time"],
       "minimumReleaseAge": null
     }
   ]
