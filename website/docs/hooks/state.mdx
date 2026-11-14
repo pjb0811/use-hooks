@@ -47,6 +47,21 @@ const [count, setCount] = useSessionStorage('demo-count', 0);
 const { value, setValue, undo, redo, canUndo, canRedo } = useHistoryState(0);
 ```
 
+`setValue` adds an undo step. `replace` changes the current value without
+one, so a run of changes undoes in one step, such as typing that started
+with a `setValue`:
+
+```tsx
+const { setValue, replace } = useHistoryState('');
+
+// The first keystroke of a burst adds a step; the rest replace it.
+const onType = (next: string, isBurst: boolean) =>
+  isBurst ? replace(next) : setValue(next);
+```
+
+Both drop the redo history and ignore a value equal to the current one.
+`reset(value)` clears both histories.
+
 ## useControllableState {/* #use-controllable-state */}
 
 <ControllableStateDemo />
