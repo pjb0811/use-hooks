@@ -113,6 +113,36 @@ describe('useHistoryState', () => {
     expect(result.current.canRedo).toBe(false);
   });
 
+  it('replaces the current value without adding an undo step', () => {
+    const { result } = renderHook(() => useHistoryState('a'));
+
+    act(() => result.current.setValue('ab'));
+    act(() => result.current.replace('abc'));
+    act(() => result.current.replace(value => `${value}d`));
+    expect(result.current.value).toBe('abcd');
+
+    act(() => result.current.undo());
+    expect(result.current.value).toBe('a');
+    expect(result.current.canUndo).toBe(false);
+
+    act(() => result.current.redo());
+    expect(result.current.value).toBe('abcd');
+  });
+
+  it('drops the redo history on replace, unless the value is the same', () => {
+    const { result } = renderHook(() => useHistoryState(0));
+
+    act(() => result.current.setValue(1));
+    act(() => result.current.undo());
+    act(() => result.current.replace(0));
+    expect(result.current.canRedo).toBe(true);
+
+    act(() => result.current.replace(5));
+    expect(result.current.value).toBe(5);
+    expect(result.current.canRedo).toBe(false);
+    expect(result.current.canUndo).toBe(false);
+  });
+
   it('resets the value and clears both histories', () => {
     const { result } = renderHook(() => useHistoryState(0));
 
@@ -128,12 +158,13 @@ describe('useHistoryState', () => {
 
   it('keeps the actions stable across renders', () => {
     const { result, rerender } = renderHook(() => useHistoryState(0));
-    const { setValue, undo, redo, reset } = result.current;
+    const { setValue, replace, undo, redo, reset } = result.current;
 
     act(() => result.current.setValue(1));
     rerender();
 
     expect(result.current.setValue).toBe(setValue);
+    expect(result.current.replace).toBe(replace);
     expect(result.current.undo).toBe(undo);
     expect(result.current.redo).toBe(redo);
     expect(result.current.reset).toBe(reset);

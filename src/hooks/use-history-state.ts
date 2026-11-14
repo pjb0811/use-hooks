@@ -18,6 +18,7 @@ const takeFirst = <T>(arr: T[], limit: number): T[] =>
 
 type Action<T> =
   | { type: 'SET'; value: T | ((prev: T) => T) }
+  | { type: 'REPLACE'; value: T | ((prev: T) => T) }
   | { type: 'UNDO' }
   | { type: 'REDO' }
   | { type: 'RESET'; value: T };
@@ -41,6 +42,21 @@ const createReducer =
           present: resolved,
           future: [],
         };
+      }
+
+      // The current entry changes in place: the undo history stays as it
+      // is, and redo is dropped as for any new value.
+      case 'REPLACE': {
+        const resolved =
+          action.value instanceof Function
+            ? action.value(state.present)
+            : action.value;
+
+        if (resolved === state.present) {
+          return state;
+        }
+
+        return { past: state.past, present: resolved, future: [] };
       }
 
       case 'UNDO': {
@@ -106,6 +122,12 @@ const useHistoryState = <T>(
     dispatch({ type: 'SET', value });
   }, []);
 
+  // Changes the current value without adding an undo step, such as for the
+  // rest of a burst of typing that one undo should take back at once.
+  const replace = useCallback((value: T | ((prev: T) => T)) => {
+    dispatch({ type: 'REPLACE', value });
+  }, []);
+
   const undo = useCallback(() => {
     dispatch({ type: 'UNDO' });
   }, []);
@@ -121,6 +143,7 @@ const useHistoryState = <T>(
   return {
     value: state.present,
     setValue,
+    replace,
     undo,
     redo,
     reset,
